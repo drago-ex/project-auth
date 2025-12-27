@@ -45,16 +45,11 @@ final class Installer
 		];
 
 		foreach ($files as $file) {
-			self::copy(__DIR__ . '/../resources/app/' . $file,
-				$projectRoot . '/' . $file
-			);
+			self::copy(__DIR__ . '/../resources/app/' . $file, $projectRoot . '/' . $file);
 		}
 
 		foreach ($assetFiles as $file) {
-			self::copy(
-				__DIR__ . '/../resources/assets/' . $file,
-				$assetsRoot . '/' . $file
-			);
+			self::copy(__DIR__ . '/../resources/assets/' . $file, $assetsRoot . '/' . $file);
 		}
 
 		echo "[project-auth] Auth module support installed\n";
