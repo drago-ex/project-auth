@@ -23,6 +23,5 @@ extension for projects built on top of the Drago ecosystem and Nette framework.
 
 ## Install
 ```bash
-composer config --no-plugins allow-plugins.drago-ex/project-auth true
 composer require drago-ex/project-auth
 ```
