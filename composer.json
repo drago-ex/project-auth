@@ -33,9 +33,9 @@
 	"phpstan": "phpstan analyse --level 5 --configuration phpstan.neon resources/app"
   },
   "config": {
-    "allow-plugins": {
-      "drago-ex/project-user": true,
-      "drago-ex/project-front": true
-    }
+	"allow-plugins": {
+	  "drago-ex/project-user": true,
+	  "drago-ex/project-front": true
+	}
   }
 }
