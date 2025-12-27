@@ -11,9 +11,7 @@
 		"drago-ex/translator": "^1.0",
 		"drago-ex/project-user": "^1.0",
 		"drago-ex/project-front": "^1.0",
-		"nette/di": "^3.2",
 		"nette/mail": "^4.0",
-		"latte/latte": "^3.1",
 		"tracy/tracy": "^2.11",
 		"composer-plugin-api": "^2.3"
 	},
