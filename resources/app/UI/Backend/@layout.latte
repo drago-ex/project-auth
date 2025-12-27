@@ -1,0 +1,30 @@
+{templateType App\UI\Backend\Admin\AdminTemplate}
+{varType Drago\Application\UI\Flashes[] $flashes}
+
+<!doctype html>
+<html lang="{$lang}">
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<title>{ifset title}{include title|stripHtml|firstUpper} &bull;{/ifset} Backend</title>
+
+	{asset 'admin.js'}
+</head>
+
+<body>
+
+{* main content *}
+<div class="container">
+
+	{* flash messages *}
+	{snippet message}
+		<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+	{/snippet}
+
+	{* page content *}
+	{include content}
+</div>
+
+</body>
+</html>

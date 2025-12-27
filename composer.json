@@ -1,0 +1,41 @@
+{
+  "name": "drago-ex/project-auth",
+  "type": "composer-plugin",
+  "description": "The package extends the Drago Project to include database work.",
+  "require": {
+	"php": ">=8.3 <9",
+	"drago-ex/database": "^2.0",
+	"drago-ex/application": "^1.0",
+	"drago-ex/form": "^1.0",
+	"drago-ex/utils": "^1.0",
+	"drago-ex/translator": "^1.0",
+	"drago-ex/project-user": "^1.0",
+	"drago-ex/project-front": "^1.0",
+	"nette/di": "^3.2",
+	"nette/mail": "^4.0",
+	"latte/latte": "^3.1",
+	"tracy/tracy": "^2.11",
+	"composer-plugin-api": "^2.3"
+  },
+  "autoload": {
+	"psr-4": {
+	  "DragoAuthPlugin\\": "src/"
+	}
+  },
+  "extra": {
+	"class": "DragoAuthPlugin\\Composer\\Plugin"
+  },
+  "require-dev": {
+	"composer/composer": "^2.9",
+	"phpstan/phpstan-nette": "^1.2.9"
+  },
+  "scripts": {
+	"phpstan": "phpstan analyse --level 5 --configuration phpstan.neon resources/app"
+  },
+  "config": {
+    "allow-plugins": {
+      "drago-ex/project-user": true,
+      "drago-ex/project-front": true
+    }
+  }
+}
