@@ -22,6 +22,7 @@ final class Installer
 			'Sign/recovery.latte',
 			'Sign/SignData.php',
 			'Sign/SignFactory.php',
+			'Sign/SignForm.php',
 			'Sign/SignPresenter.php',
 			'Sign/SignRecoveryEmail.php',
 			'Sign/SignRecoveryFactory.php',
