@@ -11,6 +11,7 @@ final class Installer
 	{
 		$root = self::getProjectRoot();
 		$projectRoot = $root . '/app';
+		$assetsRoot = $root . '/assets';
 		$files = [
 			'UI/Backend/Admin/AdminPresenter.php',
 			'UI/Backend/Admin/AdminTemplate.php',
@@ -38,8 +39,22 @@ final class Installer
 			'UI/Backend/Router.php',
 		];
 
+		$assetFiles = [
+			'sign.in.js',
+			'sign.in.scss',
+		];
+
 		foreach ($files as $file) {
-			self::copy(__DIR__ . '/../resources/app/' . $file, $projectRoot . '/' . $file);
+			self::copy(__DIR__ . '/../resources/app/' . $file,
+				$projectRoot . '/' . $file,
+			);
+		}
+
+		foreach ($assetFiles as $file) {
+			self::copy(
+				__DIR__ . '/../resources/assets/' . $file,
+				$assetsRoot . '/' . $file,
+			);
 		}
 
 		echo "[project-auth] Auth module support installed\n";
