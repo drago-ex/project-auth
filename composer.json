@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/project-auth",
 	"type": "composer-plugin",
-	"description": "The package extends the Drago Project to include database work.",
+	"description": "Authentication and user access package for the Drago project.",
 	"require": {
 		"php": ">=8.3 <9",
 		"drago-ex/database": "^2.0",
