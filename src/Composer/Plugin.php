@@ -9,7 +9,7 @@ use Composer\EventDispatcher\EventSubscriberInterface;
 use Composer\Installer\PackageEvent;
 use Composer\IO\IOInterface;
 use Composer\Plugin\PluginInterface;
-use DragoFrontPlugin\Installer;
+use DragoAuthPlugin\Installer;
 
 
 final class Plugin implements PluginInterface, EventSubscriberInterface
