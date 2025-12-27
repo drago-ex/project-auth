@@ -1,6 +1,6 @@
 {
 	"name": "drago-ex/project-auth",
-	"type": "composer-plugin",
+	"type": "drago-project-resource",
 	"description": "Authentication and user access package for the Drago project.",
 	"require": {
 		"php": ">=8.3 <9",
@@ -9,19 +9,21 @@
 		"drago-ex/form": "^1.0",
 		"drago-ex/utils": "^1.0",
 		"drago-ex/translator": "^1.0",
-		"drago-ex/project-user": "^1.0",
-		"drago-ex/project-front": "^1.0",
+		"drago-ex/project-user": "@dev",
+		"drago-ex/project-front": "@dev",
 		"nette/mail": "^4.0",
 		"tracy/tracy": "^2.11",
 		"composer-plugin-api": "^2.3"
 	},
-	"autoload": {
-		"psr-4": {
-			"DragoAuthPlugin\\": "src/"
-		}
-	},
 	"extra": {
-		"class": "DragoAuthPlugin\\Composer\\Plugin"
+		"drago-project": {
+			"install": {
+				"copy": {
+					"resources/app": "app",
+					"resources/assets": "assets"
+				}
+			}
+		}
 	},
 	"require-dev": {
 		"composer/composer": "^2.9",
@@ -35,11 +37,5 @@
 		"post-update-cmd": [
 			"php dev.copy.php"
 		]
-	},
-	"config": {
-		"allow-plugins": {
-			"drago-ex/project-user": true,
-			"drago-ex/project-front": true
-		}
 	}
 }

@@ -7,7 +7,7 @@ $filesToCopy = [
 	'vendor/drago-ex/application/src/Drago/assets/latte/*.latte'
 	=> 'resources/app/Core/Widget/',
 
-	'app/Core/Widget/@lang.switch.latte'
+	'vendor/drago-ex/project-front/resources/app/Core/Widget/@lang.switch.latte'
 	=> 'resources/app/Core/Widget/@lang.switch.latte',
 
 	'vendor/drago-ex/form/src/Drago/assets/latte/*.latte'
