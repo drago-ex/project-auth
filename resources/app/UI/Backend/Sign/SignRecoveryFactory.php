@@ -115,7 +115,7 @@ class SignRecoveryFactory
 			$request->sendEmail();
 
 
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			if ($e->getCode()) {
 				$message = match ($e->getCode()) {
 					1 => "We're sorry, but we don't know such an email address.",
@@ -151,7 +151,7 @@ class SignRecoveryFactory
 			// We delete the token and the control flag.
 			$this->signRecoverySession->removeToken();
 
-		} catch (\Exception $e) {
+		} catch (\Throwable $e) {
 			$form->addError('An error occurred during password change.');
 		}
 	}
