@@ -14,7 +14,7 @@ use App\UI\BasePresenter;
  *
  * @property-read AdminTemplate $template
  */
-final class AdminPresenter extends BasePresenter
+final class AdminPresenter extend BasePresenter
 {
 	use UserRequireLogged;
 }
