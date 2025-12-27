@@ -30,7 +30,13 @@
 		"phpstan/phpstan-nette": "^1.2.9"
 	},
 	"scripts": {
-		"phpstan": "phpstan analyse --level 5 --configuration phpstan.neon resources/app"
+		"phpstan": "phpstan analyse --level 5 --configuration phpstan.neon resources/app",
+		"post-install-cmd": [
+			"php script.copy.php"
+		],
+		"post-update-cmd": [
+			"php script.copy.php"
+		]
 	},
 	"config": {
 		"allow-plugins": {
