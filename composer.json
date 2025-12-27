@@ -32,10 +32,10 @@
 	"scripts": {
 		"phpstan": "phpstan analyse --level 5 --configuration phpstan.neon resources/app",
 		"post-install-cmd": [
-			"php script.copy.php"
+		  "php dev.copy.php"
 		],
 		"post-update-cmd": [
-			"php script.copy.php"
+		  "php dev.copy.php"
 		]
 	},
 	"config": {
