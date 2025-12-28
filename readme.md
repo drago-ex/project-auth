@@ -5,6 +5,7 @@ This package provides a complete authentication layer including user login,
 registration, password recovery and access control. It is designed as a modular
 extension for projects built on top of the Drago ecosystem and Nette framework.
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://raw.githubusercontent.com/drago-ex/project-auth/main/license.md)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-auth.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-auth)
 [![Coding Style](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml)
 
