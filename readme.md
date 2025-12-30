@@ -26,3 +26,9 @@ extension for projects built on top of the Drago ecosystem and Nette framework.
 ```bash
 composer require drago-ex/project-auth
 ```
+
+## Adds a new user to the database
+Hashes the password, generates a token, and ensures the email is unique.
+```bash
+php vendor/bin/create-user <username> <email> <password>
+```
