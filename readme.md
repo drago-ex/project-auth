@@ -36,5 +36,5 @@ php vendor/bin/create-user <username> <email> <password>
 # Database migration
 - https://github.com/drago-ex/migration
 ```bash
-php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations 
+php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations
 ```
