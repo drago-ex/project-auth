@@ -32,3 +32,9 @@ Hashes the password, generates a token, and ensures the email is unique.
 ```bash
 php vendor/bin/create-user <username> <email> <password>
 ```
+
+# Database migration
+- https://github.com/drago-ex/migration
+```bash
+php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations 
+```
