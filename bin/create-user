@@ -1,0 +1,48 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use App\Core\User\UserEntity;
+use Dibi\Connection;
+use Dibi\UniqueConstraintViolationException;
+use Nette\Security\Passwords;
+use Nette\Utils\Random;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$bootstrap = new App\Bootstrap();
+$container = $bootstrap->bootWebApplication();
+
+if ($argc !== 4) {
+    echo <<<USAGE
+Add new user to database.
+
+Usage: create-user <username> <email> <password>
+
+USAGE;
+    exit(1);
+}
+
+[, $username, $email, $password] = $argv;
+
+$model = $container->getByType(Connection::class);
+\assert($model instanceof Connection);
+
+$hash = $container->getByType(Passwords::class);
+\assert($hash instanceof Passwords);
+
+try {
+    $model->insert(UserEntity::Table, [
+        UserEntity::ColumnUsername => $username,
+        UserEntity::ColumnEmail => $email,
+        UserEntity::ColumnPassword => $hash->hash($password),
+        UserEntity::ColumnToken => Random::generate(32),
+    ])->execute();
+
+    echo "✅ User '$username' was created successfully.\n";
+
+} catch (UniqueConstraintViolationException) {
+    echo "❌ Error: duplicate email.\n";
+    exit(1);
+}
