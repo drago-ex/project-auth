@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\Backend\Admin;
 
+use App\Core\User\UserAccess;
 use App\UI\BaseTemplate;
 
 
@@ -14,5 +15,5 @@ use App\UI\BaseTemplate;
  */
 class AdminTemplate extends BaseTemplate
 {
-	// This class is currently empty.
+	public UserAccess $userAccess;
 }
