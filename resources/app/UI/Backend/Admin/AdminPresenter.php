@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\UI\Backend\Admin;
 
+use App\Core\User\UserAccess;
 use App\Core\User\UserRequireLogged;
 use App\UI\BasePresenter;
+use Nette\DI\Attributes\Inject;
 
 
 /**
@@ -17,4 +19,14 @@ use App\UI\BasePresenter;
 final class AdminPresenter extends BasePresenter
 {
 	use UserRequireLogged;
+
+	#[Inject]
+	public UserAccess $userAccess;
+
+
+	protected function beforeRender(): void
+	{
+		parent::beforeRender();
+		$this->template->userAccess = $this->userAccess;
+	}
 }
