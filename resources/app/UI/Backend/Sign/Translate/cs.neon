@@ -1,0 +1,24 @@
+# sing in
+"Login to administration": "Přihlášení do administrace"
+"Email address": "Emailová adresa"
+"Please enter your email address.": "Zadejte prosím svou e-mailovou adresu."
+"Password": "Heslo"
+"Your password": "Vaše heslo"
+"Please enter your password.": "Zadejte prosím své heslo."
+"Sign in": "Přihlásit se"
+"Sign up": "Registrovat se"
+"Lost your password?": "Zapomněli jste heslo?"
+
+# sing up
+"Registration": "Registrace"
+"Username": "Uživatel"
+"Full name": "Celé jméno"
+"Please enter your full name.": "Zadejte prosím své celé jméno."
+"Password to check": "Heslo ke kontrole"
+"Re-enter password": "Znovu zadejte heslo"
+"Please enter your password to check.": "Zadejte prosím své heslo pro kontrolu."
+"Back to sign in": "Zpět k přihlášení"
+
+# recovery password
+"Forgot password": "Zapomenuté heslo"
+"Reset password": "Obnovit heslo"
