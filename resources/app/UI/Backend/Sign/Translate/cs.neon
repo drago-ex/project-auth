@@ -8,6 +8,8 @@
 "Sign in": "Přihlásit se"
 "Sign up": "Registrovat se"
 "Lost your password?": "Zapomněli jste heslo?"
+"You are already logged in. You can return to the administration or log out and switch accounts.": "Již jste přihlášeni. Můžete se vrátit do administrace nebo se odhlásit a přepnout účet."
+"Administration": "Administrace"
 
 # sing up
 "Registration": "Registrace"
@@ -22,3 +24,11 @@
 # recovery password
 "Forgot password": "Zapomenuté heslo"
 "Reset password": "Obnovit heslo"
+
+# recovery email
+"Request to reset password": "Žádost o obnovení hesla"
+"To reset your password, enter the code you received in this email into the form. The code is valid for 30 minutes.": "Pro obnovení hesla zadejte do formuláře kód, který jste obdrželi v tomto e-mailu. Kód je platný 30 minut."
+"If you do not want to change your password or didn’t request a reset, you can ignore and delete this email.": "Pokud si nechcete změnit heslo nebo jste nepožádali o jeho obnovení, můžete tento e-mail ignorovat a smazat."
+
+# sign out
+"You have been signed out": "Byli jste odhlášeni"
