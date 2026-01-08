@@ -159,7 +159,7 @@ final class SignPresenter extends BasePresenter
 	{
 		$form = $this->signRecoveryFactory->createChangePassword();
 		$form->onSuccess[] = function () {
-			$this->flashMessage('Password change was successful', Alert::Success);
+			$this->flashMessage('Password change was successful.', Alert::Success);
 			$this->redirect('in');
 		};
 		return $form;
