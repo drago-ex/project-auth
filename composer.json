@@ -12,7 +12,7 @@
 		"drago-ex/translator": "^1.0",
 		"drago-ex/project-user": "^1.0",
 		"drago-ex/project-front": "^1.0",
-	  	"drago-ex/project-backend": "@dev",
+		"drago-ex/project-backend": "@dev",
 		"nette/mail": "^4.0",
 		"tracy/tracy": "^2.11"
 	},
