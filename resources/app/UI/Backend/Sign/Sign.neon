@@ -1,6 +1,3 @@
 services:
 	- App\UI\Backend\Sign\SignRecoverySession
 	- App\UI\Backend\Sign\SignRecoveryEmail
-
-translator:
-	moduleLocaleDir: %appDir%/UI/Sign/Translate
