@@ -6,7 +6,6 @@ namespace App\UI\Backend\Sign\User;
 
 use Dibi\Connection;
 use Dibi\Exception;
-use Dibi\Result;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Attr\Table;
 use Drago\Database\Database;
