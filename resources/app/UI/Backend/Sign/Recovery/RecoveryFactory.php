@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\UI\Backend\Sign\Recovery;
 
 use App\UI\Backend\Sign\Factory;
-use App\UI\Backend\Sign\User\UserEntity;
 use App\UI\Backend\Sign\User\UserRepository;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
