@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\UI\Backend\Sign;
 
+use App\UI\Backend\Sign\Recovery\RecoveryFactory;
+use App\UI\Backend\Sign\Recovery\SessionService;
 use App\UI\BasePresenter;
 use Drago\Application\UI\Alert;
 use Drago\Form\Autocomplete;
@@ -11,6 +13,7 @@ use Nette\Application\Attributes\Persistent;
 use Nette\Application\UI\Form;
 use Nette\Neon\Exception;
 use Nette\Security\AuthenticationException;
+use Throwable;
 use Tracy\Debugger;
 
 
@@ -27,10 +30,10 @@ final class SignPresenter extends BasePresenter
 
 
 	public function __construct(
-		private readonly SignFactory $signFactory,
+		private readonly Factory $factory,
 		private readonly SignUpFactory $signUpFactory,
-		private readonly SignRecoveryFactory $signRecoveryFactory,
-		private readonly SignRecoverySession $signRecoverySession,
+		private readonly RecoveryFactory $recoveryFactory,
+		private readonly SessionService $sessionService,
 	) {
 		parent::__construct();
 	}
@@ -57,7 +60,7 @@ final class SignPresenter extends BasePresenter
 		parent::beforeRender();
 
 		if ($this->getAction() === 'recovery') {
-			$this->template->signRecoveryToken = $this->signRecoverySession->createSignRecoveryToken();
+			$this->template->signRecoveryToken = $this->sessionService->createSignRecoveryToken();
 		}
 
 		if ($this->isAjax()) {
@@ -71,7 +74,7 @@ final class SignPresenter extends BasePresenter
 	 */
 	protected function createComponentSignIn(): Form
 	{
-		$form = $this->signFactory->create();
+		$form = $this->factory->create();
 		$form->addEmailField();
 		$form->addPasswordField()
 			->setAutocomplete(Autocomplete::CurrentPassword);
@@ -86,7 +89,7 @@ final class SignPresenter extends BasePresenter
 	 * Handles sign-in form success.
 	 * Logs the user in and redirect to the admin page.
 	 */
-	public function success(Form $form, SignData $data): void
+	public function success(Form $form, SignValues $data): void
 	{
 		try {
 			$this->getUser()->login($data->email, $data->password);
@@ -119,10 +122,11 @@ final class SignPresenter extends BasePresenter
 	/**
 	 * Creates and handles the password recovery request form.
 	 * @throws Exception
+	 * @throws Throwable
 	 */
 	protected function createComponentSignRecoveryRequest(): Form
 	{
-		$factory = $this->signRecoveryFactory;
+		$factory = $this->recoveryFactory;
 		$factory->translator = $this->getTranslator();
 
 		$form = $factory->createRequest();
@@ -144,7 +148,7 @@ final class SignPresenter extends BasePresenter
 	 */
 	protected function createComponentSignRecoveryCheckToken(): Form
 	{
-		$form = $this->signRecoveryFactory->createCheckToken();
+		$form = $this->recoveryFactory->createCheckToken();
 		$form->onSuccess[] = function () {
 			$this->flashMessage('Code check was successful.', Alert::Success);
 		};
@@ -157,7 +161,7 @@ final class SignPresenter extends BasePresenter
 	 */
 	protected function createComponentSignRecoveryChangePassword(): Form
 	{
-		$form = $this->signRecoveryFactory->createChangePassword();
+		$form = $this->recoveryFactory->createChangePassword();
 		$form->onSuccess[] = function () {
 			$this->flashMessage('Password change was successful.', Alert::Success);
 			$this->redirect('in');

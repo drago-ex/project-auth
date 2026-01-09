@@ -7,7 +7,7 @@ namespace App\UI\Backend\Sign;
 use Drago\Utils\ExtraArrayHash;
 
 
-class SignData extends ExtraArrayHash
+class SignValues extends ExtraArrayHash
 {
 	public const string
 		Email = 'email',

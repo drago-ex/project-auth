@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Backend\Sign\Recovery;
 
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
@@ -13,7 +13,7 @@ use Nette\Utils\Random;
  * Session handler for managing password recovery tokens.
  * Handles the creation, validation, and removal of recovery tokens within the session.
  */
-readonly class SignRecoverySession
+readonly class SessionService
 {
 	public function __construct(
 		private Session $session,
@@ -102,9 +102,9 @@ readonly class SignRecoverySession
 	/**
 	 * Creates a SignRecoveryToken object based on the current session data.
 	 */
-	public function createSignRecoveryToken(): SignRecoveryToken
+	public function createSignRecoveryToken(): Token
 	{
-		return new SignRecoveryToken(
+		return new Token(
 			hasToken: $this->getToken() !== null,
 			isTokenChecked: (bool) $this->getSection()->get('tokenCheck'),
 		);

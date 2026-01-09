@@ -2,10 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Backend\Sign\User;
 
-use App\Core\Exception\EmailNotFoundException;
-use App\Core\User\UserEntity;
 use Dibi\Connection;
 use Dibi\Exception;
 use Dibi\Result;
@@ -20,7 +18,7 @@ use Nette\Security\Passwords;
  * It handles database operations for finding a user by email.
  */
 #[Table(UserEntity::Table, UserEntity::ColumnId)]
-class SignUserRepository
+class UserRepository
 {
 	use Database;
 

@@ -8,7 +8,7 @@ use Drago\Form\Forms;
 use Drago\Form\Input;
 
 
-class SignForm extends Forms
+class Form extends Forms
 {
 	/**
 	 * Adds a password input field to the form.

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Backend\Sign\Recovery;
 
 use Drago\Localization\Translator;
 use Nette\Application\UI\TemplateFactory;
@@ -11,7 +11,7 @@ use Nette\Mail\Message;
 use Tracy\Debugger;
 
 
-class SignRecoveryEmail
+class EmailService
 {
 	public string $email;
 	public string $token;

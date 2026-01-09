@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Backend\Sign\Recovery;
 
+use App\UI\Backend\Sign\Factory;
+use App\UI\Backend\Sign\User\UserRepository;
 use Drago\Form\Autocomplete;
 use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
@@ -14,16 +16,16 @@ use Nette\Forms\Controls\TextInput;
  * Factory for creating password recovery forms and handling password recovery logic.
  * Provides methods for creating forms related to password recovery: request form, token check, and password change.
  */
-class SignRecoveryFactory
+class RecoveryFactory
 {
 	public Translator $translator;
 
 
 	public function __construct(
-		private readonly SignFactory $signFactory,
-		private readonly SignRecoverySession $signRecoverySession,
-		private readonly SignUserRepository $signRepository,
-		private readonly SignRecoveryEmail $signRecoveryEmail,
+		private readonly Factory $factory,
+		private readonly SessionService $sessionService,
+		private readonly UserRepository $userRepository,
+		private readonly EmailService $emailService,
 	) {
 	}
 
@@ -33,7 +35,7 @@ class SignRecoveryFactory
 	 */
 	public function createRequest(): Form
 	{
-		$form = $this->signFactory->create();
+		$form = $this->factory->create();
 		$form->addEmailField();
 		$form->addSubmit('send', 'Reset password');
 		$form->onSuccess[] = $this->request(...);
@@ -46,7 +48,7 @@ class SignRecoveryFactory
 	 */
 	public function createCheckToken(): Form
 	{
-		$form = $this->signFactory->create();
+		$form = $this->factory->create();
 		$form->addTextInput(
 			name: 'token',
 			label: 'Code',
@@ -68,7 +70,7 @@ class SignRecoveryFactory
 	 */
 	public function tokenCheck(TextInput $input): bool
 	{
-		return $this->signRecoverySession
+		return $this->sessionService
 			->isTokenValid($input->getValue());
 	}
 
@@ -78,7 +80,7 @@ class SignRecoveryFactory
 	 */
 	public function createChangePassword(): Form
 	{
-		$form = $this->signFactory->create();
+		$form = $this->factory->create();
 		$form->addPasswordField()
 			->setAutocomplete(Autocomplete::NewPassword);
 
@@ -102,15 +104,15 @@ class SignRecoveryFactory
 			$email = $values['email'];
 
 			// We will verify if the user exists by email.
-			$this->signRepository->findUserByEmail($email);
+			$this->userRepository->findUserByEmail($email);
 
 			// We will create a token and save the email.
-			$this->signRecoverySession->generateToken($email);
+			$this->sessionService->generateToken($email);
 
 			// We will create a sending email.
-			$request = $this->signRecoveryEmail;
+			$request = $this->emailService;
 			$request->email = $email;
-			$request->token = $this->signRecoverySession->getToken();
+			$request->token = $this->sessionService->getToken();
 			$request->setTranslator($this->translator);
 			$request->sendEmail();
 
@@ -132,7 +134,7 @@ class SignRecoveryFactory
 	 */
 	public function checkToken(): void
 	{
-		$this->signRecoverySession
+		$this->sessionService
 			->setTokenCheck();
 	}
 
@@ -145,11 +147,11 @@ class SignRecoveryFactory
 	{
 		try {
 			$password = $form->getValues()['password'];
-			$email = $this->signRecoverySession->getEmail();
-			$this->signRepository->updatePassword($email, $password);
+			$email = $this->sessionService->getEmail();
+			$this->userRepository->updatePassword($email, $password);
 
 			// We delete the token and the control flag.
-			$this->signRecoverySession->removeToken();
+			$this->sessionService->removeToken();
 
 		} catch (\Throwable $e) {
 			$form->addError('An error occurred during password change.');

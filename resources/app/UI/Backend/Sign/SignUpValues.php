@@ -7,7 +7,7 @@ namespace App\UI\Backend\Sign;
 use Drago\Utils\ExtraArrayHash;
 
 
-class SignUpData extends ExtraArrayHash
+class SignUpValues extends ExtraArrayHash
 {
 	// Constants for database column names
 	public const string

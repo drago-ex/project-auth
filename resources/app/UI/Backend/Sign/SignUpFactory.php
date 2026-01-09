@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\Backend\Sign;
 
-use App\Core\User\UserEntity;
+use App\UI\Backend\Sign\User\UserEntity;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;
@@ -20,7 +20,7 @@ readonly class SignUpFactory
 {
 	public function __construct(
 		private Passwords $password,
-		private SignFactory $signFactory,
+		private Factory $factory,
 		private Connection $connection,
 	) {
 	}
@@ -31,9 +31,9 @@ readonly class SignUpFactory
 	 */
 	public function create(): Form
 	{
-		$form = $this->signFactory->create();
+		$form = $this->factory->create();
 		$form->addTextInput(
-			name: SignUpData::Username,
+			name: SignUpValues::Username,
 			label: 'Username',
 			placeholder: 'Full name',
 			required: 'Please enter your full name.',
@@ -67,7 +67,7 @@ readonly class SignUpFactory
 	 * @throws Exception
 	 * @throws AssertionException
 	 */
-	public function success(Form $form, SignUpData $data): void
+	public function success(Form $form, SignUpValues $data): void
 	{
 		// Hash the password
 		$data->password = $this->password->hash($data->password);
@@ -76,7 +76,7 @@ readonly class SignUpFactory
 		$data->token = Random::generate(32);
 
 		// Remove the password confirmation field
-		$data->offsetUnset(SignUpData::Verify);
+		$data->offsetUnset(SignUpValues::Verify);
 
 		// Validate the email format
 		Validators::assert($data->email, 'email');

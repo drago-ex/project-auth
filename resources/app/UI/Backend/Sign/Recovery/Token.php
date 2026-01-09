@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Backend\Sign\Recovery;
 
 
 /**
  * This class represents the recovery token and its associated validation flag.
  * It is used to store the state of the recovery token and whether the token has been checked.
  */
-class SignRecoveryToken
+class Token
 {
 	public function __construct(
 		public bool $hasToken = false,

@@ -11,7 +11,7 @@ use Nette\Security\User;
 /**
  * Factory class for creating instances of FormBase with necessary configurations.
  */
-readonly class SignFactory
+readonly class Factory
 {
 	public function __construct(
 		private Translator $translator,
@@ -20,9 +20,9 @@ readonly class SignFactory
 	}
 
 
-	public function create(): SignForm
+	public function create(): Form
 	{
-		$form = new SignForm;
+		$form = new Form;
 
 		// Add form protection if the user is logged in
 		if ($this->user->isLoggedIn()) {
