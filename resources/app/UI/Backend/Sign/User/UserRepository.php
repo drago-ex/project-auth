@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\UI\Backend\Sign\User;
 
-use Dibi\Connection;
 use Dibi\Exception;
 use Dibi\Result;
 use Drago\Attr\AttributeDetectionException;
