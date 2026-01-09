@@ -23,8 +23,8 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 	use Database;
 
 	public function __construct(
-		protected Connection $connection,
 		private readonly Passwords $password,
+		private readonly UserRepository $userRepository,
 	) {
 	}
 
@@ -38,7 +38,7 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 	public function authenticate(string $username, string $password): SimpleIdentity
 	{
 		// Find the user by username.
-		$user = $this->findUser($username);
+		$user = $this->userRepository->findUserByEmail($username);
 
 		// User not found.
 		if (!$user) {
@@ -80,38 +80,15 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 	public function wakeupIdentity(IIdentity $identity): ?SimpleIdentity
 	{
 		// Find the user by ID.
-		$user = $this->findUserById($identity->getId());
+		$user = $this->userRepository->findUserByToken(
+			$identity->getId(),
+		);
+
 		if ($user === null) {
 			return null;
 		}
 
 		$user->offsetUnset('password');
 		return new SimpleIdentity(id: $user->id, data: $user);
-	}
-
-
-	/**
-	 * Finds a user by their email.
-	 *
-	 * @throws Exception If there is an error while finding the user.
-	 * @throws AttributeDetectionException If there is an error while finding attributes.
-	 */
-	private function findUser(string $user): array|UserEntity|null
-	{
-		return $this->find(UserEntity::ColumnEmail, $user)
-			->record();
-	}
-
-
-	/**
-	 * Finds a user by their ID.
-	 *
-	 * @throws AttributeDetectionException If there is an error while finding attributes.
-	 * @throws Exception If there is an error while finding the user.
-	 */
-	private function findUserById(string $id): array|UserEntity|null
-	{
-		return $this->find(UserEntity::ColumnToken, $id)
-			->record();
 	}
 }

@@ -30,39 +30,27 @@ class UserRepository
 
 
 	/**
-	 * Finds a user in the database by their email.
-	 * Throws an exception if the user with the given email is not found.
+	 * Finds a user by their email.
 	 *
-	 * @throws AttributeDetectionException If there are error detecting attributes.
-	 * @throws EmailNotFoundException If no user is found with the provided email.
-	 * @throws Exception
+	 * @throws Exception If there is an error while finding the user.
+	 * @throws AttributeDetectionException If there is an error while finding attributes.
 	 */
 	public function findUserByEmail(string $email): array|UserEntity|null
 	{
-		// Attempt to fetch the user based on the provided email.
-		$row = $this->find(UserEntity::ColumnEmail, $email)->execute()
-			->setRowClass(UserEntity::class)
-			->fetch();
-
-		// If the user is not found by email.
-		if (!$row) {
-			throw new EmailNotFoundException('User not found by email.', 1);
-		}
-
-		// We will return the found user data.
-		return $row;
+		return $this->find(UserEntity::ColumnEmail, $email)
+			->record();
 	}
 
 
 	/**
-	 * Updates the user's password in the data
+	 * Find user by token.
 	 *
-	 * @throws Exception If the update fails.
+	 * @throws AttributeDetectionException If there is an error while finding attributes.
+	 * @throws Exception If there is an error while finding the user.
 	 */
-	public function updatePassword(string $email, string $password): int|null|Result
+	public function findUserByToken(string $token): array|UserEntity|null
 	{
-		return $this->connection->update(UserEntity::Table, [
-			UserEntity::ColumnPassword => $this->passwords->hash($password),
-		])->where(UserEntity::ColumnEmail, '=?', $email)->execute();
+		return $this->find(UserEntity::ColumnToken, $token)
+			->record();
 	}
 }

@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace App\UI\Backend\Sign\Recovery;
 
 use App\UI\Backend\Sign\Factory;
+use App\UI\Backend\Sign\User\UserEntity;
 use App\UI\Backend\Sign\User\UserRepository;
+use Dibi\Exception;
+use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\TextInput;
+use Nette\Security\Passwords;
 
 
 /**
@@ -26,6 +30,7 @@ class RecoveryFactory
 		private readonly SessionService $sessionService,
 		private readonly UserRepository $userRepository,
 		private readonly EmailService $emailService,
+		private readonly Passwords $passwords,
 	) {
 	}
 
@@ -36,7 +41,9 @@ class RecoveryFactory
 	public function createRequest(): Form
 	{
 		$form = $this->factory->create();
-		$form->addEmailField();
+		$form->addEmailField()
+			->addRule([$this, 'emailCheck'], "We're sorry, but we don't know such an email address.");
+
 		$form->addSubmit('send', 'Reset password');
 		$form->onSuccess[] = $this->request(...);
 		return $form;
@@ -76,6 +83,17 @@ class RecoveryFactory
 
 
 	/**
+	 * @throws AttributeDetectionException
+	 * @throws Exception
+	 */
+	public function emailCheck(TextInput $input): bool
+	{
+		$findEmail = $this->userRepository->findUserByEmail($input->getValue());
+		return (bool) $findEmail;
+	}
+
+
+	/**
 	 * Creates the form for changing the password.
 	 */
 	public function createChangePassword(): Form
@@ -103,9 +121,6 @@ class RecoveryFactory
 			$values = $form->getValues();
 			$email = $values['email'];
 
-			// We will verify if the user exists by email.
-			$this->userRepository->findUserByEmail($email);
-
 			// We will create a token and save the email.
 			$this->sessionService->generateToken($email);
 
@@ -116,15 +131,9 @@ class RecoveryFactory
 			$request->setTranslator($this->translator);
 			$request->sendEmail();
 
-
 		} catch (\Throwable $e) {
-			if ($e->getCode()) {
-				$message = match ($e->getCode()) {
-					1 => "We're sorry, but we don't know such an email address.",
-					default => 'Unknown status code.',
-				};
-				$form->addError($message);
-			}
+			$message = 'Unknown status code.';
+			$form->addError($message);
 		}
 	}
 
@@ -147,8 +156,13 @@ class RecoveryFactory
 	{
 		try {
 			$password = $form->getValues()['password'];
-			$email = $this->sessionService->getEmail();
-			$this->userRepository->updatePassword($email, $password);
+			$user = $this->userRepository->findUserByEmail(
+				$this->sessionService->getEmail(),
+			);
+
+			// Save password change.
+			$user->password = $this->passwords->hash($password);
+			$this->userRepository->save($user);
 
 			// We delete the token and the control flag.
 			$this->sessionService->removeToken();
