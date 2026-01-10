@@ -15,7 +15,7 @@ use Drago\Database\Database;
  * Repository for accessing user data in the database, specifically for operations related to user sign-in and recovery.
  * It handles database operations for finding a user by email.
  */
-#[Table(UserEntity::Table, UserEntity::ColumnId)]
+#[Table(UserEntity::Table, UserEntity::ColumnId, class: UserEntity::class)]
 class UserRepository
 {
 	use Database;
