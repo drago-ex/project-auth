@@ -25,9 +25,21 @@ class UserEntity extends Entity
 		ColumnPassword = 'password',
 		ColumnToken = 'token';
 
+	/**
+	 * Primary key
+	 * Column size 10
+	 */
 	public int $id;
+
+	/** Column size 50 */
 	public string $username;
+
+	/** Column size 50 */
 	public string $email;
+
+	/** Column size 60 */
 	public string $password;
+
+	/** Column size 32 */
 	public string $token;
 }

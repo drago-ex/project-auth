@@ -13,6 +13,9 @@ class SignValues extends ExtraArrayHash
 		Email = 'email',
 		Password = 'password';
 
+	/** User's username */
+	public string $username;
+
+	/** User's email address */
 	public string $email;
-	public string $password;
 }
