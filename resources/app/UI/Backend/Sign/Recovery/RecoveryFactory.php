@@ -41,7 +41,8 @@ class RecoveryFactory
 	{
 		$form = $this->factory->create();
 		$form->addEmailField()
-			->addRule([$this, 'emailCheck'], "We're sorry, but we don't know such an email address.");
+			->addRule([$this, 'emailCheck'], "We're sorry, but we don't know such an email address.")
+			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Reset password');
 		$form->onSuccess[] = $this->request(...);
@@ -60,7 +61,8 @@ class RecoveryFactory
 			label: 'Code',
 			placeholder: 'Enter the code from the email',
 			required: 'Please enter the code from the email.',
-		)->addRule([$this, 'tokenCheck'], 'The code entered is invalid.');
+		)->addRule([$this, 'tokenCheck'], 'The code entered is invalid.')
+			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Continue password recovery');
 		$form->onSuccess[] = $this->checkToken(...);

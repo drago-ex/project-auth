@@ -131,7 +131,7 @@ final class SignPresenter extends BasePresenter
 
 		$form = $factory->createRequest();
 		$form->onSuccess[] = function () {
-			$this->flashMessage('A password recovery code has been sent to your email.');
+			$this->flashMessage('A password recovery code has been sent to your email.', Alert::Success);
 		};
 
 		$form->onError[] = function (Form $form) {
