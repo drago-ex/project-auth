@@ -34,7 +34,7 @@ class EmailService
 	public function sendEmail(): void
 	{
 		$template = $this->templateFactory->createTemplate();
-		$template->setFile(__DIR__ . '/recovery.email.latte');
+		$template->setFile(__DIR__ . '/email.latte');
 		$template->setTranslator($this->translator);
 		$template->token = $this->token;
 
