@@ -16,6 +16,7 @@ final class SignPermission implements Provider
 {
 	private const string Resource = 'Backend:Sign';
 
+
 	public function register(Permission $acl): void
 	{
 		$acl->addResource(self::Resource);
