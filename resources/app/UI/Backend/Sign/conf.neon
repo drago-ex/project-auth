@@ -2,3 +2,7 @@ services:
 	- App\UI\Backend\Sign\Recovery\SessionService
 	- App\UI\Backend\Sign\Recovery\EmailService
 	- App\UI\Backend\Sign\User\UserAuthenticator
+
+	signPermission:
+		class: App\UI\Backend\Sign\SignPermission
+		tags: [PermisionTag]
