@@ -41,8 +41,7 @@ class RecoveryFactory
 	{
 		$form = $this->factory->create();
 		$form->addEmailField()
-			->addRule([$this, 'emailCheck'], "We're sorry, but we don't know such an email address.")
-			->setAutocomplete(Autocomplete::Off);
+			->addRule([$this, 'emailCheck'], "We're sorry, but we don't know such an email address.");
 
 		$form->addSubmit('send', 'Reset password');
 		$form->onSuccess[] = $this->request(...);
@@ -56,12 +55,10 @@ class RecoveryFactory
 	public function createCheckToken(): Form
 	{
 		$form = $this->factory->create();
-		$form->addTextInput(
-			name: 'token',
-			label: 'Code',
-			placeholder: 'Enter the code from the email',
-			required: 'Please enter the code from the email.',
-		)->addRule([$this, 'tokenCheck'], 'The code entered is invalid.')
+		$form->addTextInput('token', 'Code')
+			->addRule([$this, 'tokenCheck'], 'The code entered is invalid.')
+			->setPlaceholder('Enter the code from the email')
+			->setRequired('Please enter the code from the email.')
 			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Continue password recovery');
@@ -104,7 +101,7 @@ class RecoveryFactory
 			->setAutocomplete(Autocomplete::NewPassword);
 
 		$form->addPasswordConfirmationField()
-			->setAutocomplete(Autocomplete::NewPassword);
+			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Change your password');
 		$form->onSuccess[] = $this->changePassword(...);
