@@ -65,23 +65,23 @@ readonly class SignUpFactory
 	 * @throws Exception
 	 * @throws AssertionException
 	 */
-	public function success(Form $form, SignUpValues $data): void
+	public function success(Form $form, SignUpValues $values): void
 	{
 		// Hash the password
-		$data->password = $this->password->hash($data->password);
+		$values->password = $this->password->hash($values->password);
 
 		// Generate a token
-		$data->token = Random::generate(32);
+		$values->token = Random::generate(32);
 
 		// Remove the password confirmation field
-		$data->offsetUnset(SignUpValues::Verify);
+		$values->offsetUnset(SignUpValues::Verify);
 
 		// Validate the email format
-		Validators::assert($data->email, 'email');
+		Validators::assert($values->email, 'email');
 
 		try {
 			// Insert the user data into the database
-			$this->connection->insert(UserEntity::Table, $data->toArray())
+			$this->connection->insert(UserEntity::Table, $values->toArray())
 				->execute();
 
 		} catch (UniqueConstraintViolationException $e) {

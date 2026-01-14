@@ -13,6 +13,7 @@
 		"drago-ex/project-user": "^1.0",
 		"drago-ex/project-front": "^1.0",
 		"drago-ex/project-backend": "^1.0",
+	  	"drago-ex/permission": "^1.0",
 		"nette/mail": "^4.0"
 	},
 	"extra": {

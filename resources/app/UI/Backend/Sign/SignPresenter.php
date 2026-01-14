@@ -89,10 +89,10 @@ final class SignPresenter extends BasePresenter
 	 * Handles sign-in form success.
 	 * Logs the user in and redirect to the admin page.
 	 */
-	public function success(Form $form, SignValues $data): void
+	public function success(Form $form, SignValues $values): void
 	{
 		try {
-			$this->getUser()->login($data->email, $data->password);
+			$this->getUser()->login($values->email, $values->password);
 			$this->restoreRequest($this->backlink);
 			$this->redirect(':Backend:Admin:');
 		} catch (AuthenticationException $e) {
