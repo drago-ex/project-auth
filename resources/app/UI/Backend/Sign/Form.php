@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\Backend\Sign;
 
+use Drago\Form\Autocomplete;
 use Drago\Form\Forms;
 use Drago\Form\Input;
 
@@ -15,13 +16,9 @@ class Form extends Forms
 	 */
 	public function addPasswordField(): Input
 	{
-		return $this->addTextInput(
-			name: 'password',
-			label: 'Password',
-			type: 'password',
-			placeholder: 'Your password',
-			required: 'Please enter your password.',
-		);
+		return $this->addPasswordInput('password', 'Password')
+			->setPlaceholder('Your password')
+			->setRequired('Please enter your password.');
 	}
 
 
@@ -31,13 +28,9 @@ class Form extends Forms
 	public function addPasswordConfirmationField(): Input
 	{
 		// Create a password confirmation input field
-		$passwordField = $this->addTextInput(
-			name: 'verify',
-			label: 'Password to check',
-			type: 'password',
-			placeholder: 'Re-enter password',
-			required: 'Please enter your password to check.',
-		);
+		$passwordField = $this->addPasswordInput('verify', 'Password to check')
+			->setPlaceholder('Re-enter password')
+			->setRequired('Please enter your password to check.');
 
 		// Check if 'password' field exists in the form
 		if (!isset($this['password'])) {
@@ -56,13 +49,10 @@ class Form extends Forms
 	 */
 	public function addEmailField(): Input
 	{
-		return $this->addTextInput(
-			name: 'email',
-			label: 'Email',
-			type: 'email',
-			placeholder: 'Email address',
-			required: 'Please enter your email address.',
-			rule: $this::Email,
-		);
+		return $this->addEmailInput('email', 'Email')
+			->setPlaceholder('Email address')
+			->setRequired('Please enter your email address.')
+			->setAutocomplete(Autocomplete::Email)
+			->addRule(self::Email);
 	}
 }
