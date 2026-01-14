@@ -32,12 +32,10 @@ readonly class SignUpFactory
 	public function create(): Form
 	{
 		$form = $this->factory->create();
-		$form->addTextInput(
-			name: SignUpValues::Username,
-			label: 'Username',
-			placeholder: 'Full name',
-			required: 'Please enter your full name.',
-		);
+		$form->addTextInput(SignUpValues::Username,'Username')
+			->setRequired('Please enter your full name.')
+			->setPlaceholder('Full name')
+			->setAutocomplete(Autocomplete::Name);
 
 		$form->addEmailField()
 			->setDefaultValue('@');
@@ -52,7 +50,7 @@ readonly class SignUpFactory
 			);
 
 		$form->addPasswordConfirmationField()
-			->setAutocomplete(Autocomplete::NewPassword);
+			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Sign up');
 		$form->onSuccess[] = $this->success(...);
