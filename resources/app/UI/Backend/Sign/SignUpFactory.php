@@ -32,7 +32,7 @@ readonly class SignUpFactory
 	public function create(): Form
 	{
 		$form = $this->factory->create();
-		$form->addTextInput(SignUpValues::Username,'Username')
+		$form->addTextInput(SignUpValues::Username, 'Username')
 			->setRequired('Please enter your full name.')
 			->setPlaceholder('Full name')
 			->setAutocomplete(Autocomplete::Name);
