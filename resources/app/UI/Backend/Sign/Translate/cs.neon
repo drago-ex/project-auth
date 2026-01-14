@@ -29,6 +29,7 @@
 "Please enter your full name.": "Zadejte prosím své celé jméno."
 "Password to check": "Heslo ke kontrole"
 "Re-enter password": "Znovu zadejte heslo"
+"Passwords do not match.": "Hesla se neshodují."
 "Please enter your password to check.": "Zadejte prosím své heslo pro kontrolu."
 "Password must be at least %d characters long.": "Heslo musí mít alespoň %d znaků."
 "Back to sign in": "Zpět k přihlášení"
