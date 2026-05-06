@@ -12,6 +12,10 @@ extension for projects built on top of the Drago ecosystem and Nette framework.
 ## Requirements
 - PHP >= 8.3
 - Nette Framework
+- Composer
+- Bootstrap
+- Naja
+- Node.js
 - Drago Project core packages
 
 ## Features
