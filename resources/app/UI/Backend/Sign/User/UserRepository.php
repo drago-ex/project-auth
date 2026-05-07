@@ -50,4 +50,13 @@ class UserRepository
 		return $this->find(UserEntity::ColumnToken, $token)
 			->record();
 	}
+
+
+	/**
+	 * Finds the roles of a user.
+	 */
+	public function getRolesByUser(int $userId): array
+	{
+		return [];
+	}
 }
