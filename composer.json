@@ -29,7 +29,8 @@
 		"phpstan/phpstan-nette": "^1.2.9"
 	},
 	"bin": [
-		"bin/create-user"
+		"bin/create-user",
+		"bin/create-sign-permission"
 	],
 	"scripts": {
 		"phpstan": "phpstan analyse --level 5 --configuration phpstan.neon resources/app",

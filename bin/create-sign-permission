@@ -1,0 +1,46 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Generate SignPermission class for the host project.
+ *
+ * Usage:
+ *   php bin/create-sign-permission
+ */
+
+$dir = __DIR__;
+while (!is_file($dir . '/composer.json')) {
+	$parent = dirname($dir);
+	if ($parent === $dir) {
+		fwrite(STDERR, "Project root with composer.json not found.\n");
+		exit(1);
+	}
+	$dir = $parent;
+}
+
+$projectRoot = $dir;
+$generator = $projectRoot . '/vendor/drago-ex/permission/bin/create-permission';
+
+if (!is_file($generator)) {
+	fwrite(STDERR, "Missing generator: $generator\n");
+	fwrite(STDERR, "Install dependency first: composer require drago-ex/permission\n");
+	exit(1);
+}
+
+$args = [
+		'SignPermission',
+		'App\\UI\\Backend\\Sign',
+		'Backend:Sign',
+		'app/UI/Backend/Sign',
+		'--allow=RoleGuest,self::Resource',
+];
+
+$command = 'php ' . escapeshellarg($generator);
+foreach ($args as $arg) {
+	$command .= ' ' . escapeshellarg($arg);
+}
+
+passthru($command, $exitCode);
+exit((int) $exitCode);
