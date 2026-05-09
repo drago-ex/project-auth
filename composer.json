@@ -29,7 +29,7 @@
 	},
 	"bin": [
 		"bin/create-user",
-		"bin/create-sign-permission"
+		"bin/create-auth-permission"
 	],
 	"scripts": {
 		"phpstan": "phpstan analyse --level 5 --configuration phpstan.neon resources/app",
