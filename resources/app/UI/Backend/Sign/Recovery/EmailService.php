@@ -33,6 +33,7 @@ class EmailService
 
 	public function sendEmail(): void
 	{
+		/** @var EmailServiceTemplate $template */
 		$template = $this->templateFactory->createTemplate();
 		$template->setFile(__DIR__ . '/email.latte');
 		$template->setTranslator($this->translator);
@@ -42,7 +43,7 @@ class EmailService
 		$message->setFrom('no-reply@email.com')
 			->addTo($this->email)
 			->setSubject($this->translator->translate('Request to reset password'))
-			->setHtmlBody($template->__toString());
+			->setHtmlBody($template->renderToString());
 
 		try {
 			$this->mailer->send($message);

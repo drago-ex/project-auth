@@ -32,7 +32,7 @@
 		"bin/create-auth-permission"
 	],
 	"scripts": {
-		"phpstan": "phpstan analyse --level 5 --configuration phpstan.neon resources/app",
+		"phpstan": "vendor/bin/phpstan.bat analyse --level 5 --configuration tests/phpstan/phpstan.neon resources/app",
 		"post-install-cmd": [
 			"php dev-copy.php"
 		],

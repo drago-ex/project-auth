@@ -21,7 +21,7 @@ class UserRepository
 	use Database;
 
 	public function __construct(
-		private readonly Connection $connection,
+		protected readonly Connection $connection,
 	) {
 	}
 

@@ -65,9 +65,9 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 	/**
 	 * Saves the user's identity for later use (e.g., for the token).
 	 */
-	public function sleepIdentity(Token|IIdentity $identity): SimpleIdentity
+	public function sleepIdentity(IIdentity $identity): SimpleIdentity
 	{
-		return new SimpleIdentity($identity->token);
+		return new SimpleIdentity((string) $identity->getId());
 	}
 
 
