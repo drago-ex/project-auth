@@ -33,8 +33,7 @@ class EmailService
 
 	public function sendEmail(): void
 	{
-		$template = $this->templateFactory->createTemplate();
-		assert($template instanceof EmailServiceTemplate);
+		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/email.latte');
 		$template->setTranslator($this->translator);
 		$template->token = $this->token;
@@ -51,5 +50,14 @@ class EmailService
 		} catch (\Throwable $e) {
 			Debugger::log($e, Debugger::ERROR);
 		}
+	}
+
+
+	private function createTemplate(): EmailServiceTemplate
+	{
+		$template = $this->templateFactory->createTemplate();
+		assert($template instanceof EmailServiceTemplate);
+
+		return $template;
 	}
 }
