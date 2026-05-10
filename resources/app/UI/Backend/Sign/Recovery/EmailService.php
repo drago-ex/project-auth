@@ -33,8 +33,8 @@ class EmailService
 
 	public function sendEmail(): void
 	{
-		/** @var EmailServiceTemplate $template */
 		$template = $this->templateFactory->createTemplate();
+		assert($template instanceof EmailServiceTemplate);
 		$template->setFile(__DIR__ . '/email.latte');
 		$template->setTranslator($this->translator);
 		$template->token = $this->token;
