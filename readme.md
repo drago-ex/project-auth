@@ -37,18 +37,18 @@ Hashes the password, generates a token, and ensures the email is unique.
 php vendor/bin/create-user <username> <email> <password>
 ```
 
-## Generate permission provider
-If you use project ACL (drago-ex/permission), you can generate a module permission class:
-```bash
-php vendor/bin/create-auth-permission
-```
-
 ## Secure access to the section
 ```php
 final class SecurePresenter extends Presenter
 {
     use App\UI\Backend\Sign\UserRequireLogged;
 }
+```
+
+## Generate permission provider
+If you use project ACL (drago-ex/permission), you can generate a module permission class:
+```bash
+php vendor/bin/create-auth-permission
 ```
 
 # Database migration
