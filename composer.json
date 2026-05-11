@@ -16,6 +16,7 @@
 	},
 	"extra": {
 		"drago-project": {
+			"priority": 10,
 			"install": {
 				"copy": {
 					"resources/app": "app",
