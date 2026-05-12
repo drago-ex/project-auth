@@ -51,7 +51,7 @@ If you use project ACL (drago-ex/permission), you can generate a module permissi
 php vendor/bin/create-auth-permission
 ```
 
-# Database migration
+## Database migration
 - https://github.com/drago-ex/migration
 ```bash
 php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations
