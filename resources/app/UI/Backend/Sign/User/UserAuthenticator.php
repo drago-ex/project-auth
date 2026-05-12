@@ -67,7 +67,10 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 	 */
 	public function sleepIdentity(IIdentity $identity): SimpleIdentity
 	{
-		return new SimpleIdentity((string) $identity->getId());
+		$data = $identity->getData();
+		$token = $data['token'] ?? null;
+
+		return new SimpleIdentity($token);
 	}
 
 
