@@ -1,5 +1,3 @@
-@use "bootstrap" as *;
-
 //
 // sign in style
 //
@@ -12,7 +10,7 @@ body {
 body {
   display: flex;
   align-items: center;
-  background-color: $light;
+  background-color: var(--bs-light);
 }
 
 .sign-in {
