@@ -1,9 +1,7 @@
-{* subtitle sites *}
 <p n:block="title" class="m-0 fw-semibold">
     {_'Registration'}
 </p>
 
-{* website content *}
 {block content}
     {embed '../../../Core/Widget/@form.latte', name: 'signUp', class: 'ajax', najaHistory: 'replace'}
         {import '../../../Core/Widget/@form-password.latte'}
@@ -21,5 +19,4 @@
     <p class="m-0">
         <a n:href="in" class="btn btn-link p-0 text-start ajax" data-link-disable>{_'Back to sign in'}</a>
     </p>
-
 {/block}
