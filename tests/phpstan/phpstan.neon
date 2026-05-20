@@ -1,7 +1,0 @@
-includes:
-	- ../../vendor/phpstan/phpstan-nette/extension.neon
-
-parameters:
-	scanFiles:
-		- stubs/BasePresenter.php
-		- stubs/BaseTemplate.php

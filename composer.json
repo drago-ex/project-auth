@@ -39,6 +39,7 @@
 		"bin/create-auth-permission"
 	],
 	"scripts": {
+		"phpstan": "phpstan analyse",
 		"post-install-cmd": [
 			"drago-install --dev",
 			"drago-clean"
