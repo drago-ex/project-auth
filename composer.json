@@ -31,7 +31,7 @@
 		}
 	},
 	"require-dev": {
-		"phpstan/phpstan-nette": "^1.2.9",
+		"phpstan/phpstan-nette": "^2.0",
 		"drago-ex/project-installer": "@dev"
 	},
 	"bin": [
