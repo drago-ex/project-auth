@@ -15,10 +15,7 @@ use Nette\Forms\Controls\TextInput;
 use Nette\Security\Passwords;
 
 
-/**
- * Factory for creating password recovery forms and handling password recovery logic.
- * Provides methods for creating forms related to password recovery: request form, token check, and password change.
- */
+/** Factory for creating password recovery forms and handling password recovery logic. */
 class RecoveryFactory
 {
 	public Translator $translator;
@@ -34,9 +31,7 @@ class RecoveryFactory
 	}
 
 
-	/**
-	 * Creates the password recovery request form.
-	 */
+	/** Creates the password recovery request form. */
 	public function createRequest(): Form
 	{
 		$form = $this->factory->create();
@@ -49,9 +44,7 @@ class RecoveryFactory
 	}
 
 
-	/**
-	 * Creates the form for checking the recovery token.
-	 */
+	/** Creates the form for checking the recovery token. */
 	public function createCheckToken(): Form
 	{
 		$form = $this->factory->create();
@@ -67,12 +60,7 @@ class RecoveryFactory
 	}
 
 
-	/**
-	 * Checks if the entered token is valid.
-	 *
-	 * @param TextInput $input The input field for the token.
-	 * @return bool True if the token is valid, false otherwise.
-	 */
+	/** Checks if the entered token is valid. */
 	public function tokenCheck(TextInput $input): bool
 	{
 		return $this->sessionService
@@ -81,6 +69,7 @@ class RecoveryFactory
 
 
 	/**
+	 * Checks if the email address exists.
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
@@ -91,9 +80,7 @@ class RecoveryFactory
 	}
 
 
-	/**
-	 * Creates the form for changing the password.
-	 */
+	/** Creates the form for changing the password. */
 	public function createChangePassword(): Form
 	{
 		$form = $this->factory->create();
@@ -109,20 +96,14 @@ class RecoveryFactory
 	}
 
 
-	/**
-	 * Handles the password recovery request form submission.
-	 * Generates a recovery token if the email exists in the database.
-	 */
+	/** Handles the password recovery request form submission. */
 	public function request(Form $form): void
 	{
 		try {
 			$values = $form->getValues();
 			$email = (string) $values['email'];
 
-			// We will create a token and save the email.
 			$token = $this->sessionService->generateToken($email);
-
-			// We will create a sending email.
 			$request = $this->emailService;
 			$request->setTranslator($this->translator);
 			$request->sendEmail($email, $token);
@@ -134,9 +115,7 @@ class RecoveryFactory
 	}
 
 
-	/**
-	 * Handles the token check form submission.
-	 */
+	/** Handles the token check form submission. */
 	public function checkToken(): void
 	{
 		$this->sessionService
@@ -144,10 +123,7 @@ class RecoveryFactory
 	}
 
 
-	/**
-	 * Handles the password change form submission.
-	 * Removes the token from the session after the password is successfully changed.
-	 */
+	/** Handles the password change form submission. */
 	public function changePassword(Form $form): void
 	{
 		try {
@@ -155,11 +131,8 @@ class RecoveryFactory
 			$email = $this->sessionService->getEmail();
 			$user = $this->userRepository->getUserByEmail($email);
 
-			// Save password change.
 			$user->password = $this->passwords->hash($password);
 			$this->userRepository->save($user);
-
-			// We delete the token and the control flag.
 			$this->sessionService->removeToken();
 
 		} catch (\Throwable $e) {

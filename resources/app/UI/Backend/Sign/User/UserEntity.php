@@ -11,10 +11,7 @@ namespace App\UI\Backend\Sign\User;
 use Drago\Database\Entity;
 
 
-/**
- * Class representing the user entity in the database.
- * Stores information about the user account, including username, email, password, and token.
- */
+/** Class representing the user entity. */
 class UserEntity extends Entity
 {
 	public const string
@@ -25,21 +22,9 @@ class UserEntity extends Entity
 		ColumnPassword = 'password',
 		ColumnToken = 'token';
 
-	/**
-	 * Primary key
-	 * Column size 10
-	 */
 	public int $id;
-
-	/** Column size 50 */
 	public string $username;
-
-	/** Column size 50 */
 	public string $email;
-
-	/** Column size 60 */
 	public string $password;
-
-	/** Column size 32 */
 	public string $token;
 }

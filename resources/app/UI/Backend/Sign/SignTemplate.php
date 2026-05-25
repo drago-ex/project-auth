@@ -8,6 +8,7 @@ use App\UI\Backend\Sign\Recovery\Token;
 use App\UI\BaseTemplate;
 
 
+/** Sign in template. */
 final class SignTemplate extends BaseTemplate
 {
 	public Token $signRecoveryToken;

@@ -17,12 +17,7 @@ use Throwable;
 use Tracy\Debugger;
 
 
-/**
- * Handles user authentication and registration.
- * Includes pages for sign-in, sign-up, and password recovery.
- *
- * @property SignTemplate $template
- */
+/** Handles user authentication and registration. */
 final class SignPresenter extends BasePresenter
 {
 	#[Persistent]
@@ -39,10 +34,6 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	/**
-	 * Redraws specific parts of the page (title and body).
-	 * Used to update the UI during AJAX requests.
-	 */
 	private function redrawSnippets(): void
 	{
 		$this->redrawControl('title');
@@ -50,11 +41,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	/**
-	 * Called before rendering the template.
-	 * Sets the recovery token if the current action is 'recovery'.
-	 * If the request is AJAX, redraw snippets to update page parts dynamically.
-	 */
+	/** Sets the recovery token and redraw snippets if AJAX. */
 	protected function beforeRender(): void
 	{
 		parent::beforeRender();
@@ -69,9 +56,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	/**
-	 * Creates and handles the sign-in form.
-	 */
+	/** Creates and handles the sign-in form. */
 	protected function createComponentSignIn(): Form
 	{
 		$form = $this->factory->create();
@@ -85,10 +70,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	/**
-	 * Handles sign-in form success.
-	 * Logs the user in and redirect to the admin page.
-	 */
+	/** Handles sign-in form success. */
 	public function success(Form $form, SignValues $values): void
 	{
 		try {
@@ -105,9 +87,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	/**
-	 * Creates and handles the sign-up form.
-	 */
+	/** Creates and handles the sign-up form. */
 	protected function createComponentSignUp(): Form
 	{
 		$form = $this->signUpFactory->create();
@@ -143,9 +123,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	/**
-	 * Creates and handles the token check form for password recovery.
-	 */
+	/** Creates and handles the token check form for password recovery. */
 	protected function createComponentSignRecoveryCheckToken(): Form
 	{
 		$form = $this->recoveryFactory->createCheckToken();
@@ -156,9 +134,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	/**
-	 * Creates and handles the password change form.
-	 */
+	/** Creates and handles the password change form. */
 	protected function createComponentSignRecoveryChangePassword(): Form
 	{
 		$form = $this->recoveryFactory->createChangePassword();
@@ -170,10 +146,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	/**
-	 * Logs out the current user.
-	 * After logout, the presenter will render the 'out' view or perform the default rendering.
-	 */
+	/** Logs out the current user. */
 	public function actionOut(): void
 	{
 		$this->getUser()->logout();

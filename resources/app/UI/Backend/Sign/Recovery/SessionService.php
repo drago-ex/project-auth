@@ -10,10 +10,7 @@ use Nette\Utils\Random;
 use RuntimeException;
 
 
-/**
- * Session handler for managing password recovery tokens.
- * Handles the creation, validation, and removal of recovery tokens within the session.
- */
+/** Session handler for managing password recovery tokens. */
 readonly class SessionService
 {
 	public function __construct(
@@ -30,10 +27,7 @@ readonly class SessionService
 	}
 
 
-	/**
-	 * Sets a new token and email for password recovery in the session.
-	 * Generates a random 6-character token and stores it along with the provided email.
-	 */
+	/** Sets a new token and email for password recovery in the session. */
 	public function generateToken(string $email): string
 	{
 		$section = $this->getSection();
@@ -46,9 +40,7 @@ readonly class SessionService
 
 	/**
 	 * Retrieves the stored email address for password recovery from the session.
-	 * This method guarantees to PHPStan that the return value is always a string.
-	 *
-	 * @throws RuntimeException If the email is not found in the session (e.g. session expired).
+	 * @throws RuntimeException
 	 */
 	public function getEmail(): string
 	{
@@ -60,9 +52,7 @@ readonly class SessionService
 	}
 
 
-	/**
-	 * Retrieves the stored password recovery token from the session.
-	 */
+	/** Retrieves the stored password recovery token from the session. */
 	public function getToken(): ?string
 	{
 		return $this->getSection()
@@ -70,9 +60,7 @@ readonly class SessionService
 	}
 
 
-	/**
-	 * Marks the token as checked in the session.
-	 */
+	/** Marks the token as checked in the session. */
 	public function setTokenCheck(): void
 	{
 		$this->getSection()
@@ -80,9 +68,7 @@ readonly class SessionService
 	}
 
 
-	/**
-	 * Removes the password recovery token and token check from the session.
-	 */
+	/** Removes the password recovery token and token check from the session. */
 	public function removeToken(): void
 	{
 		$this->getSection()
@@ -90,9 +76,7 @@ readonly class SessionService
 	}
 
 
-	/**
-	 * Validates if the provided token matches the stored token in the session.
-	 */
+	/** Validates if the provided token matches the stored token in the session. */
 	public function isTokenValid(string $token): bool
 	{
 		$section = $this->getSection();
@@ -102,7 +86,6 @@ readonly class SessionService
 			return false;
 		}
 
-		// If tokenCheck is true, the token must not be reused.
 		if ($section->get('tokenCheck') === true) {
 			return false;
 		}
@@ -111,9 +94,7 @@ readonly class SessionService
 	}
 
 
-	/**
-	 * Creates a SignRecoveryToken object based on the current session data.
-	 */
+	/** Creates a SignRecoveryToken object based on the current session data. */
 	public function createSignRecoveryToken(): Token
 	{
 		return new Token(

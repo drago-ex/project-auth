@@ -16,6 +16,7 @@ use Nette\Utils\Random;
 use Nette\Utils\Validators;
 
 
+/** Factory for creating user registration forms. */
 readonly class SignUpFactory
 {
 	public function __construct(
@@ -26,9 +27,7 @@ readonly class SignUpFactory
 	}
 
 
-	/**
-	 * Creates the user registration form.
-	 */
+	/** Creates the user registration form. */
 	public function create(): Form
 	{
 		$form = $this->factory->create();
@@ -60,27 +59,18 @@ readonly class SignUpFactory
 
 	/**
 	 * Handles the successful submission of the form.
-	 * Hashes the password, generates a token, and inserts the user into the database.
-	 *
 	 * @throws Exception
 	 * @throws AssertionException
 	 */
 	public function success(Form $form, SignUpValues $values): void
 	{
-		// Hash the password
 		$values->password = $this->password->hash($values->password);
-
-		// Generate a token
 		$values->token = Random::generate(32);
-
-		// Remove the password confirmation field
 		$values->offsetUnset(SignUpValues::Verify);
 
-		// Validate the email format
 		Validators::assert($values->email, 'email');
 
 		try {
-			// Insert the user data into the database
 			$this->connection->insert(UserEntity::Table, $values->toArray())
 				->execute();
 

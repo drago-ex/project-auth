@@ -16,6 +16,7 @@ use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
 
 
+/** User authenticator. */
 #[Table(UserEntity::Table, UserEntity::ColumnId, class: UserEntity::class)]
 class UserAuthenticator implements Authenticator, IdentityHandler
 {
@@ -31,41 +32,34 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 
 	/**
 	 * Authenticates the user using the username and password.
-	 *
-	 * @throws AuthenticationException If the user is not found or the password is incorrect.
-	 * @throws Exception|AttributeDetectionException If there is an error while finding the user.
+	 * @throws AuthenticationException
+	 * @throws Exception
+	 * @throws AttributeDetectionException
 	 */
 	public function authenticate(string $username, string $password): SimpleIdentity
 	{
-		// Find the user by username.
 		$user = $this->userRepository->findUserByEmail($username);
 
-		// User not found.
 		if (!$user) {
 			throw new AuthenticationException('User not found.', self::IdentityNotFound);
 		}
 
-		// Incorrect password.
 		if (!$this->password->verify($password, $user->password)) {
 			throw new AuthenticationException('Incorrect password.', self::InvalidCredential);
 		}
 
-		// If password needs to be rehashed, do it.
 		if ($this->password->needsRehash($user->password)) {
 			$user->password = $this->password->hash($password);
 			$this->save($user);
 		}
 
-		// Remove the password from the data before returning identity.
 		$user->offsetUnset('password');
 		$roles = $this->userRepository->getRolesByUser($user->id);
 		return new SimpleIdentity(id: $user->id, roles: $roles, data: $user->toArray());
 	}
 
 
-	/**
-	 * Saves the user's identity for later use (e.g., for the token).
-	 */
+	/** Saves the user's identity for later use. */
 	public function sleepIdentity(IIdentity $identity): SimpleIdentity
 	{
 		$data = $identity->getData();
@@ -77,13 +71,11 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 
 	/**
 	 * Loads the user and their role when restoring identity.
-	 *
-	 * @throws Exception If there is an error while finding the user.
-	 * @throws AttributeDetectionException If there is an error while finding attributes.
+	 * @throws Exception
+	 * @throws AttributeDetectionException
 	 */
 	public function wakeupIdentity(IIdentity $identity): ?SimpleIdentity
 	{
-		// Find the user by ID.
 		$user = $this->userRepository->findUserByToken(
 			(string) $identity->getId(),
 		);

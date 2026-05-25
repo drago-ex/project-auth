@@ -11,10 +11,7 @@ use Drago\Attr\Table;
 use Drago\Database\Database;
 
 
-/**
- * Repository for accessing user data in the database, specifically for operations related to user sign-in and recovery.
- * It handles database operations for finding a user by email.
- */
+/** Repository for accessing user data in the database. */
 #[Table(UserEntity::Table, UserEntity::ColumnId, class: UserEntity::class)]
 class UserRepository
 {
@@ -29,9 +26,8 @@ class UserRepository
 
 	/**
 	 * Finds a user by their email.
-	 *
-	 * @throws Exception If there is an error while finding the user.
-	 * @throws AttributeDetectionException If there is an error while finding attributes.
+	 * @throws Exception
+	 * @throws AttributeDetectionException
 	 */
 	public function findUserByEmail(string $email): ?UserEntity
 	{
@@ -42,9 +38,7 @@ class UserRepository
 
 	/**
 	 * Finds a user by their email or throws an exception if not found.
-	 * This method guarantees to PHPStan that it always returns a UserEntity.
-	 *
-	 * @throws UserNotFoundException If the user does not exist.
+	 * @throws UserNotFoundException
 	 * @throws Exception
 	 * @throws AttributeDetectionException
 	 */
@@ -60,9 +54,8 @@ class UserRepository
 
 	/**
 	 * Find user by token.
-	 *
-	 * @throws AttributeDetectionException If there is an error while finding attributes.
-	 * @throws Exception If there is an error while finding the user.
+	 * @throws AttributeDetectionException
+	 * @throws Exception
 	 */
 	public function findUserByToken(string $token): ?UserEntity
 	{

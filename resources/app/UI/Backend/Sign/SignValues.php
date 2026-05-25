@@ -7,15 +7,13 @@ namespace App\UI\Backend\Sign;
 use Drago\Utils\ExtraArrayHash;
 
 
+/** Sign in values. */
 class SignValues extends ExtraArrayHash
 {
 	public const string
 		Email = 'email',
 		Password = 'password';
 
-	/** User's username */
 	public string $username;
-
-	/** User's email address */
 	public string $email;
 }

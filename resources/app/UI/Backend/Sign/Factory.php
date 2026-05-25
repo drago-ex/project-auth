@@ -8,9 +8,7 @@ use Nette\Localization\Translator;
 use Nette\Security\User;
 
 
-/**
- * Factory class for creating instances of FormBase with necessary configurations.
- */
+/** Factory for creating sign in form. */
 readonly class Factory
 {
 	public function __construct(
@@ -23,15 +21,11 @@ readonly class Factory
 	public function create(): Form
 	{
 		$form = new Form;
-
-		// Add form protection if the user is logged in
 		if ($this->user->isLoggedIn()) {
 			$form->addProtection();
 		}
 
-		// Set the translator for form
 		$form->setTranslator($this->translator);
-
 		return $form;
 	}
 }

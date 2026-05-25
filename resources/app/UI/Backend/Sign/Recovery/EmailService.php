@@ -11,6 +11,7 @@ use Nette\Mail\Message;
 use Tracy\Debugger;
 
 
+/** Service for sending password recovery emails. */
 class EmailService
 {
 	private Translator $translator;
@@ -23,12 +24,14 @@ class EmailService
 	}
 
 
+	/** Sets the translator. */
 	public function setTranslator(Translator $translator): void
 	{
 		$this->translator = $translator;
 	}
 
 
+	/** Sends the password recovery email. */
 	public function sendEmail(string $email, string $token): void
 	{
 		$template = $this->createTemplate();
@@ -51,6 +54,7 @@ class EmailService
 	}
 
 
+	/** Creates the email template. */
 	private function createTemplate(): EmailServiceTemplate
 	{
 		$template = $this->templateFactory->createTemplate();

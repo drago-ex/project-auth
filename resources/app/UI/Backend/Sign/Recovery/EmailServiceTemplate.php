@@ -8,6 +8,7 @@ namespace App\UI\Backend\Sign\Recovery;
 use Nette\Bridges\ApplicationLatte\Template;
 
 
+/** Email service template. */
 class EmailServiceTemplate extends Template
 {
 	public string $token;
