@@ -117,17 +117,15 @@ class RecoveryFactory
 	{
 		try {
 			$values = $form->getValues();
-			$email = $values['email'];
+			$email = (string) $values['email'];
 
 			// We will create a token and save the email.
-			$this->sessionService->generateToken($email);
+			$token = $this->sessionService->generateToken($email);
 
 			// We will create a sending email.
 			$request = $this->emailService;
-			$request->email = $email;
-			$request->token = $this->sessionService->getToken();
 			$request->setTranslator($this->translator);
-			$request->sendEmail();
+			$request->sendEmail($email, $token);
 
 		} catch (\Throwable $e) {
 			$message = 'Unknown status code.';

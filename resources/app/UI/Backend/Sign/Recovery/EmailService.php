@@ -13,8 +13,6 @@ use Tracy\Debugger;
 
 class EmailService
 {
-	public string $email;
-	public ?string $token = null;
 	private Translator $translator;
 
 
@@ -31,16 +29,16 @@ class EmailService
 	}
 
 
-	public function sendEmail(): void
+	public function sendEmail(string $email, string $token): void
 	{
 		$template = $this->createTemplate();
 		$template->setFile(__DIR__ . '/email.latte');
 		$template->setTranslator($this->translator);
-		$template->token = $this->token;
+		$template->token = $token;
 
 		$message = new Message;
 		$message->setFrom('no-reply@email.com')
-			->addTo($this->email)
+			->addTo($email)
 			->setSubject($this->translator->translate('Request to reset password'))
 			->setHtmlBody($template->renderToString());
 

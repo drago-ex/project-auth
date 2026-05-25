@@ -34,12 +34,13 @@ readonly class SessionService
 	 * Sets a new token and email for password recovery in the session.
 	 * Generates a random 6-character token and stores it along with the provided email.
 	 */
-	public function generateToken(string $email): void
+	public function generateToken(string $email): string
 	{
 		$section = $this->getSection();
 		$token = Random::generate(6);
 		$section->set('token', $token);
 		$section->set('email', $email);
+		return $token;
 	}
 
 
@@ -95,13 +96,18 @@ readonly class SessionService
 	public function isTokenValid(string $token): bool
 	{
 		$section = $this->getSection();
+		$storedToken = $section->get('token');
+
+		if ($storedToken === null) {
+			return false;
+		}
 
 		// If tokenCheck is true, the token must not be reused.
 		if ($section->get('tokenCheck') === true) {
 			return false;
 		}
 
-		return $section->get('token') === $token;
+		return hash_equals((string) $storedToken, $token);
 	}
 
 

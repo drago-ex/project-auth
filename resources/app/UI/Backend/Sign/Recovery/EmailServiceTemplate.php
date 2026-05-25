@@ -10,5 +10,5 @@ use Nette\Bridges\ApplicationLatte\Template;
 
 class EmailServiceTemplate extends Template
 {
-	public ?string $token = null;
+	public string $token;
 }
