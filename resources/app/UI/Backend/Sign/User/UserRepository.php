@@ -41,6 +41,24 @@ class UserRepository
 
 
 	/**
+	 * Finds a user by their email or throws an exception if not found.
+	 * This method guarantees to PHPStan that it always returns a UserEntity.
+	 *
+	 * @throws UserNotFoundException If the user does not exist.
+	 * @throws Exception
+	 * @throws AttributeDetectionException
+	 */
+	public function getUserByEmail(string $email): UserEntity
+	{
+		$user = $this->findUserByEmail($email);
+		if ($user === null) {
+			throw new UserNotFoundException("User with email '$email' was not found.", 1001);
+		}
+		return $user;
+	}
+
+
+	/**
 	 * Find user by token.
 	 *
 	 * @throws AttributeDetectionException If there is an error while finding attributes.

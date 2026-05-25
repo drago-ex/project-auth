@@ -155,11 +155,7 @@ class RecoveryFactory
 		try {
 			$password = (string) $form->getValues()['password'];
 			$email = $this->sessionService->getEmail();
-			$user = $this->userRepository->findUserByEmail($email);
-			if ($user === null) {
-				$form->addError('User not found.');
-				return;
-			}
+			$user = $this->userRepository->getUserByEmail($email);
 
 			// Save password change.
 			$user->password = $this->passwords->hash($password);
@@ -169,7 +165,11 @@ class RecoveryFactory
 			$this->sessionService->removeToken();
 
 		} catch (\Throwable $e) {
-			$form->addError('An error occurred during password change.');
+			$message = match ($e->getCode()) {
+				101 => 'User with email was not found.',
+				default => 'Unknown status code.',
+			};
+			$form->addError($message);
 		}
 	}
 }
