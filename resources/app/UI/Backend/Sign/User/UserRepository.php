@@ -53,11 +53,9 @@ class UserRepository
 	}
 
 
-	/** @return array<int, string> */
+	/** @return list<string> */
 	public function getRolesByUser(int $userId): array
 	{
-		return [
-			1 => 'admin',
-		];
+		return [];
 	}
 }

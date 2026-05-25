@@ -59,7 +59,7 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 		// Remove the password from the data before returning identity.
 		$user->offsetUnset('password');
 		$roles = $this->userRepository->getRolesByUser($user->id);
-		return new SimpleIdentity(id: $user->id, roles: $roles, data: $user);
+		return new SimpleIdentity(id: $user->id, roles: $roles, data: $user->toArray());
 	}
 
 
@@ -85,7 +85,7 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 	{
 		// Find the user by ID.
 		$user = $this->userRepository->findUserByToken(
-			$identity->getId(),
+			(string) $identity->getId(),
 		);
 
 		if ($user === null) {
@@ -93,7 +93,7 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 		}
 
 		$user->offsetUnset('password');
-		$roles = $this->userRepository->getRolesByUser($user->id);
-		return new SimpleIdentity(id: $user->id, roles: $roles, data: $user);
+		$roles =  $this->userRepository->getRolesByUser($user->id);
+		return new SimpleIdentity(id: $user->id, roles: $roles, data: $user->toArray());
 	}
 }
