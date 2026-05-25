@@ -17,7 +17,10 @@ use Throwable;
 use Tracy\Debugger;
 
 
-/** Handles user authentication and registration. */
+/**
+ * Handles user authentication and registration.
+ * @property-read SignTemplate $template
+ */
 final class SignPresenter extends BasePresenter
 {
 	#[Persistent]
