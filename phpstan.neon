@@ -2,6 +2,6 @@ includes:
     - vendor/phpstan/phpstan-nette/extension.neon
 
 parameters:
-    level: 5
+    level: 6
     paths:
         - resources/app

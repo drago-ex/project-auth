@@ -19,6 +19,7 @@ use Nette\Security\SimpleIdentity;
 #[Table(UserEntity::Table, UserEntity::ColumnId, class: UserEntity::class)]
 class UserAuthenticator implements Authenticator, IdentityHandler
 {
+	/** @use Database<UserEntity> */
 	use Database;
 
 	public function __construct(

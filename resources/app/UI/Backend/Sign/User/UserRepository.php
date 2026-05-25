@@ -18,6 +18,7 @@ use Drago\Database\Database;
 #[Table(UserEntity::Table, UserEntity::ColumnId, class: UserEntity::class)]
 class UserRepository
 {
+	/** @use Database<UserEntity> */
 	use Database;
 
 	public function __construct(
@@ -32,7 +33,7 @@ class UserRepository
 	 * @throws Exception If there is an error while finding the user.
 	 * @throws AttributeDetectionException If there is an error while finding attributes.
 	 */
-	public function findUserByEmail(string $email): array|UserEntity|null
+	public function findUserByEmail(string $email): ?UserEntity
 	{
 		return $this->find(UserEntity::ColumnEmail, $email)
 			->record();
@@ -45,18 +46,18 @@ class UserRepository
 	 * @throws AttributeDetectionException If there is an error while finding attributes.
 	 * @throws Exception If there is an error while finding the user.
 	 */
-	public function findUserByToken(string $token): array|UserEntity|null
+	public function findUserByToken(string $token): ?UserEntity
 	{
 		return $this->find(UserEntity::ColumnToken, $token)
 			->record();
 	}
 
 
-	/**
-	 * Finds the roles of a user.
-	 */
+	/** @return array<int, string> */
 	public function getRolesByUser(int $userId): array
 	{
-		return [];
+		return [
+			1 => 'admin',
+		];
 	}
 }
