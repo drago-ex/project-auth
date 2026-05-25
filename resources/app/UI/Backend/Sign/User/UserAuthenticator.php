@@ -93,7 +93,7 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 		}
 
 		$user->offsetUnset('password');
-		$roles =  $this->userRepository->getRolesByUser($user->id);
+		$roles = $this->userRepository->getRolesByUser($user->id);
 		return new SimpleIdentity(id: $user->id, roles: $roles, data: $user->toArray());
 	}
 }
