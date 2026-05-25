@@ -153,10 +153,13 @@ class RecoveryFactory
 	public function changePassword(Form $form): void
 	{
 		try {
-			$password = $form->getValues()['password'];
-			$user = $this->userRepository->findUserByEmail(
-				$this->sessionService->getEmail(),
-			);
+			$password = (string) $form->getValues()['password'];
+			$email = $this->sessionService->getEmail();
+			$user = $this->userRepository->findUserByEmail($email);
+			if ($user === null) {
+				$form->addError('User not found.');
+				return;
+			}
 
 			// Save password change.
 			$user->password = $this->passwords->hash($password);

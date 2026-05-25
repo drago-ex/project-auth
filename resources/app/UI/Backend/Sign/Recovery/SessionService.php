@@ -7,6 +7,7 @@ namespace App\UI\Backend\Sign\Recovery;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
 use Nette\Utils\Random;
+use RuntimeException;
 
 
 /**
@@ -44,12 +45,17 @@ readonly class SessionService
 
 	/**
 	 * Retrieves the stored email address for password recovery from the session.
-	 * If no email is stored, returns null.
+	 * This method guarantees to PHPStan that the return value is always a string.
+	 *
+	 * @throws RuntimeException If the email is not found in the session (e.g. session expired).
 	 */
-	public function getEmail(): ?string
+	public function getEmail(): string
 	{
-		return $this->getSection()
-			->get('email');
+		$email = $this->getSection()->get('email');
+		if ($email === null) {
+			throw new RuntimeException('Password recovery session has expired.');
+		}
+		return $email;
 	}
 
 

@@ -14,7 +14,7 @@ use Tracy\Debugger;
 class EmailService
 {
 	public string $email;
-	public string $token;
+	public ?string $token = null;
 	private Translator $translator;
 
 
