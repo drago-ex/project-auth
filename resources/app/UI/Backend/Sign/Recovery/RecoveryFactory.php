@@ -11,7 +11,7 @@ use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
-use Nette\Forms\Controls\TextInput;
+use Nette\Forms\Control;
 use Nette\Security\Passwords;
 
 
@@ -61,7 +61,7 @@ class RecoveryFactory
 
 
 	/** Checks if the entered token is valid. */
-	public function tokenCheck(TextInput $input): bool
+	public function tokenCheck(Control $input): bool
 	{
 		return $this->sessionService
 			->isTokenValid($input->getValue());
@@ -73,7 +73,7 @@ class RecoveryFactory
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
-	public function emailCheck(TextInput $input): bool
+	public function emailCheck(Control $input): bool
 	{
 		$findEmail = $this->userRepository->findUserByEmail($input->getValue());
 		return (bool) $findEmail;
@@ -132,7 +132,7 @@ class RecoveryFactory
 			$user = $this->userRepository->getUserByEmail($email);
 
 			$user->password = $this->passwords->hash($password);
-			$this->userRepository->save($user);
+			$this->userRepository->save($user->toArray());
 			$this->sessionService->removeToken();
 
 		} catch (\Throwable $e) {
