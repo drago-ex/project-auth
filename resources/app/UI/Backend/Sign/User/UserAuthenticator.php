@@ -50,7 +50,7 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 
 		if ($this->password->needsRehash($user->password)) {
 			$user->password = $this->password->hash($password);
-			$this->save($user->toArray());
+			$this->save($user);
 		}
 
 		$user->offsetUnset('password');
