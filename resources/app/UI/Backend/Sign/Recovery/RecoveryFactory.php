@@ -132,7 +132,7 @@ class RecoveryFactory
 			$user = $this->userRepository->getUserByEmail($email);
 
 			$user->password = $this->passwords->hash($password);
-			$this->userRepository->save($user->toArray());
+			$this->userRepository->save($user);
 			$this->sessionService->removeToken();
 
 		} catch (\Throwable $e) {
