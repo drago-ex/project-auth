@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\Backend\Sign;
 
+use Drago\Form\FormsExtra;
 use Nette\Localization\Translator;
 use Nette\Security\User;
 
@@ -18,9 +19,9 @@ readonly class Factory
 	}
 
 
-	public function create(): Form
+	public function create(): FormsExtra
 	{
-		$form = new Form;
+		$form = new FormsExtra;
 		if ($this->user->isLoggedIn()) {
 			$form->addProtection();
 		}
