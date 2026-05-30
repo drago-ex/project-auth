@@ -23,6 +23,10 @@ extension for projects built on top of the Drago ecosystem and Nette framework.
 composer require drago-ex/project-auth
 ```
 
+## Project files
+The package has `extra.drago-project.skip` set to `false`, so `drago-install` copies the configured files automatically.
+If `skip` is set to `true`, copy those files manually according to the `copy` section in `composer.json`.
+
 ## Features
 - User authentication (sign in / sign out)
 - User registration (sign up)

@@ -13,7 +13,6 @@ use Drago\Form\ExtraForms;
  */
 readonly class Factory extends \Drago\Application\UI\Factory
 {
-
 	protected function createForm(): ExtraForms
 	{
 		return new ExtraForms;
