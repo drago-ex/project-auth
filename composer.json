@@ -5,13 +5,13 @@
 	"license": ["MIT"],
 	"require": {
 		"php": ">=8.3 <9",
-		"drago-ex/database": "^2.0",
-		"drago-ex/application": "dev-master as 1.999",
-		"drago-ex/form": "dev-main",
-		"drago-ex/utils": "^1.0",
-		"drago-ex/translator": "^2.0",
-		"drago-ex/project-front": "^1.0",
-		"drago-ex/project-backend": "^1.0",
+		"drago-ex/database": "^3.0",
+		"drago-ex/application": "^2.0",
+		"drago-ex/form": "^2.0",
+		"drago-ex/utils": "^2.0",
+		"drago-ex/translator": "^3.0",
+		"drago-ex/project-front": "^2.0",
+		"drago-ex/project-backend": "^2.0",
 		"nette/mail": "^4.0"
 	},
 	"extra": {
