@@ -15,7 +15,7 @@ use Drago\Database\Database;
 #[Table(UserEntity::Table, UserEntity::ColumnId, class: UserEntity::class)]
 class UserRepository
 {
-	/** @use Database<UserEntity> */
+	/** @phpstan-use Database<UserEntity> */
 	use Database;
 
 	public function __construct(
