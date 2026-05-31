@@ -16,7 +16,6 @@
 	},
 	"extra": {
 		"drago-project": {
-			"skip": false,
 			"allow-library-install": true,
 			"priority": 10,
 			"install": {
