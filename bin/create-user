@@ -9,18 +9,22 @@ use Dibi\UniqueConstraintViolationException;
 use Nette\Security\Passwords;
 use Nette\Utils\Random;
 
+$green = "\033[32m";
+$red = "\033[31m";
+$reset = "\033[0m";
+
 $root = getcwd();
 
 $autoload = $root . '/vendor/autoload.php';
 if (!is_file($autoload)) {
-	fwrite(STDERR, "Composer autoload not found. Run composer install.\n");
+	fwrite(STDERR, "{$red}ERROR: Composer autoload not found. Run composer install.{$reset}\n");
 	exit(1);
 }
 require $autoload;
 
 $bootstrapFile = $root . '/app/Bootstrap.php';
 if (!is_file($bootstrapFile)) {
-	fwrite(STDERR, "Project Bootstrap not found at app/Bootstrap.php.\n");
+	fwrite(STDERR, "{$red}ERROR: Project Bootstrap not found at app/Bootstrap.php.{$reset}\n");
 	exit(1);
 }
 require $bootstrapFile;
@@ -54,9 +58,9 @@ try {
         UserEntity::ColumnToken => Random::generate(32),
     ])->execute();
 
-    echo "OK User '$username' was created successfully.\n";
+    echo "{$green}OK User '$username' was created successfully.{$reset}\n";
 
 } catch (UniqueConstraintViolationException) {
-    echo "ERROR: duplicate email.\n";
+    echo "{$red}ERROR: duplicate email.{$reset}\n";
     exit(1);
 }
