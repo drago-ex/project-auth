@@ -54,9 +54,9 @@ try {
         UserEntity::ColumnToken => Random::generate(32),
     ])->execute();
 
-    echo "✅ User '$username' was created successfully.\n";
+    echo "OK User '$username' was created successfully.\n";
 
 } catch (UniqueConstraintViolationException) {
-    echo "❌ Error: duplicate email.\n";
+    echo "ERROR: duplicate email.\n";
     exit(1);
 }
