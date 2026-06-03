@@ -62,3 +62,12 @@ php vendor/bin/create-auth-permission
 ```bash
 php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations
 ```
+
+## Automated setup
+
+This package exposes setup commands in `composer.json` under `extra.drago-project.commands`.
+If [drago-ex/project-tools](https://github.com/drago-ex/project-tools) is installed, you can run them from the project root:
+
+```bash
+php vendor/bin/drago-setup
+```
