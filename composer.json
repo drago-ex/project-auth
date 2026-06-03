@@ -17,13 +17,13 @@
 	"extra": {
 		"drago-project": {
 			"allow-library-install": true,
-			"priority": 10,
 			"install": {
 				"copy": {
 					"resources/app": "app",
 					"resources/assets": "assets"
 				}
 			},
+			"priority": 10,
 			"commands": {
 				"create:auth-permission": "php vendor/bin/create-auth-permission",
 				"db:migrate-auth": "php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations"
@@ -32,7 +32,7 @@
 	},
 	"require-dev": {
 		"phpstan/phpstan-nette": "^2.0",
-		"drago-ex/project-installer": "@dev"
+		"drago-ex/project-tools": "@dev"
 	},
 	"bin": [
 		"bin/create-user",
