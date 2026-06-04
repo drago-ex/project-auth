@@ -1,6 +1,6 @@
 {
 	"name": "drago-ex/project-auth",
-	"type": "drago-project-resource",
+	"type": "drago-tools-resource",
 	"description": "Authentication and user access package for the Drago project.",
 	"license": ["MIT"],
 	"require": {
@@ -15,8 +15,7 @@
 		"nette/mail": "^4.0"
 	},
 	"extra": {
-		"drago-project": {
-			"allow-library-install": true,
+		"drago-tools": {
 			"install": {
 				"copy": {
 					"resources/app": "app",
