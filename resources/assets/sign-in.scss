@@ -14,7 +14,8 @@ body {
 body {
   display: flex;
   align-items: center;
-  background-color: var(--bs-light);
+  color: var(--bs-body-color);
+  background-color: var(--bs-tertiary-bg);
 }
 
 .sign-in {
