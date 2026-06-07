@@ -59,3 +59,8 @@
 
 # sign out
 "You have been signed out": "Byli jste odhlášeni"
+
+# theme
+"Toggle theme": "Přepnout motiv"
+"Switch to light": "Přepnout na světlý režim"
+"Switch to dark": "Přepnout na tmavý režim"

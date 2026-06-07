@@ -56,6 +56,6 @@ function renderThemeToggle(toggle, theme) {
 	}
 
 	toggle.textContent = theme === "dark"
-		? "Switch to light"
-		: "Switch to dark";
+		? toggle.dataset.themeLightLabel || "Switch to light"
+		: toggle.dataset.themeDarkLabel || "Switch to dark";
 }

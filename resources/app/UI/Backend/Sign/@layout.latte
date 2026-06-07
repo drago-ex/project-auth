@@ -17,9 +17,9 @@
 
 {* main content *}
 <div class="sign-in mt-5 bg-body shadow-sm rounded-3" n:snippet="body">
-	<div class="bg-body-tertiary p-3 mb-2">
+	<div class="sign-in-header p-3 mb-2">
 		<div class="d-flex">
-			<div class="ps-1 pe-1 flex-grow-1 text-primary">
+			<div class="ps-1 pe-1 flex-grow-1">
 				{include title}
 			</div>
 			<div class="ps-1 pe-1">
@@ -43,8 +43,15 @@
 </div>
 
 <div class="sign-in-theme text-center mt-2">
-	<button class="btn btn-link btn-sm p-0 text-secondary text-decoration-none" id="theme-toggle" type="button" aria-label="Toggle theme">
-		Switch to dark
+	<button
+		class="btn btn-link btn-sm p-0 text-secondary text-decoration-none"
+		id="theme-toggle"
+		type="button"
+		aria-label="{_'Toggle theme'}"
+		data-theme-light-label="{_'Switch to light'}"
+		data-theme-dark-label="{_'Switch to dark'}"
+	>
+		{_'Switch to dark'}
 	</button>
 </div>
 
