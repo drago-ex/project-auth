@@ -8,27 +8,27 @@
 
 html,
 body {
-  height: 85%;
+	height: 85%;
 }
 
 body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: var(--bs-body-color);
-  background-color: var(--bs-tertiary-bg);
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: var(--bs-body-color);
+	background-color: var(--bs-tertiary-bg);
 }
 
 .sign-in {
-  width: 100%;
-  max-width: 25rem;
-  margin-inline: auto;
+	width: 100%;
+	max-width: 25rem;
+	margin-inline: auto;
 }
 
 .sign-in-theme {
-  width: 100%;
-  max-width: 25rem;
-  margin-inline: auto;
-  text-align: right;
+	width: 100%;
+	max-width: 25rem;
+	margin-inline: auto;
+	text-align: right;
 }

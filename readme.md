@@ -1,4 +1,4 @@
-# Drago Project auth
+# Drago Project Auth
 
 Authentication and user access package for the Drago project.
 This package provides a complete authentication layer including user login,
@@ -47,7 +47,7 @@ php vendor/bin/create-user <username> <email> <password>
 ```php
 final class SecurePresenter extends Presenter
 {
-    use App\UI\Backend\Sign\UserRequireLogged;
+    use App\UI\Backend\Sign\RequireLogged;
 }
 ```
 
