@@ -31,7 +31,7 @@ readonly class SessionService
 	public function generateToken(string $email): string
 	{
 		$section = $this->getSection();
-		$token = Random::generate(6);
+		$token = Random::generate(32);
 		$section->set('token', $token);
 		$section->set('email', $email);
 		return $token;

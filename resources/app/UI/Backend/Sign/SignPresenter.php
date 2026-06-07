@@ -80,12 +80,8 @@ final class SignPresenter extends BasePresenter
 			$this->getUser()->login($values->email, $values->password);
 			$this->restoreRequest($this->backlink);
 			$this->redirect(':Backend:Admin:');
-		} catch (AuthenticationException $e) {
-			$messages = [
-				1 => 'User not found.',
-				2 => 'The password is incorrect.',
-			];
-			$form->addError($messages[$e->getCode()] ?? 'Unknown error occurred.');
+		} catch (AuthenticationException) {
+			$form->addError('The email or password is incorrect.');
 		}
 	}
 
