@@ -27,7 +27,7 @@ if ($generator === null) {
 }
 
 $args = [
-		'SignPermission',
+		'PermissionProvider',
 		'App\\UI\\Backend\\Sign',
 		'Backend:Sign',
 		'app/UI/Backend/Sign',

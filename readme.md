@@ -54,7 +54,7 @@ final class SecurePresenter extends Presenter
 ## Generate permission provider
 If you use project ACL (drago-ex/permission), you can generate a module permission class:
 ```bash
-php vendor/bin/create-auth-permission
+php vendor/bin/create-permission
 ```
 
 ## Database migration
