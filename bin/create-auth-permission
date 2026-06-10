@@ -7,7 +7,7 @@ $dir = __DIR__;
 $generator = null;
 
 while (true) {
-	$candidate = $dir . '/vendor/drago-ex/permission/bin/create-auth-permission';
+	$candidate = $dir . '/vendor/drago-ex/permission/bin/create-permission';
 	if (is_file($candidate)) {
 		$generator = $candidate;
 		break;
