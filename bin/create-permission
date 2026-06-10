@@ -26,13 +26,21 @@ if ($generator === null) {
 	exit(1);
 }
 
-$args = [
-		'PermissionProvider',
-		'App\\UI\\Backend\\Sign',
-		'Backend:Sign',
-		'app/UI/Backend/Sign',
-		'--allow=RoleGuest,self::Resource',
+// 1. Positional arguments with clear description.
+$positionalArgs = [
+	'className'   => 'PermissionProvider',
+	'namespace'   => 'App\\UI\\Backend\\Sign',
+	'resource'    => 'Backend:Sign',
+	'outputDir'   => 'app/UI/Backend/Sign',
 ];
+
+// 2. Optional switches (options).
+$options = [
+	'--allow=RoleGuest,self::Resource',
+];
+
+// We will combine them into one flat field for the shell.
+$args = array_merge(array_values($positionalArgs), $options);
 
 $command = 'php ' . escapeshellarg($generator);
 foreach ($args as $arg) {
