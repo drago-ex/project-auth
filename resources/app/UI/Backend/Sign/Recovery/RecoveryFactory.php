@@ -9,6 +9,7 @@ use App\UI\Backend\Sign\User\UserRepository;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
+use Drago\Form\Rules\PasswordRules;
 use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
 use Nette\Forms\Control;
@@ -84,7 +85,9 @@ class RecoveryFactory
 	{
 		$form = $this->factory->create();
 		$form->addPasswordField()
-			->setAutocomplete(Autocomplete::NewPassword);
+			->setAutocomplete(Autocomplete::NewPassword)
+			->addRule($form::MinLength, 'Password must be at least %d characters long.', 8)
+			->addRule($form::Pattern, PasswordRules::StrongMessage, PasswordRules::StrongPattern);
 
 		$form->addPasswordConfirmationField()
 			->setAutocomplete(Autocomplete::Off);

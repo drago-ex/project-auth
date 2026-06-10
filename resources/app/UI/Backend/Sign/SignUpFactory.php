@@ -8,6 +8,7 @@ use App\UI\Backend\Sign\User\UserEntity;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;
+use Drago\Form\Rules\PasswordRules;
 use Exception;
 use Nette\Application\UI\Form;
 use Nette\Security\Passwords;
@@ -42,11 +43,7 @@ readonly class SignUpFactory
 		$form->addPasswordField()
 			->setAutocomplete(Autocomplete::NewPassword)
 			->addRule($form::MinLength, 'Password must be at least %d characters long.', 8)
-			->addRule(
-				$form::Pattern,
-				'The password must contain uppercase and lowercase letters, numbers, and a special character.',
-				'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[^A-Za-z0-9])[\S]{8,}$',
-			);
+			->addRule($form::Pattern, PasswordRules::StrongMessage, PasswordRules::StrongPattern);
 
 		$form->addPasswordConfirmationField()
 			->setAutocomplete(Autocomplete::Off);
