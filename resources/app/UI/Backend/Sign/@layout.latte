@@ -43,16 +43,10 @@
 </div>
 
 <div class="sign-in-theme text-center mt-2">
-	<button
-		class="btn btn-link btn-sm p-0 text-secondary text-decoration-none"
-		id="theme-toggle"
-		type="button"
-		aria-label="{_'Toggle theme'}"
-		data-theme-light-label="{_'Switch to light'}"
-		data-theme-dark-label="{_'Switch to dark'}"
-	>
-		{_'Switch to dark'}
-	</button>
+	{include '../../../Core/Widget/@theme-switch.latte',
+		class: 'btn-sm p-0 text-secondary text-decoration-none',
+		switchThemeId: 'theme-toggle',
+	}
 </div>
 
 {* footer info *}
