@@ -1,3 +1,8 @@
+security:
+	authentication:
+		expiration: 14 days
+
+
 services:
 	- App\UI\Backend\Sign\Recovery\SessionService
 	- App\UI\Backend\Sign\Recovery\EmailService
