@@ -2,6 +2,7 @@
   "dependencies": {
 	"bootstrap": "^5.3.8",
 	"naja": "^3.3.3",
-	"drago-form": "file:vendor/drago-ex/form"
+	"drago-form": "file:vendor/drago-ex/form",
+	"sidebar-skeleton-compostrap": "^3.0.0"
   }
 }

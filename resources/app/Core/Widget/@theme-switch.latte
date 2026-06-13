@@ -1,12 +1,14 @@
 {varType string $themeSwitchId}
-{varType string $class}
+{varType ?string $class}
+{default $class = null}
 <button
 		id="{$themeSwitchId}"
 		aria-label="{_'Toggle theme'}"
-		data-theme-light-label="{_'Switch to light'}"
-		data-theme-dark-label="{_'Switch to dark'}"
-		n:class="'btn btn-link', $class ? $class : null"
+		data-theme-light-label="{_'Light mode'}"
+		data-theme-dark-label="{_'Dark mode'}"
+		n:class="'btn btn-link text-decoration-none', $class"
 		type="button"
 >
-	{_'Switch to dark'}
+	<i class="theme-toggle-icon fa-solid fa-moon"></i>
+	<span class="theme-toggle-label">{_'Dark mode'}</span>
 </button>
