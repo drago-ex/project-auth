@@ -4,11 +4,12 @@
 <button
 		id="{$themeSwitchId}"
 		aria-label="{_'Toggle theme'}"
+		data-theme-switcher
 		data-theme-light-label="{_'Light mode'}"
 		data-theme-dark-label="{_'Dark mode'}"
 		n:class="'btn btn-link text-decoration-none', $class"
 		type="button"
 >
-	<i class="theme-toggle-icon fa-solid fa-moon"></i>
-	<span class="theme-toggle-label">{_'Dark mode'}</span>
+	<i data-theme-switcher-icon class="fa-solid fa-moon"></i>
+	<span data-theme-switcher-label>{_'Dark mode'}</span>
 </button>

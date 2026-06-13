@@ -1,6 +1,6 @@
 // these JS + SCSS will be automatically available after installing the package
 import { registerNajaExtensions } from "./core/base.js";
-import { initThemeSwitch } from "./core/theme-switch.js";
+import ThemeSwitcher from "theme-switcher-compostrap";
 import Spinner from "./naja/spinner.js";
 import HyperlinkDisable from "./naja/hyperlink-disable.js";
 
@@ -11,7 +11,7 @@ import { ToastHandler } from "drago-application";
 // page styles
 import "./sign-in.scss";
 
-initThemeSwitch();
+new ThemeSwitcher().initialize();
 
 // registration naja extensions
 registerNajaExtensions(
