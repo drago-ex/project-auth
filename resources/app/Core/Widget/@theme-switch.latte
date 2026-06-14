@@ -1,8 +1,6 @@
 {varType string $themeSwitchId}
-{varType bool $icon}
-{varType ?string $class}
-{default $class = null}
-{default $icon = false}
+{default bool $icon = false}
+{default ?string $class = null}
 <button
 		id="{$themeSwitchId}"
 		aria-label="{_'Toggle theme'}"

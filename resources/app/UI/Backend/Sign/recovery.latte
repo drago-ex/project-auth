@@ -9,7 +9,7 @@
 		{embed '../../../Core/Widget/@form.latte', name: 'signRecoveryRequest', class: 'ajax', najaHistory: 'off'}
 			{block form}
 				{include input, name: 'email'}
-				<div class="d-grid gap-1">
+				<div class="col-12 d-grid gap-1">
 					{include submit, name: 'send'}
 				</div>
 			{/block}
@@ -23,7 +23,7 @@
 		{embed '../../../Core/Widget/@form.latte', name: 'signRecoveryCheckToken', class: 'ajax', najaHistory: 'off'}
 			{block form}
 				{include input, name: 'token'}
-				<div class="d-grid gap-1">
+				<div class="col-12 d-grid gap-1">
 					{include submit, name: 'send'}
 				</div>
 			{/block}
@@ -39,7 +39,7 @@
 			{block form}
 				{include password-toggle, name: 'password'}
 				{include password-toggle, name: 'verify'}
-				<div class="d-grid gap-1">
+				<div class="col-12 d-grid gap-1">
 					{include submit, name: 'send'}
 				</div>
 			{/block}
