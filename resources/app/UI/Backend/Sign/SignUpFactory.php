@@ -17,7 +17,6 @@ use Nette\Utils\Random;
 use Nette\Utils\Validators;
 
 
-/** Factory for creating user registration forms. */
 readonly class SignUpFactory
 {
 	public function __construct(
@@ -28,7 +27,6 @@ readonly class SignUpFactory
 	}
 
 
-	/** Creates the user registration form. */
 	public function create(): Form
 	{
 		$form = $this->factory->create();

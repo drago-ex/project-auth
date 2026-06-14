@@ -16,7 +16,6 @@ use Nette\Forms\Control;
 use Nette\Security\Passwords;
 
 
-/** Factory for creating password recovery forms and handling password recovery logic. */
 class RecoveryFactory
 {
 	public Translator $translator;
@@ -32,7 +31,6 @@ class RecoveryFactory
 	}
 
 
-	/** Creates the password recovery request form. */
 	public function createRequest(): Form
 	{
 		$form = $this->factory->create();
@@ -44,7 +42,6 @@ class RecoveryFactory
 	}
 
 
-	/** Creates the form for checking the recovery token. */
 	public function createCheckToken(): Form
 	{
 		$form = $this->factory->create();
@@ -60,7 +57,6 @@ class RecoveryFactory
 	}
 
 
-	/** Checks if the entered token is valid. */
 	public function tokenCheck(Control $input): bool
 	{
 		return $this->sessionService
@@ -80,7 +76,6 @@ class RecoveryFactory
 	}
 
 
-	/** Creates the form for changing the password. */
 	public function createChangePassword(): Form
 	{
 		$form = $this->factory->create();
@@ -98,7 +93,6 @@ class RecoveryFactory
 	}
 
 
-	/** Handles the password recovery request form submission. */
 	public function request(Form $form): void
 	{
 		try {
@@ -120,7 +114,6 @@ class RecoveryFactory
 	}
 
 
-	/** Handles the token check form submission. */
 	public function checkToken(): void
 	{
 		$this->sessionService
@@ -128,7 +121,6 @@ class RecoveryFactory
 	}
 
 
-	/** Handles the password change form submission. */
 	public function changePassword(Form $form): void
 	{
 		try {
