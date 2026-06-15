@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\UI\Sign;
 
-use App\UI\Sign\Recovery\Token;
 use App\UI\BaseTemplate;
+use App\UI\Sign\Recovery\Token;
 
 
 /** Sign in template. */
