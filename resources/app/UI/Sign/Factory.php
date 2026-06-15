@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Sign;
 
 use Drago\Form\ExtraForms;
 

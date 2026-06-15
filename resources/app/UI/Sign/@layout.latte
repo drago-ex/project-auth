@@ -1,6 +1,6 @@
-{templateType App\UI\Backend\Sign\SignTemplate}
+{templateType App\UI\Sign\SignTemplate}
 {varType Drago\Application\UI\Flashes[] $flashes}
-{import '../../../Core/Widget/@lang-switch.latte'}
+{import '../../Core/Widget/@lang-switch.latte'}
 
 <!DOCTYPE html>
 <html lang="{$lang}" data-bs-theme="light">
@@ -34,7 +34,7 @@
 
 		{* flash messages *}
 		{snippet message}
-			{include '../../../Core/Widget/@toast.latte', messages: $flashes}
+			{include '../../Core/Widget/@toast.latte', messages: $flashes}
 		{/snippet}
 
 		{* page content *}
@@ -43,7 +43,7 @@
 </div>
 
 <div class="sign-in-theme text-center mt-2">
-	{include '../../../Core/Widget/@theme-switch.latte',
+	{include '../../Core/Widget/@theme-switch.latte',
 		class: 'btn-sm p-0 text-secondary text-decoration-none',
 		themeSwitchId: 'theme-toggle',
 	}

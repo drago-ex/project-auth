@@ -1,4 +1,4 @@
-{varType App\UI\Backend\Sign\Recovery\Token $signRecoveryToken}
+{varType App\UI\Sign\Recovery\Token $signRecoveryToken}
 
 <p n:block="title" class="m-0 fw-semibold">
 	{_'Forgot password'}
@@ -6,7 +6,7 @@
 
 {block content}
 	{if !$signRecoveryToken->hasToken}
-		{embed '../../../Core/Widget/@form.latte', name: 'signRecoveryRequest', class: 'ajax', najaHistory: 'off'}
+		{embed '../../Core/Widget/@form.latte', name: 'signRecoveryRequest', class: 'ajax', najaHistory: 'off'}
 			{block form}
 				{include input, name: 'email'}
 				<div class="col-12 d-grid gap-1">
@@ -20,7 +20,7 @@
 		</p>
 
 	{elseif !$signRecoveryToken->isTokenChecked}
-		{embed '../../../Core/Widget/@form.latte', name: 'signRecoveryCheckToken', class: 'ajax', najaHistory: 'off'}
+		{embed '../../Core/Widget/@form.latte', name: 'signRecoveryCheckToken', class: 'ajax', najaHistory: 'off'}
 			{block form}
 				{include input, name: 'token'}
 				<div class="col-12 d-grid gap-1">
@@ -34,8 +34,8 @@
 		</p>
 
 	{else}
-		{embed '../../../Core/Widget/@form.latte', name: 'signRecoveryChangePassword', class: 'ajax', najaHistory: 'off'}
-			{import '../../../Core/Widget/@form-password.latte'}
+		{embed '../../Core/Widget/@form.latte', name: 'signRecoveryChangePassword', class: 'ajax', najaHistory: 'off'}
+			{import '../../Core/Widget/@form-password.latte'}
 			{block form}
 				{include password-toggle, name: 'password'}
 				{include password-toggle, name: 'verify'}

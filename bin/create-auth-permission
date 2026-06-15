@@ -29,9 +29,9 @@ if ($generator === null) {
 // 1. Positional arguments with clear description.
 $positionalArgs = [
 	'className'   => 'PermissionProvider',
-	'namespace'   => 'App\\UI\\Backend\\Sign',
-	'resource'    => 'Backend:Sign',
-	'outputDir'   => 'app/UI/Backend/Sign',
+	'namespace'   => 'App\\UI\\Sign',
+	'resource'    => 'Sign',
+	'outputDir'   => 'app/UI/Sign',
 ];
 
 // 2. Optional switches (options).

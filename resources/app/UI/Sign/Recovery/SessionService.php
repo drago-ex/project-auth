@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign\Recovery;
+namespace App\UI\Sign\Recovery;
 
 use Nette\Http\Session;
 use Nette\Http\SessionSection;

@@ -35,7 +35,7 @@ in this package's `composer.json`. To skip this package, set `"skip": true` unde
 - Password recovery and reset
 - User identity handling
 - Integration with Nette Security and DI
-- Ready-to-use backend UI components
+- Ready-to-use authentication UI components
 
 ## Adds a new user to the database
 Hashes the password, generates a token, and ensures the email is unique.
@@ -47,7 +47,7 @@ php vendor/bin/create-user <username> <email> <password>
 ```php
 final class SecurePresenter extends Presenter
 {
-    use App\UI\Backend\Sign\RequireLogged;
+    use App\UI\Sign\RequireLogged;
 }
 ```
 

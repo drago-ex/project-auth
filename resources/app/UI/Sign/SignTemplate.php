@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Sign;
 
-use App\UI\Backend\Sign\Recovery\Token;
+use App\UI\Sign\Recovery\Token;
 use App\UI\BaseTemplate;
 
 

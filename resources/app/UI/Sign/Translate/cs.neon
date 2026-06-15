@@ -1,5 +1,4 @@
-# sing in
-"Login to administration": "Přihlášení do administrace"
+# sign in
 "Email address": "Emailová adresa"
 "Please enter your email address.": "Zadejte prosím svou e-mailovou adresu."
 "Password": "Heslo"
@@ -20,10 +19,10 @@
 "We're sorry, but an account with this email address already exists.":
 	"Je nám líto, ale účet s touto e-mailovou adresou již existuje."
 
-"You are already logged in. You can return to the administration or log out and switch accounts.":
-	"Již jste přihlášeni. Můžete se vrátit do administrace nebo se odhlásit a přepnout účet."
+"You are already logged in. You can continue to the administration or log out and switch accounts.":
+	"Již jste přihlášeni. Můžete pokračovat do administrace nebo se odhlásit a přepnout účet."
 
-# sing up
+# sign up
 "Registration": "Registrace"
 "Username": "Uživatel"
 "Full name": "Celé jméno"

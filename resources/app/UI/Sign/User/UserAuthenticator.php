@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign\User;
+namespace App\UI\Sign\User;
 
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;

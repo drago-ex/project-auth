@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Sign;
 
-use App\UI\Backend\Sign\Recovery\RecoveryFactory;
-use App\UI\Backend\Sign\Recovery\SessionService;
+use App\UI\Sign\Recovery\RecoveryFactory;
+use App\UI\Sign\Recovery\SessionService;
 use App\UI\BasePresenter;
 use Drago\Application\UI\Alert;
 use Drago\Form\Autocomplete;

@@ -3,8 +3,8 @@
 </p>
 
 {block content}
-	{embed '../../../Core/Widget/@form.latte', name: 'signUp', class: 'ajax', najaHistory: 'replace'}
-		{import '../../../Core/Widget/@form-password.latte'}
+	{embed '../../Core/Widget/@form.latte', name: 'signUp', class: 'ajax', najaHistory: 'replace'}
+		{import '../../Core/Widget/@form-password.latte'}
 		{block form}
 			{include input, name: 'username'}
 			{include input, name: 'email'}

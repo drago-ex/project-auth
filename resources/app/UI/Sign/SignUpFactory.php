@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Sign;
 
-use App\UI\Backend\Sign\User\UserEntity;
+use App\UI\Sign\User\UserEntity;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;

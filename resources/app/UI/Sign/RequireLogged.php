@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Backend\Sign;
+namespace App\UI\Sign;
 
 use Nette\Application\UI\Presenter;
 use Nette\Security\User;
@@ -21,9 +21,9 @@ trait RequireLogged
 
 			if ($user->getLogoutReason() === $user::LogoutInactivity) {
 				$presenter->flashMessage('You have been signed out due to inactivity. Please sign in again.');
-				$presenter->redirect(':Backend:Sign:in', ['backlink' => $presenter->storeRequest()]);
+				$presenter->redirect(':Sign:in', ['backlink' => $presenter->storeRequest()]);
 			} else {
-				$presenter->redirect(':Backend:Sign:in');
+				$presenter->redirect(':Sign:in');
 			}
 		};
 	}
