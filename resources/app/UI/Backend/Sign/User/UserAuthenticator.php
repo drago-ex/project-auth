@@ -41,11 +41,11 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 		$user = $this->userRepository->findUserByEmail($username);
 
 		if (!$user) {
-			throw new AuthenticationException('User not found.', self::IdentityNotFound);
+			throw new AuthenticationException('User not found.');
 		}
 
 		if (!$this->password->verify($password, $user->password)) {
-			throw new AuthenticationException('Incorrect password.', self::InvalidCredential);
+			throw new AuthenticationException('Incorrect password.');
 		}
 
 		if ($this->password->needsRehash($user->password)) {

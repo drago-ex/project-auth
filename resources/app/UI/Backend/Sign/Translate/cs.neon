@@ -8,8 +8,7 @@
 "Sign in": "Přihlásit se"
 "Sign up": "Registrovat se"
 "Lost your password?": "Zapomněli jste heslo?"
-"User not found.": "Uživatel nenalezen."
-"The password is incorrect.": "Heslo je nesprávné."
+"The email or password is incorrect.": "E-mail nebo heslo je nesprávné."
 "You must be logged in.": "Musíte být přihlášeni."
 "You have been signed out due to inactivity. Please sign in again.": "Byli jste odhlášeni z důvodu neaktivity. Přihlaste se prosím znovu."
 "Your registration has been successfully completed, you can now log in.":
