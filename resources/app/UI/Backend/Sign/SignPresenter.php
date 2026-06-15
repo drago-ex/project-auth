@@ -14,7 +14,6 @@ use Nette\Application\UI\Form;
 use Nette\Neon\Exception;
 use Nette\Security\AuthenticationException;
 use Throwable;
-use Tracy\Debugger;
 
 
 /**
@@ -71,7 +70,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	public function success(Form $form, SignValues $values): void
+	private function success(Form $form, SignValues $values): void
 	{
 		try {
 			$this->getUser()->login($values->email, $values->password);
@@ -101,18 +100,9 @@ final class SignPresenter extends BasePresenter
 	 */
 	protected function createComponentSignRecoveryRequest(): Form
 	{
-		$factory = $this->recoveryFactory;
-		$factory->translator = $this->getTranslator();
-
-		$form = $factory->createRequest();
+		$form = $this->recoveryFactory->createRequest();
 		$form->onSuccess[] = function () {
 			$this->flashMessage('A password recovery code has been sent to your email.', Alert::Success);
-		};
-
-		$form->onError[] = function (Form $form) {
-			foreach ($form->getErrors() as $error) {
-				Debugger::barDump($error);
-			}
 		};
 		return $form;
 	}

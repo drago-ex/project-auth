@@ -12,22 +12,13 @@ use Tracy\Debugger;
 
 
 /** Service for sending password recovery emails. */
-class EmailService
+readonly class EmailService
 {
-	private Translator $translator;
-
-
 	public function __construct(
-		private readonly Mailer $mailer,
-		private readonly TemplateFactory $templateFactory,
+		private Translator $translator,
+		private Mailer $mailer,
+		private TemplateFactory $templateFactory,
 	) {
-	}
-
-
-	/** Sets the translator. */
-	public function setTranslator(Translator $translator): void
-	{
-		$this->translator = $translator;
 	}
 
 

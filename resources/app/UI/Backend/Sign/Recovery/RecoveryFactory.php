@@ -10,23 +10,19 @@ use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Drago\Form\Rules\PasswordRules;
-use Drago\Localization\Translator;
 use Nette\Application\UI\Form;
 use Nette\Forms\Control;
 use Nette\Security\Passwords;
 
 
-class RecoveryFactory
+readonly class RecoveryFactory
 {
-	public Translator $translator;
-
-
 	public function __construct(
-		private readonly Factory $factory,
-		private readonly SessionService $sessionService,
-		private readonly UserRepository $userRepository,
-		private readonly EmailService $emailService,
-		private readonly Passwords $passwords,
+		private Factory $factory,
+		private SessionService $sessionService,
+		private UserRepository $userRepository,
+		private EmailService $emailService,
+		private Passwords $passwords,
 	) {
 	}
 
@@ -35,7 +31,7 @@ class RecoveryFactory
 	{
 		$form = $this->factory->create();
 		$form->addEmailField()
-			->addRule([$this, 'emailCheck'], "We're sorry, but we don't know such an email address.");
+			->addRule($this->emailCheck(...), "We're sorry, but we don't know such an email address.");
 
 		$form->addSubmit('send', 'Reset password');
 		$form->onSuccess[] = $this->request(...);
@@ -47,7 +43,7 @@ class RecoveryFactory
 	{
 		$form = $this->factory->create();
 		$form->addTextInput('token', 'Code')
-			->addRule([$this, 'tokenCheck'], 'The code entered is invalid.')
+			->addRule($this->tokenCheck(...), 'The code entered is invalid.')
 			->setPlaceholder('Enter the code from the email')
 			->setRequired('Please enter the code from the email.')
 			->setAutocomplete(Autocomplete::Off);
@@ -58,7 +54,7 @@ class RecoveryFactory
 	}
 
 
-	public function tokenCheck(Control $input): bool
+	private function tokenCheck(Control $input): bool
 	{
 		return $this->sessionService
 			->isTokenValid($input->getValue());
@@ -70,7 +66,7 @@ class RecoveryFactory
 	 * @throws AttributeDetectionException
 	 * @throws Exception
 	 */
-	public function emailCheck(Control $input): bool
+	private function emailCheck(Control $input): bool
 	{
 		$findEmail = $this->userRepository->findUserByEmail($input->getValue());
 		return (bool) $findEmail;
@@ -94,18 +90,15 @@ class RecoveryFactory
 	}
 
 
-	public function request(Form $form): void
+	private function request(Form $form): void
 	{
 		try {
 			$values = $form->getValues();
 			$email = (string) $values['email'];
-			if (!$this->userRepository->findUserByEmail($email)) {
-				return;
-			}
+			$token = $this->sessionService
+				->generateToken($email);
 
-			$token = $this->sessionService->generateToken($email);
 			$request = $this->emailService;
-			$request->setTranslator($this->translator);
 			$request->sendEmail($email, $token);
 
 		} catch (\Throwable $e) {
@@ -115,14 +108,14 @@ class RecoveryFactory
 	}
 
 
-	public function checkToken(): void
+	private function checkToken(): void
 	{
 		$this->sessionService
 			->setTokenCheck();
 	}
 
 
-	public function changePassword(Form $form): void
+	private function changePassword(Form $form): void
 	{
 		try {
 			$password = (string) $form->getValues()['password'];
@@ -135,7 +128,7 @@ class RecoveryFactory
 
 		} catch (\Throwable $e) {
 			$message = match ($e->getCode()) {
-				101 => 'User with email was not found.',
+				1001 => 'User with email was not found.',
 				default => 'Unknown status code.',
 			};
 			$form->addError($message);

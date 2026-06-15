@@ -57,7 +57,7 @@ readonly class SignUpFactory
 	 * @throws Exception
 	 * @throws AssertionException
 	 */
-	public function success(Form $form, SignUpValues $values): void
+	private function success(Form $form, SignUpValues $values): void
 	{
 		$values->password = $this->password->hash($values->password);
 		$values->token = Random::generate(32);
