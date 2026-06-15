@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\UI\Backend\Sign\Recovery;
 
 use Drago\Localization\Translator;
-use Nette\Application\UI\TemplateFactory;
+use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Nette\Mail\Mailer;
 use Nette\Mail\Message;
 use Tracy\Debugger;
@@ -34,7 +34,7 @@ class EmailService
 	/** Sends the password recovery email. */
 	public function sendEmail(string $email, string $token): void
 	{
-		$template = $this->createTemplate();
+		$template = $this->templateFactory->createTemplate();
 		$template->setFile(__DIR__ . '/email.latte');
 		$template->setTranslator($this->translator);
 		$template->token = $token;
@@ -51,15 +51,5 @@ class EmailService
 		} catch (\Throwable $e) {
 			Debugger::log($e, Debugger::ERROR);
 		}
-	}
-
-
-	/** Creates the email template. */
-	private function createTemplate(): EmailServiceTemplate
-	{
-		$template = $this->templateFactory->createTemplate();
-		assert($template instanceof EmailServiceTemplate);
-
-		return $template;
 	}
 }
