@@ -34,7 +34,8 @@ class RecoveryFactory
 	public function createRequest(): Form
 	{
 		$form = $this->factory->create();
-		$form->addEmailField();
+		$form->addEmailField()
+			->addRule([$this, 'emailCheck'], "We're sorry, but we don't know such an email address.");
 
 		$form->addSubmit('send', 'Reset password');
 		$form->onSuccess[] = $this->request(...);
