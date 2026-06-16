@@ -17,9 +17,7 @@ final class Router
 	public static function create(): RouteList
 	{
 		$router = new RouteList;
-		$router->withModule('Sign')
-			->addRoute('[<lang=cs cs|en>/]<presenter>/<action>', 'Sign:default');
-
+		$router->addRoute('[<lang=cs cs|en>/]<presenter>/<action>', 'Sign:default');
 		return $router;
 	}
 }
