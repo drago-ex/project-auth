@@ -3,10 +3,12 @@ security:
 		expiration: 14 days
 
 
-services:
-	router: {setup: {offsetSet(null, @router.sign)}}
-	router.sign: {factory: App\UI\Sign\Router::create, autowired: no}
+routing:
+    routes:
+        '[<lang=cs cs|en>/]sign/<action>/': Sign:default
 
+
+services:
 	- App\UI\Sign\Recovery\SessionService
 	- App\UI\Sign\Recovery\EmailService
 	- App\UI\Sign\User\UserAuthenticator
