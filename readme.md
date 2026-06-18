@@ -23,6 +23,12 @@ extension for projects built on top of the Drago ecosystem and Nette framework.
 composer require drago-ex/project-auth
 ```
 
+### npm Installation
+The authentication UI requires the theme switcher for proper functionality:
+```bash
+npm install theme-switcher-compostrap
+```
+
 ## Project files
 File copying is handled automatically by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
 which must be installed in your project. Without it, copy the files manually according to the `copy` section
