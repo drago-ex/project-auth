@@ -43,10 +43,15 @@
 </div>
 
 <div class="sign-in-theme text-center mt-2">
-	{include '../../Core/Widget/@theme-switch.latte',
-		class: 'btn-sm p-0 text-secondary text-decoration-none',
-		themeSwitchId: 'theme-toggle',
-	}
+	<button
+			type="button"
+			data-theme-switcher
+			data-theme-light-label="{_'Light mode'}"
+			data-theme-dark-label="{_'Dark mode'}"
+			class="btn-sm p-0 text-secondary text-decoration-none"
+	>
+		<span data-theme-switcher-label></span>
+	</button>
 </div>
 
 {* footer info *}
