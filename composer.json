@@ -12,7 +12,7 @@
 		"drago-ex/translator": "^3.0",
 		"drago-ex/project-front": "^2.0",
 		"drago-ex/project-backend": "^2.0",
-		"nette/http": "^3.3.2 <3.4",
+		"nette/http": "^3.0",
 		"nette/mail": "^4.0",
 		"nette/security": "^3.2"
 	},
