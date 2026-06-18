@@ -22,6 +22,8 @@
 "You are already logged in. You can continue to the administration or log out and switch accounts.":
 	"Již jste přihlášeni. Můžete pokračovat do administrace nebo se odhlásit a přepnout účet."
 
+"Use your account credentials to continue.": "Pro pokračování použijte přihlašovací údaje ke svému účtu."
+
 # sign up
 "Registration": "Registrace"
 "Username": "Uživatel"
@@ -36,6 +38,8 @@
 "The password must contain uppercase and lowercase letters, numbers, and a special character.":
 	"Heslo musí obsahovat velká a malá písmena, číslice a speciální znak."
 
+"Create an account to get started.": "Začněte vytvořením svého účtu."
+
 # recovery password
 "Forgot password": "Zapomenuté heslo"
 "Reset password": "Obnovit heslo"
@@ -47,6 +51,8 @@
 "Code": "Kód"
 "We're sorry, but we don't know such an email address.": "Je nám líto, ale takovou e-mailovou adresu neznáme."
 
+"Follow the steps to regain access to your account.": "Podle následujících kroků obnovte přístup ke svému účtu."
+
 # recovery email
 "Request to reset password": "Žádost o obnovení hesla"
 "To reset your password, enter the code you received in this email into the form. The code is valid for 30 minutes.":
@@ -57,6 +63,8 @@
 
 # sign out
 "You have been signed out": "Byli jste odhlášeni"
+
+"Your session has ended safely.": "Vaše relace byla bezpečně ukončena."
 
 # theme
 "Toggle theme": "Přepnout motiv"

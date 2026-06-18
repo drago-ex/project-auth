@@ -15,48 +15,51 @@
 
 <body>
 
-{* main content *}
-<div class="sign-in mt-5 bg-body shadow-sm rounded-3" n:snippet="body">
-	<div class="sign-in-header p-3 mb-2">
-		<div class="d-flex">
-			<div class="ps-1 pe-1 flex-grow-1">
-				{include title}
+<div class="sign-in-page">
+	<div class="sign-in-shell shadow-sm rounded-3 overflow-hidden">
+		<aside class="sign-in-visual" aria-hidden="true">
+			<i class="fa-solid fa-shield-halved"></i>
+		</aside>
+
+		<main class="sign-in-panel bg-body" n:snippet="body">
+			<div class="sign-in-panel-inner">
+				<header class="sign-in-header">
+					<div class="sign-in-languages">
+						{include lang-switch, lang: 'cs', name: 'Czech', class: 'sign-in-language'}
+						<span class="text-secondary" aria-hidden="true">&#124;</span>
+						{include lang-switch, lang: 'en', name: 'English', class: 'sign-in-language'}
+					</div>
+
+					<h1 class="sign-in-title">{include title}</h1>
+					{ifset subtitle}
+						<p class="sign-in-subtitle">{include subtitle}</p>
+					{/ifset}
+				</header>
+
+				{snippet message}
+					{include '../../Core/Widget/@toast.latte', messages: $flashes}
+				{/snippet}
+
+				{include content}
 			</div>
-			<div class="ps-1 pe-1">
-				{include lang-switch, lang: 'cs', name: 'Czech', class: 'sign-in-language'}
-				<span class="small ps-1 pe-1 text-secondary">&#124;</span>
-				{include lang-switch, lang: 'en', name: 'English', class: 'sign-in-language'}
-			</div>
-		</div>
+		</main>
 	</div>
 
-	<div class="p-3">
-
-		{* flash messages *}
-		{snippet message}
-			{include '../../Core/Widget/@toast.latte', messages: $flashes}
-		{/snippet}
-
-		{* page content *}
-		{include content}
+	<div class="sign-in-theme mt-2">
+		<button
+				type="button"
+				data-theme-switcher
+				data-theme-light-label="{_'Light mode'}"
+				data-theme-dark-label="{_'Dark mode'}"
+				class="btn btn-link text-secondary text-decoration-none"
+		>
+			<span data-theme-switcher-label></span>
+		</button>
 	</div>
 </div>
 
-<div class="sign-in-theme text-center mt-2">
-	<button
-			type="button"
-			data-theme-switcher
-			data-theme-light-label="{_'Light mode'}"
-			data-theme-dark-label="{_'Dark mode'}"
-			class="btn btn-link text-secondary text-decoration-none"
-	>
-		<span data-theme-switcher-label></span>
-	</button>
-</div>
-
-{* footer info *}
-<footer class="fixed-bottom bg-body pt-3 pb-1 text-muted">
-	<p class="text-center font-weight-bold">&copy {=date('Y')}</p>
+<footer class="sign-in-footer text-muted">
+	<p class="m-0">&copy; {=date('Y')}</p>
 </footer>
 
 </body>

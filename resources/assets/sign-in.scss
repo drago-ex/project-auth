@@ -1,36 +1,88 @@
 @import "core/base";
 @import "naja/spinner";
+@import "@fortawesome/fontawesome-free/css/fontawesome.css";
+@import "@fortawesome/fontawesome-free/css/solid.css";
 @import "drago-form/styles/password-toggle";
 @import "theme-switcher-compostrap/src/scss/theme-switcher";
 
 //
-// sign in style
+// Authentication layout
 //
 
 html,
 body {
-	height: 85%;
+	min-height: 100%;
 }
 
 body {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
+	min-height: 100vh;
+	margin: 0;
+	display: grid;
+	grid-template-rows: 1fr auto;
 	color: var(--bs-body-color);
 	background-color: var(--bs-tertiary-bg);
 }
 
-.sign-in {
+.sign-in-page {
+	width: min(100% - 2rem, 68rem);
+	margin-inline: auto;
+	padding-block: 2rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.sign-in-shell {
 	width: 100%;
-	max-width: 25rem;
+	background-color: var(--bs-body-bg);
+}
+
+.sign-in-visual {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	min-height: 38rem;
+	color: var(--bs-primary);
+	background-color: var(--bs-secondary-bg);
+
+	.fa-shield-halved {
+		font-size: 7rem;
+	}
+}
+
+.sign-in-panel {
+	min-width: 0;
+	padding: 2rem 1.25rem;
+}
+
+.sign-in-panel-inner {
+	width: 100%;
+	max-width: 29rem;
 	margin-inline: auto;
 }
 
 .sign-in-header {
-	background-color: var(--bs-secondary-bg);
-	border-top-left-radius: var(--bs-border-radius-lg);
-	border-top-right-radius: var(--bs-border-radius-lg);
+	margin-bottom: 1.75rem;
+}
+
+.sign-in-languages {
+	margin-bottom: 1.5rem;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.875rem;
+}
+
+.sign-in-title {
+	margin: 0;
+	font-size: 1.75rem;
+	font-weight: 600;
+}
+
+.sign-in-subtitle {
+	margin: 0.5rem 0 0;
+	color: var(--bs-secondary-color);
 }
 
 .sign-in-language {
@@ -49,7 +101,27 @@ body {
 
 .sign-in-theme {
 	width: 100%;
-	max-width: 25rem;
-	margin-inline: auto;
 	text-align: right;
+}
+
+.sign-in-footer {
+	padding: 0 1rem 1rem;
+	text-align: center;
+}
+
+@media (min-width: 992px) {
+	.sign-in-shell {
+		display: grid;
+		grid-template-columns: minmax(20rem, 42%) minmax(0, 1fr);
+	}
+
+	.sign-in-visual {
+		display: flex;
+	}
+
+	.sign-in-panel {
+		display: flex;
+		align-items: center;
+		padding: 3.5rem;
+	}
 }
