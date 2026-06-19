@@ -1,7 +1,7 @@
 {varType App\UI\Sign\Recovery\Token $signRecoveryToken}
 
-{block title}{_'Forgot password'}{/block}
-{block subtitle}{_'Follow the steps to regain access to your account.'}{/block}
+{block title}{_'Password recovery'}{/block}
+{block subtitle}{_'Follow the steps to restore access to your account.'}{/block}
 
 {block content}
 	{if !$signRecoveryToken->hasToken}
@@ -14,8 +14,8 @@
 			{/block}
 		{/embed}
 
-		<p class="mt-4 mb-0">
-			<a n:href="in" class="btn btn-link p-0 text-start ajax" data-link-disable>{_'Back to sign in'}</a>
+		<p class="mt-2 mb-0 text-end">
+			<a n:href="in" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Back to sign in'}</a>
 		</p>
 
 	{elseif !$signRecoveryToken->isTokenChecked}
@@ -28,8 +28,8 @@
 			{/block}
 		{/embed}
 
-		<p class="mt-4 mb-0">
-			<a n:href="in" class="btn btn-link p-0 text-start ajax" data-link-disable>{_'Back to sign in'}</a>
+		<p class="mt-2 mb-0 text-end">
+			<a n:href="in" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Back to sign in'}</a>
 		</p>
 
 	{else}
@@ -44,8 +44,8 @@
 			{/block}
 		{/embed}
 
-		<p class="mt-4 mb-0">
-			<a n:href="in" class="btn btn-link p-0 text-start ajax" data-link-disable>{_'Back to sign in'}</a>
+		<p class="mt-2 mb-0 text-end">
+			<a n:href="in" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Back to sign in'}</a>
 		</p>
 
 	{/if}

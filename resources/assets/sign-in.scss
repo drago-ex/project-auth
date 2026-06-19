@@ -32,6 +32,20 @@ body {
 	justify-content: center;
 }
 
+.sign-in-brand {
+	margin: 0 0 1rem 0.5rem;
+	display: flex;
+	align-items: center;
+	gap: 0.625rem;
+	color: var(--bs-secondary-color);
+	font-weight: 600;
+
+	i {
+		color: var(--bs-primary);
+		font-size: 1.25rem;
+	}
+}
+
 .sign-in-shell {
 	width: 100%;
 	background-color: var(--bs-body-bg);
@@ -62,16 +76,34 @@ body {
 }
 
 .sign-in-header {
-	margin-bottom: 1.75rem;
+	margin-bottom: 2.25rem;
 }
 
-.sign-in-languages {
-	margin-bottom: 1.5rem;
+.sign-in-toolbar {
+	width: 100%;
+	max-width: 29rem;
+	margin: 0 auto 2rem;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
+	gap: 1rem;
+}
+
+.sign-in-languages {
+	display: flex;
+	align-items: center;
 	gap: 0.5rem;
 	font-size: 0.875rem;
+}
+
+.sign-in-theme-switch {
+	flex: 0 0 auto;
+	width: 2rem;
+	height: 2rem;
+	padding: 0;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
 }
 
 .sign-in-title {
@@ -99,11 +131,6 @@ body {
 	}
 }
 
-.sign-in-theme {
-	width: 100%;
-	text-align: right;
-}
-
 .sign-in-footer {
 	padding: 0 1rem 1rem;
 	text-align: center;
@@ -120,8 +147,7 @@ body {
 	}
 
 	.sign-in-panel {
-		display: flex;
-		align-items: center;
 		padding: 3.5rem;
 	}
+
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\Sign\Recovery;
 
+use App\UI\Sign\Recovery\Sign\Recovery\Token;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
 use Nette\Utils\Random;

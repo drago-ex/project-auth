@@ -5,8 +5,12 @@ declare(strict_types=1);
 namespace App\UI\Sign;
 
 use App\UI\BasePresenter;
-use App\UI\Sign\Recovery\RecoveryFactory;
-use App\UI\Sign\Recovery\SessionService;
+use App\UI\Sign\Recovery\Sign\Factory;
+use App\UI\Sign\Recovery\Sign\Recovery\RecoveryFactory;
+use App\UI\Sign\Recovery\Sign\Recovery\SessionService;
+use App\UI\Sign\Recovery\Sign\SignTemplate;
+use App\UI\Sign\Recovery\Sign\SignUpFactory;
+use App\UI\Sign\Recovery\Sign\SignValues;
 use Drago\Application\UI\Alert;
 use Drago\Form\Autocomplete;
 use Nette\Application\Attributes\Persistent;
@@ -39,6 +43,7 @@ final class SignPresenter extends BasePresenter
 	private function redrawSnippets(): void
 	{
 		$this->redrawControl('title');
+		$this->redrawControl('languages');
 		$this->redrawControl('body');
 	}
 

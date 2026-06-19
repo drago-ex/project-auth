@@ -1,5 +1,5 @@
-{block title}{_'Registration'}{/block}
-{block subtitle}{_'Create an account to get started.'}{/block}
+{block title}{_'Create account'}{/block}
+{block subtitle}{_'Enter your details to create a new account.'}{/block}
 
 {block content}
 	{embed '../../Core/Widget/@form.latte', name: 'signUp', class: 'ajax', najaHistory: 'replace'}
@@ -15,7 +15,7 @@
 		{/block}
 	{/embed}
 
-	<p class="mt-4 mb-0">
-		<a n:href="in" class="btn btn-link p-0 text-start ajax" data-link-disable>{_'Back to sign in'}</a>
+	<p class="mt-2 mb-0 text-end">
+		<a n:href="in" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Back to sign in'}</a>
 	</p>
 {/block}

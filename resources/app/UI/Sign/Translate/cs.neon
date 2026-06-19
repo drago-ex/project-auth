@@ -5,8 +5,10 @@
 "Your password": "Vaše heslo"
 "Please enter your password.": "Zadejte prosím své heslo."
 "Sign in": "Přihlásit se"
-"Sign up": "Registrovat se"
-"Lost your password?": "Zapomněli jste heslo?"
+"Sign in to your account": "Přihlášení k účtu"
+"Enter your email and password to continue.": "Pro pokračování zadejte svůj e-mail a heslo."
+"Create account": "Vytvořit účet"
+"Forgot your password?": "Zapomněli jste heslo?"
 "The email or password is incorrect.": "E-mail nebo heslo je nesprávné."
 "You must be logged in.": "Musíte být přihlášeni."
 "You have been signed out due to inactivity. Please sign in again.": "Byli jste odhlášeni z důvodu neaktivity. Přihlaste se prosím znovu."
@@ -22,10 +24,7 @@
 "You are already logged in. You can continue to the administration or log out and switch accounts.":
 	"Již jste přihlášeni. Můžete pokračovat do administrace nebo se odhlásit a přepnout účet."
 
-"Use your account credentials to continue.": "Pro pokračování použijte přihlašovací údaje ke svému účtu."
-
 # sign up
-"Registration": "Registrace"
 "Username": "Uživatel"
 "Full name": "Celé jméno"
 "Please enter your full name.": "Zadejte prosím své celé jméno."
@@ -38,20 +37,20 @@
 "The password must contain uppercase and lowercase letters, numbers, and a special character.":
 	"Heslo musí obsahovat velká a malá písmena, číslice a speciální znak."
 
-"Create an account to get started.": "Začněte vytvořením svého účtu."
+"Enter your details to create a new account.": "Pro vytvoření účtu vyplňte své údaje."
 
 # recovery password
-"Forgot password": "Zapomenuté heslo"
-"Reset password": "Obnovit heslo"
+"Password recovery": "Obnovení hesla"
+"Send recovery code": "Odeslat kód"
 "Enter the code from the email": "Zadejte kód z e-mailu"
 "Please enter the code from the email.": "Zadejte prosím kód z e-mailu."
 "The code entered is invalid.": "Zadaný kód je neplatný."
-"Continue password recovery": "Pokračujte v obnově hesla"
-"Change your password": "Změňte si heslo"
+"Verify code": "Ověřit kód"
+"Change password": "Změnit heslo"
 "Code": "Kód"
 "We're sorry, but we don't know such an email address.": "Je nám líto, ale takovou e-mailovou adresu neznáme."
 
-"Follow the steps to regain access to your account.": "Podle následujících kroků obnovte přístup ke svému účtu."
+"Follow the steps to restore access to your account.": "Podle následujících kroků obnovte přístup ke svému účtu."
 
 # recovery email
 "Request to reset password": "Žádost o obnovení hesla"
@@ -62,9 +61,8 @@
 	"Pokud si nechcete změnit heslo nebo jste nepožádali o jeho obnovení, můžete tento e-mail ignorovat a smazat."
 
 # sign out
-"You have been signed out": "Byli jste odhlášeni"
-
-"Your session has ended safely.": "Vaše relace byla bezpečně ukončena."
+"Signed out": "Odhlášení"
+"You are now signed out of your account.": "Nyní jste odhlášeni ze svého účtu."
 
 # theme
 "Toggle theme": "Přepnout motiv"

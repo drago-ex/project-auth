@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\UI\Sign\Recovery;
 
-use App\UI\Sign\Factory;
-use App\UI\Sign\User\UserRepository;
+use App\UI\Sign\Recovery\Sign\Factory;
+use App\UI\Sign\Recovery\Sign\Recovery\EmailService;
+use App\UI\Sign\Recovery\Sign\Recovery\SessionService;
+use App\UI\Sign\Recovery\Sign\User\UserRepository;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
@@ -33,7 +35,7 @@ readonly class RecoveryFactory
 		$form->addEmailField()
 			->addRule($this->emailCheck(...), "We're sorry, but we don't know such an email address.");
 
-		$form->addSubmit('send', 'Reset password');
+		$form->addSubmit('send', 'Send recovery code');
 		$form->onSuccess[] = $this->request(...);
 		return $form;
 	}
@@ -48,7 +50,7 @@ readonly class RecoveryFactory
 			->setRequired('Please enter the code from the email.')
 			->setAutocomplete(Autocomplete::Off);
 
-		$form->addSubmit('send', 'Continue password recovery');
+		$form->addSubmit('send', 'Verify code');
 		$form->onSuccess[] = $this->checkToken(...);
 		return $form;
 	}
@@ -84,7 +86,7 @@ readonly class RecoveryFactory
 		$form->addPasswordConfirmationField()
 			->setAutocomplete(Autocomplete::Off);
 
-		$form->addSubmit('send', 'Change your password');
+		$form->addSubmit('send', 'Change password');
 		$form->onSuccess[] = $this->changePassword(...);
 		return $form;
 	}

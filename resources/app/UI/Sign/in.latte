@@ -1,5 +1,5 @@
-{block title}{_'Sign in'}{/block}
-{block subtitle}{_'Use your account credentials to continue.'}{/block}
+{block title}{_'Sign in to your account'}{/block}
+{block subtitle}{_'Enter your email and password to continue.'}{/block}
 
 {block content}
 	{if !$user->loggedIn}
@@ -14,9 +14,9 @@
 			{/block}
 		{/embed}
 
-		<div class="text-end mt-4">
-			<p class="m-0"><a n:href="up" class="btn btn-link p-0 ajax" data-link-disable>{_'Sign up'}</a></p>
-			<p class="m-0"><a n:href="recovery" class="btn btn-link p-0 ajax" data-link-disable>{_'Lost your password?'}</a></p>
+		<div class="text-end mt-2">
+			<p class="m-0"><a n:href="up" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Create account'}</a></p>
+			<p class="m-0"><a n:href="recovery" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Forgot your password?'}</a></p>
 		</div>
 
 		{else}

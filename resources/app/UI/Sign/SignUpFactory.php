@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\UI\Sign;
 
-use App\UI\Sign\User\UserEntity;
+use App\UI\Sign\Recovery\Sign\Factory;
+use App\UI\Sign\Recovery\Sign\SignUpValues;
+use App\UI\Sign\Recovery\Sign\User\UserEntity;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;
@@ -30,7 +32,7 @@ readonly class SignUpFactory
 	public function create(): Form
 	{
 		$form = $this->factory->create();
-		$form->addTextInput(SignUpValues::Username, 'Username')
+		$form->addTextInput(SignUpValues::Username, 'Full name')
 			->setRequired('Please enter your full name.')
 			->setPlaceholder('Full name')
 			->setAutocomplete(Autocomplete::Name);
@@ -46,7 +48,7 @@ readonly class SignUpFactory
 		$form->addPasswordConfirmationField()
 			->setAutocomplete(Autocomplete::Off);
 
-		$form->addSubmit('send', 'Sign up');
+		$form->addSubmit('send', 'Create account');
 		$form->onSuccess[] = $this->success(...);
 		return $form;
 	}
