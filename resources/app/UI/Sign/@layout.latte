@@ -16,9 +16,25 @@
 <body>
 
 <div class="sign-in-page">
-	<div class="sign-in-brand">
+	<div class="sign-in-topbar">
+		<div class="sign-in-brand">
 			<i class="fa-solid fa-cube" aria-hidden="true"></i>
 			<h1 n:block="brand" class="fs-5 mb-1">Project</h1>
+		</div>
+
+		<button
+			type="button"
+			aria-label="{_'Toggle theme'}"
+			data-theme-switcher
+			data-theme-light-icon="fa-solid fa-sun"
+			data-theme-dark-icon="fa-solid fa-moon"
+			data-theme-light-label="{_'Light mode'}"
+			data-theme-dark-label="{_'Dark mode'}"
+			class="btn btn-link sign-in-theme-switch text-secondary text-decoration-none"
+		>
+			<i data-theme-switcher-icon aria-hidden="true"></i>
+			<span data-theme-switcher-label>{_'Dark mode'}</span>
+		</button>
 	</div>
 
 	<div class="sign-in-shell shadow-sm rounded-3 overflow-hidden">
@@ -26,34 +42,20 @@
 			<i class="fa-solid fa-shield-halved"></i>
 		</aside>
 
-		<main class="sign-in-panel bg-body">
+		<main class="sign-in-panel bg-body" n:snippet="content">
 			<div class="sign-in-toolbar">
-				<div class="sign-in-languages" n:snippet="languages">
+				<div class="sign-in-languages">
 					{include lang-switch, lang: 'cs', name: 'Czech', class: 'sign-in-language'}
 					<span class="text-secondary" aria-hidden="true">&#124;</span>
 					{include lang-switch, lang: 'en', name: 'English', class: 'sign-in-language'}
 				</div>
-
-				<button
-					type="button"
-					aria-label="{_'Toggle theme'}"
-					data-theme-switcher
-					data-theme-light-icon="fa-solid fa-sun"
-					data-theme-dark-icon="fa-solid fa-moon"
-					data-theme-light-label="{_'Light mode'}"
-					data-theme-dark-label="{_'Dark mode'}"
-					class="btn btn-link sign-in-theme-switch text-secondary text-decoration-none"
-				>
-					<i data-theme-switcher-icon aria-hidden="true"></i>
-					<span class="visually-hidden" data-theme-switcher-label></span>
-				</button>
 			</div>
 
-			<div class="sign-in-panel-inner" n:snippet="body">
+			<div class="sign-in-panel-inner">
 				<header class="sign-in-header">
-					<h1 class="sign-in-title text-center">{include title}</h1>
+					<h1 class="sign-in-title">{include title}</h1>
 					{ifset subtitle}
-						<p class="sign-in-subtitle text-center">{include subtitle}</p>
+						<p class="sign-in-subtitle ">{include subtitle}</p>
 					{/ifset}
 				</header>
 

@@ -43,8 +43,7 @@ final class SignPresenter extends BasePresenter
 	private function redrawSnippets(): void
 	{
 		$this->redrawControl('title');
-		$this->redrawControl('languages');
-		$this->redrawControl('body');
+		$this->redrawControl('content');
 	}
 
 

@@ -32,8 +32,14 @@ body {
 	justify-content: center;
 }
 
-.sign-in-brand {
+.sign-in-topbar {
 	margin: 0 0 1rem 0.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.sign-in-brand {
 	display: flex;
 	align-items: center;
 	gap: 0.625rem;
@@ -86,24 +92,22 @@ body {
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
-	gap: 1rem;
 }
 
 .sign-in-languages {
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
-	font-size: 0.875rem;
 }
 
 .sign-in-theme-switch {
 	flex: 0 0 auto;
-	width: 2rem;
-	height: 2rem;
-	padding: 0;
+	min-height: 2rem;
+	padding: 0.25rem 0.5rem;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	gap: 0.5rem;
 }
 
 .sign-in-title {
