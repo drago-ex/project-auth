@@ -54,7 +54,7 @@ php vendor/bin/create-user <username> <email> <password>
 ```php
 final class SecurePresenter extends Presenter
 {
-    use \App\UI\Sign\Recovery\Sign\RequireLogged;
+    use App\UI\Sign\RequireLogged;
 }
 ```
 
