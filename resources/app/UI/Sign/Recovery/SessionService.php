@@ -24,16 +24,16 @@ readonly class SessionService
 
 	private function getSection(): SessionSection
 	{
-		return $this->session
-			->getSection('recovery')
-			->setExpiration('15 minutes');
+		return $this->session->getSection('recovery');
 	}
 
 
 	/** Sets a new token and email for password recovery in the session. */
 	public function generateToken(string $email): string
 	{
-		$section = $this->getSection();
+		$section = $this->getSection()
+			->setExpiration('15 minutes');
+		$section->remove('tokenCheck');
 		$token = str_pad((string) random_int(0, 999_999), self::TokenLength, '0', STR_PAD_LEFT);
 		$section->set('token', hash('sha256', $token));
 		$section->set('email', $email);

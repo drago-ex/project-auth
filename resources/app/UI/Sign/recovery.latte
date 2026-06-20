@@ -21,17 +21,7 @@
 	{elseif !$signRecoveryToken->isTokenChecked}
 		{embed '../../Core/Widget/@form.latte', name: 'signRecoveryCheckToken', class: 'ajax', najaHistory: 'off'}
 			{block form}
-				<div class="col-12 form-error otp-control">
-					{label token, class: 'form-label fw-semibold' /}
-					<div class="otp-input-wrapper" data-otp-control>
-						{input token}
-						<div class="otp-slots" aria-hidden="true">
-							{for $i = 0; $i < 6; $i++}
-								<span class="otp-slot" data-otp-slot></span>
-							{/for}
-						</div>
-					</div>
-				</div>
+				{include input, name: 'token', class: 'otp-code'}
 				<div class="col-12 d-grid gap-1">
 					{include submit, name: 'send'}
 				</div>

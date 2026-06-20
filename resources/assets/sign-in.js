@@ -7,7 +7,6 @@ import { ThemeSwitcher } from "theme-switcher-compostrap";
 // drago-ex extensions
 import { PasswordToggle, SubmitButtonDisable } from "drago-form";
 import { ToastHandler } from "drago-application";
-import OtpInput from "./otp-input.js";
 
 // page styles
 import "./sign-in.scss";
@@ -17,7 +16,6 @@ registerNajaExtensions(
 	Spinner,
 	HyperlinkDisable,
 	PasswordToggle,
-	OtpInput,
 	SubmitButtonDisable,
 	ToastHandler
 );

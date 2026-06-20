@@ -47,9 +47,7 @@ readonly class RecoveryFactory
 			->setRequired('Please enter the code from the email.')
 			->setAutocomplete('one-time-code')
 			->setHtmlAttribute('inputmode', 'numeric')
-			->setHtmlAttribute('maxlength', 6)
-			->setHtmlAttribute('data-otp-input', true)
-			->setHtmlAttribute('class', 'otp-input');
+			->setHtmlAttribute('maxlength', 6);
 
 		$form->addSubmit('send', 'Verify code');
 		$form->onValidate[] = $this->validateToken(...);
