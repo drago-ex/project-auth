@@ -135,6 +135,14 @@ body {
 	}
 }
 
+.sign-in-link {
+	text-decoration: none;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
 .otp-control {
 	.form-label {
 		display: block;
@@ -144,8 +152,7 @@ body {
 
 .otp-input-wrapper {
 	position: relative;
-	max-width: 22rem;
-	margin-inline: auto;
+	width: 100%;
 }
 
 .otp-input {
@@ -165,7 +172,7 @@ body {
 }
 
 .otp-slot {
-	aspect-ratio: 1;
+	height: 3.25rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;

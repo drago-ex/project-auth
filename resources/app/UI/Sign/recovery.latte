@@ -15,13 +15,13 @@
 		{/embed}
 
 		<p class="mt-2 mb-0 text-end">
-			<a n:href="in" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Back to sign in'}</a>
+			<a n:href="in" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Back to sign in'}</a>
 		</p>
 
 	{elseif !$signRecoveryToken->isTokenChecked}
 		{embed '../../Core/Widget/@form.latte', name: 'signRecoveryCheckToken', class: 'ajax', najaHistory: 'off'}
 			{block form}
-				<div class="col-12 otp-control">
+				<div class="col-12 form-error otp-control">
 					{label token, class: 'form-label fw-semibold' /}
 					<div class="otp-input-wrapper" data-otp-control>
 						{input token}
@@ -40,10 +40,10 @@
 
 		<div class="mt-2 text-end">
 			<p class="m-0">
-				<a n:href="resendRecovery!" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Send a new code'}</a>
+				<a n:href="resendRecovery!" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Send a new code'}</a>
 			</p>
 			<p class="m-0">
-				<a n:href="in" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Back to sign in'}</a>
+				<a n:href="in" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Back to sign in'}</a>
 			</p>
 		</div>
 
@@ -60,7 +60,7 @@
 		{/embed}
 
 		<p class="mt-2 mb-0 text-end">
-			<a n:href="in" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Back to sign in'}</a>
+			<a n:href="in" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Back to sign in'}</a>
 		</p>
 
 	{/if}

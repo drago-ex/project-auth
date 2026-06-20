@@ -15,15 +15,15 @@
 		{/embed}
 
 		<div class="text-end mt-2">
-			<p class="m-0"><a n:href="up" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Create account'}</a></p>
-			<p class="m-0"><a n:href="recovery" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Forgot your password?'}</a></p>
+			<p class="m-0"><a n:href="up" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Create account'}</a></p>
+			<p class="m-0"><a n:href="recovery" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Forgot your password?'}</a></p>
 		</div>
 
 		{else}
 		<p>{_'You are already logged in. You can continue to the administration or log out and switch accounts.'}</p>
 		<ul>
-			<li><a n:href=":Backend:Admin:">{_'Administration'}</a></li>
-			<li><a n:href="out" class="btn btn-link p-0 ajax" data-link-disable>{_'Sign out'}</a></li>
+			<li><a n:href=":Backend:Admin:" class="sign-in-link">{_'Administration'}</a></li>
+			<li><a n:href="out" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Sign out'}</a></li>
 		</ul>
 	{/if}
 {/block}
