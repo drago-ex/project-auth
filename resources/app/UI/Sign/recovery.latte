@@ -21,7 +21,7 @@
 	{elseif !$signRecoveryToken->isTokenChecked}
 		{embed '../../Core/Widget/@form.latte', name: 'signRecoveryCheckToken', class: 'ajax', najaHistory: 'off'}
 			{block form}
-				{include input, name: 'token', class: 'otp-code'}
+				{include input, name: 'token', class: 'otp-code text-center font-monospace fw-semibold'}
 				<div class="col-12 d-grid gap-1">
 					{include submit, name: 'send'}
 				</div>

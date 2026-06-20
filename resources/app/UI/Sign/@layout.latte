@@ -13,13 +13,13 @@
 	{asset 'sign-in.js'}
 </head>
 
-<body>
+<body class="d-grid text-body bg-body-tertiary">
 
-<div class="sign-in-page">
-	<div class="sign-in-topbar">
-		<div class="sign-in-brand">
-			<i class="fa-solid fa-cube" aria-hidden="true"></i>
-			<h1 n:block="brand" class="fs-5 mb-1">Project</h1>
+<div class="sign-in-page mx-auto d-flex flex-column justify-content-center">
+	<div class="d-flex align-items-center justify-content-between mb-3 ms-2">
+		<div class="d-flex align-items-center gap-2 text-body-secondary">
+			<i class="fa-solid fa-cube fs-5 text-primary" aria-hidden="true"></i>
+			<h1 n:block="brand" class="fs-5 fw-semibold mb-1">Project</h1>
 		</div>
 
 		<button
@@ -30,32 +30,32 @@
 			data-theme-dark-icon="fa-solid fa-moon"
 			data-theme-light-label="{_'Light mode'}"
 			data-theme-dark-label="{_'Dark mode'}"
-			class="btn btn-link sign-in-theme-switch text-secondary text-decoration-none"
+			class="btn btn-link d-inline-flex align-items-center justify-content-center gap-2 flex-shrink-0 py-1 px-2 text-secondary text-decoration-none"
 		>
 			<i data-theme-switcher-icon aria-hidden="true"></i>
 			<span data-theme-switcher-label>{_'Dark mode'}</span>
 		</button>
 	</div>
 
-	<div class="sign-in-shell shadow-sm rounded-3 overflow-hidden">
-		<aside class="sign-in-visual" aria-hidden="true">
-			<i class="fa-solid fa-shield-halved"></i>
+	<div class="sign-in-shell w-100 bg-body shadow-sm rounded-3 overflow-hidden">
+		<aside class="sign-in-visual d-none d-lg-flex align-items-center justify-content-center text-primary bg-body-secondary" aria-hidden="true">
+			<i class="fa-solid fa-shield-halved fa-7x"></i>
 		</aside>
 
 		<main class="sign-in-panel bg-body" n:snippet="content">
-			<div class="sign-in-toolbar">
-				<div class="sign-in-languages">
-					{include lang-switch, lang: 'cs', name: 'Czech', class: 'sign-in-language'}
+			<div class="sign-in-toolbar w-100 mx-auto d-flex align-items-center justify-content-end">
+				<div class="d-flex align-items-center gap-2">
+					{include lang-switch, lang: 'cs', name: 'Czech', class: 'sign-in-language text-body'}
 					<span class="text-secondary" aria-hidden="true">&#124;</span>
-					{include lang-switch, lang: 'en', name: 'English', class: 'sign-in-language'}
+					{include lang-switch, lang: 'en', name: 'English', class: 'sign-in-language text-body'}
 				</div>
 			</div>
 
-			<div class="sign-in-panel-inner">
-				<header class="sign-in-header">
-					<h1 class="sign-in-title">{include title}</h1>
+			<div class="sign-in-panel-inner w-100 mx-auto">
+				<header class="mb-4">
+					<h1 class="m-0 fs-3 fw-semibold">{include title}</h1>
 					{ifset subtitle}
-						<p class="sign-in-subtitle ">{include subtitle}</p>
+						<p class="mt-2 mb-0 text-body-secondary">{include subtitle}</p>
 					{/ifset}
 				</header>
 
@@ -70,7 +70,7 @@
 
 </div>
 
-<footer class="sign-in-footer text-muted">
+<footer class="px-3 pb-3 text-center text-body-secondary">
 	<p class="m-0">&copy; {=date('Y')} {include brand|stripHtml}</p>
 </footer>
 

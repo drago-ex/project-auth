@@ -16,58 +16,16 @@ body {
 
 body {
 	min-height: 100vh;
-	margin: 0;
-	display: grid;
 	grid-template-rows: 1fr auto;
-	color: var(--bs-body-color);
-	background-color: var(--bs-tertiary-bg);
 }
 
 .sign-in-page {
 	width: min(100% - 2rem, 60rem);
-	margin-inline: auto;
 	padding-block: 2rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-}
-
-.sign-in-topbar {
-	margin: 0 0 1rem 0.5rem;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-}
-
-.sign-in-brand {
-	display: flex;
-	align-items: center;
-	gap: 0.625rem;
-	color: var(--bs-secondary-color);
-	font-weight: 600;
-
-	i {
-		color: var(--bs-primary);
-		font-size: 1.25rem;
-	}
-}
-
-.sign-in-shell {
-	width: 100%;
-	background-color: var(--bs-body-bg);
 }
 
 .sign-in-visual {
-	display: none;
-	align-items: center;
-	justify-content: center;
 	min-height: 38rem;
-	color: var(--bs-primary);
-	background-color: var(--bs-secondary-bg);
-
-	.fa-shield-halved {
-		font-size: 7rem;
-	}
 }
 
 .sign-in-panel {
@@ -76,53 +34,15 @@ body {
 }
 
 .sign-in-panel-inner {
-	width: 100%;
 	max-width: 29rem;
-	margin-inline: auto;
-}
-
-.sign-in-header {
-	margin-bottom: 2.25rem;
 }
 
 .sign-in-toolbar {
-	width: 100%;
 	max-width: 29rem;
-	margin: 0 auto 2rem;
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-}
-
-.sign-in-languages {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-}
-
-.sign-in-theme-switch {
-	flex: 0 0 auto;
-	min-height: 2rem;
-	padding: 0.25rem 0.5rem;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5rem;
-}
-
-.sign-in-title {
-	margin: 0;
-	font-size: 1.75rem;
-	font-weight: 600;
-}
-
-.sign-in-subtitle {
-	margin: 0.5rem 0 0;
-	color: var(--bs-secondary-color);
+	margin-bottom: 2rem;
 }
 
 .sign-in-language {
-	color: var(--bs-body-color);
 	text-decoration: none;
 
 	&:hover {
@@ -144,27 +64,15 @@ body {
 }
 
 .otp-code {
-	text-align: center;
-	font-family: var(--bs-font-monospace);
-	font-weight: 600;
 	font-variant-numeric: tabular-nums;
 	letter-spacing: 0.5rem;
 	text-indent: 0.5rem;
-}
-
-.sign-in-footer {
-	padding: 0 1rem 1rem;
-	text-align: center;
 }
 
 @media (min-width: 992px) {
 	.sign-in-shell {
 		display: grid;
 		grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-	}
-
-	.sign-in-visual {
-		display: flex;
 	}
 
 	.sign-in-panel {
