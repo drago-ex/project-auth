@@ -45,6 +45,10 @@
 "Enter the code from the email": "Zadejte kód z e-mailu"
 "Please enter the code from the email.": "Zadejte prosím kód z e-mailu."
 "The code entered is invalid.": "Zadaný kód je neplatný."
+"The code must contain six digits.": "Kód musí obsahovat šest číslic."
+"Too many incorrect attempts. Request a new code.": "Příliš mnoho chybných pokusů. Vyžádejte si nový kód."
+"Send a new code": "Odeslat nový kód"
+"A new password recovery code has been sent to your email.": "Na váš e-mail byl odeslán nový kód pro obnovení hesla."
 "Verify code": "Ověřit kód"
 "Change password": "Změnit heslo"
 "Code": "Kód"
@@ -54,8 +58,8 @@
 
 # recovery email
 "Request to reset password": "Žádost o obnovení hesla"
-"To reset your password, enter the code you received in this email into the form. The code is valid for 30 minutes.":
-	"Pro obnovení hesla zadejte do formuláře kód, který jste obdrželi v tomto e-mailu. Kód je platný 30 minut."
+"To reset your password, enter the code you received in this email into the form. The code is valid for 15 minutes.":
+	"Pro obnovení hesla zadejte do formuláře kód, který jste obdrželi v tomto e-mailu. Kód je platný 15 minut."
 
 "If you do not want to change your password or didn’t request a reset, you can ignore and delete this email.":
 	"Pokud si nechcete změnit heslo nebo jste nepožádali o jeho obnovení, můžete tento e-mail ignorovat a smazat."

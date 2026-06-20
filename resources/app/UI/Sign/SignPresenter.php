@@ -5,12 +5,8 @@ declare(strict_types=1);
 namespace App\UI\Sign;
 
 use App\UI\BasePresenter;
-use App\UI\Sign\Recovery\Sign\Factory;
-use App\UI\Sign\Recovery\Sign\Recovery\RecoveryFactory;
-use App\UI\Sign\Recovery\Sign\Recovery\SessionService;
-use App\UI\Sign\Recovery\Sign\SignTemplate;
-use App\UI\Sign\Recovery\Sign\SignUpFactory;
-use App\UI\Sign\Recovery\Sign\SignValues;
+use App\UI\Sign\Recovery\RecoveryFactory;
+use App\UI\Sign\Recovery\SessionService;
 use Drago\Application\UI\Alert;
 use Drago\Form\Autocomplete;
 use Nette\Application\Attributes\Persistent;
@@ -104,11 +100,24 @@ final class SignPresenter extends BasePresenter
 	 */
 	protected function createComponentSignRecoveryRequest(): Form
 	{
-		$form = $this->recoveryFactory->createRequest();
+		$form = $this->recoveryFactory->createRequest($this->lang);
 		$form->onSuccess[] = function () {
 			$this->flashMessage('A password recovery code has been sent to your email.', Alert::Success);
 		};
 		return $form;
+	}
+
+
+	public function handleResendRecovery(): void
+	{
+		$this->recoveryFactory->resendCode($this->lang);
+		$this->flashMessage('A new password recovery code has been sent to your email.', Alert::Success);
+
+		if (!$this->isAjax()) {
+			$this->redirect('recovery');
+		}
+
+		$this->redrawSnippets();
 	}
 
 

@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\UI\Sign;
 
-use App\UI\Sign\Recovery\Sign\Factory;
-use App\UI\Sign\Recovery\Sign\SignUpValues;
-use App\UI\Sign\Recovery\Sign\User\UserEntity;
+use App\UI\Sign\User\UserEntity;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;

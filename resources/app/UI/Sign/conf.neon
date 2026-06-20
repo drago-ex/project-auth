@@ -1,3 +1,21 @@
+parameters:
+	mail:
+		host: localhost
+		port: 25
+		username: ''
+		password: ''
+		encryption: null
+
+
+mail:
+	smtp: true
+	host: %mail.host%
+	port: %mail.port%
+	username: %mail.username%
+	password: %mail.password%
+	encryption: %mail.encryption%
+
+
 security:
 	authentication:
 		expiration: 14 days

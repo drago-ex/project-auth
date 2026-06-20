@@ -23,11 +23,14 @@ readonly class EmailService
 
 
 	/** Sends the password recovery email. */
-	public function sendEmail(string $email, string $token): void
+	public function sendEmail(string $email, string $token, string $lang): void
 	{
+		$this->translator->setTranslate($lang);
+
 		$template = $this->templateFactory->createTemplate();
 		$template->setFile(__DIR__ . '/email.latte');
 		$template->setTranslator($this->translator);
+		$template->lang = $lang;
 		$template->token = $token;
 
 		$message = new Message;

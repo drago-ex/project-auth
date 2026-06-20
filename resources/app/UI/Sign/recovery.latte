@@ -21,16 +21,31 @@
 	{elseif !$signRecoveryToken->isTokenChecked}
 		{embed '../../Core/Widget/@form.latte', name: 'signRecoveryCheckToken', class: 'ajax', najaHistory: 'off'}
 			{block form}
-				{include input, name: 'token'}
+				<div class="col-12 otp-control">
+					{label token, class: 'form-label fw-semibold' /}
+					<div class="otp-input-wrapper" data-otp-control>
+						{input token}
+						<div class="otp-slots" aria-hidden="true">
+							{for $i = 0; $i < 6; $i++}
+								<span class="otp-slot" data-otp-slot></span>
+							{/for}
+						</div>
+					</div>
+				</div>
 				<div class="col-12 d-grid gap-1">
 					{include submit, name: 'send'}
 				</div>
 			{/block}
 		{/embed}
 
-		<p class="mt-2 mb-0 text-end">
-			<a n:href="in" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Back to sign in'}</a>
-		</p>
+		<div class="mt-2 text-end">
+			<p class="m-0">
+				<a n:href="resendRecovery!" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Send a new code'}</a>
+			</p>
+			<p class="m-0">
+				<a n:href="in" class="btn btn-link p-0 text-decoration-none ajax" data-link-disable>{_'Back to sign in'}</a>
+			</p>
+		</div>
 
 	{else}
 		{embed '../../Core/Widget/@form.latte', name: 'signRecoveryChangePassword', class: 'ajax', najaHistory: 'off'}

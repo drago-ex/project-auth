@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\UI\Sign\Recovery;
 
-use App\UI\Sign\Recovery\Sign\Recovery\Token;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
-use Nette\Utils\Random;
 use RuntimeException;
 
 
 /** Session handler for managing password recovery tokens. */
 readonly class SessionService
 {
+	private const int TokenLength = 6;
+	private const int MaxAttempts = 5;
+
+
 	public function __construct(
 		private Session $session,
 	) {
@@ -24,7 +26,7 @@ readonly class SessionService
 	{
 		return $this->session
 			->getSection('recovery')
-			->setExpiration('30 minutes');
+			->setExpiration('15 minutes');
 	}
 
 
@@ -32,9 +34,10 @@ readonly class SessionService
 	public function generateToken(string $email): string
 	{
 		$section = $this->getSection();
-		$token = Random::generate(32);
-		$section->set('token', $token);
+		$token = str_pad((string) random_int(0, 999_999), self::TokenLength, '0', STR_PAD_LEFT);
+		$section->set('token', hash('sha256', $token));
 		$section->set('email', $email);
+		$section->set('attempts', 0);
 		return $token;
 	}
 
@@ -73,7 +76,7 @@ readonly class SessionService
 	public function removeToken(): void
 	{
 		$this->getSection()
-			->remove(['token', 'tokenCheck', 'email']);
+			->remove(['token', 'tokenCheck', 'email', 'attempts']);
 	}
 
 
@@ -82,8 +85,9 @@ readonly class SessionService
 	{
 		$section = $this->getSection();
 		$storedToken = $section->get('token');
+		$attempts = (int) $section->get('attempts');
 
-		if ($storedToken === null) {
+		if ($storedToken === null || $attempts >= self::MaxAttempts) {
 			return false;
 		}
 
@@ -91,7 +95,19 @@ readonly class SessionService
 			return false;
 		}
 
-		return hash_equals((string) $storedToken, $token);
+		$isValid = hash_equals((string) $storedToken, hash('sha256', $token));
+		if (!$isValid) {
+			$section->set('attempts', $attempts + 1);
+		}
+
+		return $isValid;
+	}
+
+
+	/** Whether another token validation attempt is allowed. */
+	public function hasAttemptsRemaining(): bool
+	{
+		return (int) $this->getSection()->get('attempts') < self::MaxAttempts;
 	}
 
 

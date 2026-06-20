@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace App\UI\Sign\Recovery;
 
-use App\UI\Sign\Recovery\Sign\Factory;
-use App\UI\Sign\Recovery\Sign\Recovery\EmailService;
-use App\UI\Sign\Recovery\Sign\Recovery\SessionService;
-use App\UI\Sign\Recovery\Sign\User\UserRepository;
+use App\UI\Sign\Factory;
+use App\UI\Sign\User\UserRepository;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
@@ -29,14 +27,14 @@ readonly class RecoveryFactory
 	}
 
 
-	public function createRequest(): Form
+	public function createRequest(string $lang): Form
 	{
 		$form = $this->factory->create();
 		$form->addEmailField()
 			->addRule($this->emailCheck(...), "We're sorry, but we don't know such an email address.");
 
 		$form->addSubmit('send', 'Send recovery code');
-		$form->onSuccess[] = $this->request(...);
+		$form->onSuccess[] = fn(Form $form) => $this->request($form, $lang);
 		return $form;
 	}
 
@@ -45,21 +43,37 @@ readonly class RecoveryFactory
 	{
 		$form = $this->factory->create();
 		$form->addTextInput('token', 'Code')
-			->addRule($this->tokenCheck(...), 'The code entered is invalid.')
-			->setPlaceholder('Enter the code from the email')
+			->addRule($form::Pattern, 'The code must contain six digits.', '[0-9]{6}')
 			->setRequired('Please enter the code from the email.')
-			->setAutocomplete(Autocomplete::Off);
+			->setAutocomplete('one-time-code')
+			->setHtmlAttribute('inputmode', 'numeric')
+			->setHtmlAttribute('maxlength', 6)
+			->setHtmlAttribute('data-otp-input', true)
+			->setHtmlAttribute('class', 'otp-input');
 
 		$form->addSubmit('send', 'Verify code');
+		$form->onValidate[] = $this->validateToken(...);
 		$form->onSuccess[] = $this->checkToken(...);
 		return $form;
 	}
 
 
-	private function tokenCheck(Control $input): bool
+	private function validateToken(Form $form): void
 	{
-		return $this->sessionService
-			->isTokenValid($input->getValue());
+		$input = $form->getComponent('token');
+		assert($input instanceof Control);
+
+		if ($input->getErrors() !== []) {
+			return;
+		}
+
+		if ($this->sessionService->isTokenValid((string) $input->getValue())) {
+			return;
+		}
+
+		$input->addError($this->sessionService->hasAttemptsRemaining()
+			? 'The code entered is invalid.'
+			: 'Too many incorrect attempts. Request a new code.');
 	}
 
 
@@ -92,7 +106,7 @@ readonly class RecoveryFactory
 	}
 
 
-	private function request(Form $form): void
+	private function request(Form $form, string $lang): void
 	{
 		try {
 			$values = $form->getValues();
@@ -101,12 +115,21 @@ readonly class RecoveryFactory
 				->generateToken($email);
 
 			$request = $this->emailService;
-			$request->sendEmail($email, $token);
+			$request->sendEmail($email, $token, $lang);
 
 		} catch (\Throwable $e) {
 			$message = 'Unknown status code.';
 			$form->addError($message);
 		}
+	}
+
+
+	/** Sends a new recovery code to the email stored in the current recovery session. */
+	public function resendCode(string $lang): void
+	{
+		$email = $this->sessionService->getEmail();
+		$token = $this->sessionService->generateToken($email);
+		$this->emailService->sendEmail($email, $token, $lang);
 	}
 
 
