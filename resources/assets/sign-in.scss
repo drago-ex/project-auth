@@ -24,7 +24,7 @@ body {
 }
 
 .sign-in-page {
-	width: min(100% - 2rem, 68rem);
+	width: min(100% - 2rem, 60rem);
 	margin-inline: auto;
 	padding-block: 2rem;
 	display: flex;
@@ -160,7 +160,7 @@ body {
 @media (min-width: 992px) {
 	.sign-in-shell {
 		display: grid;
-		grid-template-columns: minmax(20rem, 42%) minmax(0, 1fr);
+		grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
 	}
 
 	.sign-in-visual {
