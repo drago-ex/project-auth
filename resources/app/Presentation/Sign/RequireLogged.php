@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign;
+namespace App\Presentation\Sign;
 
 use Nette\Application\UI\Presenter;
 use Nette\Security\User;
 
 
-/** Ensures the user is logged in. */
 trait RequireLogged
 {
-	/** Injects require logged user. */
 	public function injectRequireLoggedUser(Presenter $presenter, User $user): void
 	{
 		$presenter->onStartup[] = function () use ($presenter, $user) {

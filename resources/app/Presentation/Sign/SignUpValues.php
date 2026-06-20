@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign;
+namespace App\Presentation\Sign;
 
 use Drago\Utils\ExtraArrayHash;
 
 
-/** Sign up values. */
 class SignUpValues extends ExtraArrayHash
 {
 	public const string

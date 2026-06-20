@@ -1,6 +1,6 @@
-{templateType App\UI\Sign\SignTemplate}
+{templateType App\Presentation\Sign\SignTemplate}
 {varType Drago\Application\UI\Flashes[] $flashes}
-{import '../../Core/Widget/@lang-switch.latte'}
+{import '../Accessory/Widget/@lang-switch.latte'}
 
 <!DOCTYPE html>
 <html lang="{$lang}" data-bs-theme="light">
@@ -60,7 +60,7 @@
 				</header>
 
 				{snippet message}
-					{include '../../Core/Widget/@toast.latte', messages: $flashes}
+					{include '../Accessory/Widget/@toast.latte', messages: $flashes}
 				{/snippet}
 
 				{include content}

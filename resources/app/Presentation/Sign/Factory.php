@@ -2,15 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign;
+namespace App\Presentation\Sign;
 
 use Drago\Form\ExtraForms;
 
 
-/**
- * Factory for creating sign in form.
- * @extends \Drago\Application\UI\Factory<ExtraForms>
- */
+/** @extends \Drago\Application\UI\Factory<ExtraForms> */
 readonly class Factory extends \Drago\Application\UI\Factory
 {
 	protected function createForm(): ExtraForms

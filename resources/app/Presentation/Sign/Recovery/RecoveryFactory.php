@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign\Recovery;
+namespace App\Presentation\Sign\Recovery;
 
-use App\UI\Sign\Factory;
-use App\UI\Sign\User\UserRepository;
+use App\Presentation\Sign\Factory;
+use App\Presentation\Sign\User\UserRepository;
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
@@ -122,7 +122,6 @@ readonly class RecoveryFactory
 	}
 
 
-	/** Sends a new recovery code to the email stored in the current recovery session. */
 	public function resendCode(string $lang): void
 	{
 		$email = $this->sessionService->getEmail();

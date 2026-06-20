@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign;
+namespace App\Presentation\Sign;
 
-use App\UI\BaseTemplate;
-use App\UI\Sign\Recovery\Token;
+use App\Presentation\BaseTemplate;
+use App\Presentation\Sign\Recovery\Token;
 
 
-/** Sign in template. */
 final class SignTemplate extends BaseTemplate
 {
 	public Token $signRecoveryToken;

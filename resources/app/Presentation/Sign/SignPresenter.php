@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign;
+namespace App\Presentation\Sign;
 
-use App\UI\BasePresenter;
-use App\UI\Sign\Recovery\RecoveryFactory;
-use App\UI\Sign\Recovery\SessionService;
+use App\Presentation\BasePresenter;
+use App\Presentation\Sign\Recovery\RecoveryFactory;
+use App\Presentation\Sign\Recovery\SessionService;
 use Drago\Application\UI\Alert;
 use Drago\Form\Autocomplete;
 use Nette\Application\Attributes\Persistent;
@@ -16,10 +16,7 @@ use Nette\Security\AuthenticationException;
 use Throwable;
 
 
-/**
- * Handles user authentication and registration.
- * @property-read SignTemplate $template
- */
+/** @property-read SignTemplate $template */
 final class SignPresenter extends BasePresenter
 {
 	#[Persistent]

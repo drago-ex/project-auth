@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign\Recovery;
+namespace App\Presentation\Sign\Recovery;
 
 use Drago\Localization\Translator;
 use Nette\Bridges\ApplicationLatte\TemplateFactory;
@@ -11,7 +11,6 @@ use Nette\Mail\Message;
 use Tracy\Debugger;
 
 
-/** Service for sending password recovery emails. */
 readonly class EmailService
 {
 	public function __construct(
@@ -22,7 +21,6 @@ readonly class EmailService
 	}
 
 
-	/** Sends the password recovery email. */
 	public function sendEmail(string $email, string $token, string $lang): void
 	{
 		$this->translator->setTranslate($lang);

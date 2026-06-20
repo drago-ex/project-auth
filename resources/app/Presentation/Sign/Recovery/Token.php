@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign\Recovery;
+namespace App\Presentation\Sign\Recovery;
 
 
 class Token

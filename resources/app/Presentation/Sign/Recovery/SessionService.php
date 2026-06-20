@@ -2,14 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign\Recovery;
+namespace App\Presentation\Sign\Recovery;
 
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
 use RuntimeException;
 
 
-/** Session handler for managing password recovery tokens. */
 readonly class SessionService
 {
 	private const int TokenLength = 6;
@@ -28,7 +27,6 @@ readonly class SessionService
 	}
 
 
-	/** Sets a new token and email for password recovery in the session. */
 	public function generateToken(string $email): string
 	{
 		$section = $this->getSection()
@@ -56,7 +54,6 @@ readonly class SessionService
 	}
 
 
-	/** Retrieves the stored password recovery token from the session. */
 	public function getToken(): ?string
 	{
 		return $this->getSection()
@@ -64,7 +61,6 @@ readonly class SessionService
 	}
 
 
-	/** Marks the token as checked in the session. */
 	public function setTokenCheck(): void
 	{
 		$this->getSection()
@@ -72,7 +68,6 @@ readonly class SessionService
 	}
 
 
-	/** Removes the password recovery token and token check from the session. */
 	public function removeToken(): void
 	{
 		$this->getSection()
@@ -80,7 +75,6 @@ readonly class SessionService
 	}
 
 
-	/** Validates if the provided token matches the stored token in the session. */
 	public function isTokenValid(string $token): bool
 	{
 		$section = $this->getSection();
@@ -104,14 +98,12 @@ readonly class SessionService
 	}
 
 
-	/** Whether another token validation attempt is allowed. */
 	public function hasAttemptsRemaining(): bool
 	{
 		return (int) $this->getSection()->get('attempts') < self::MaxAttempts;
 	}
 
 
-	/** Creates a SignRecoveryToken object based on the current session data. */
 	public function createSignRecoveryToken(): Token
 	{
 		return new Token(

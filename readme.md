@@ -3,7 +3,7 @@
 Authentication and user access package for the Drago project.
 This package provides a complete authentication layer including user login,
 registration, password recovery and access control. It is designed as a modular
-extension for projects built on top of the Drago ecosystem and Nette framework.
+extension for projects built on top of the Drago ecosystem and Nette Framework.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/drago-ex/project-auth/blob/main/license)
 [![PHP version](https://badge.fury.io/ph/drago-ex%2Fproject-auth.svg)](https://badge.fury.io/ph/drago-ex%2Fproject-auth)
@@ -52,9 +52,12 @@ php vendor/bin/create-user <username> <email> <password>
 ## Secure access to the section
 
 ```php
+use App\Presentation\Sign\RequireLogged;
+use Nette\Application\UI\Presenter;
+
 final class SecurePresenter extends Presenter
 {
-    use App\UI\Sign\RequireLogged;
+	use RequireLogged;
 }
 ```
 
@@ -65,7 +68,6 @@ php vendor/bin/create-auth-permission
 ```
 
 ## Database migration
-- https://github.com/drago-ex/migration
 ```bash
 php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations
 ```

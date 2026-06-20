@@ -6,12 +6,11 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign\User;
+namespace App\Presentation\Sign\User;
 
 use Drago\Database\Entity;
 
 
-/** Class representing the user entity. */
 class UserEntity extends Entity
 {
 	public const string

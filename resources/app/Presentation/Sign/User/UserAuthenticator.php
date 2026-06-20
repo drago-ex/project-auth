@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign\User;
+namespace App\Presentation\Sign\User;
 
 use Dibi\Exception;
 use Drago\Attr\AttributeDetectionException;
@@ -16,7 +16,6 @@ use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
 
 
-/** User authenticator. */
 #[Table(UserEntity::Table, UserEntity::ColumnId, class: UserEntity::class)]
 class UserAuthenticator implements Authenticator, IdentityHandler
 {
@@ -59,7 +58,6 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 	}
 
 
-	/** Saves the user's identity for later use. */
 	public function sleepIdentity(IIdentity $identity): SimpleIdentity
 	{
 		$data = $identity->getData();

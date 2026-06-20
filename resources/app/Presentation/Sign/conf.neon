@@ -27,6 +27,6 @@ routing:
 
 
 services:
-	- App\UI\Sign\Recovery\SessionService
-	- App\UI\Sign\Recovery\EmailService
-	- App\UI\Sign\User\UserAuthenticator
+	- App\Presentation\Sign\Recovery\SessionService
+	- App\Presentation\Sign\Recovery\EmailService
+	- App\Presentation\Sign\User\UserAuthenticator

@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-use App\UI\Sign\User\UserEntity;
+use App\Presentation\Sign\User\UserEntity;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Nette\Security\Passwords;

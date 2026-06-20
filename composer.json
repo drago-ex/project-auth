@@ -8,6 +8,7 @@
 		"drago-ex/database": "^3.0",
 		"drago-ex/application": "^2.0",
 		"drago-ex/form": "^2.0",
+		"drago-ex/migration": "^2.0",
 		"drago-ex/utils": "^2.0",
 		"drago-ex/translator": "^3.0",
 		"drago-ex/project-front": "^2.0",
@@ -15,6 +16,9 @@
 		"nette/http": "^3.0",
 		"nette/mail": "^4.0",
 		"nette/security": "^3.2"
+	},
+	"suggest": {
+		"drago-ex/permission": "Enables generation of the authentication permission provider."
 	},
 	"extra": {
 		"drago-tools": {

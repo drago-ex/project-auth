@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\UI\Sign\User;
+namespace App\Presentation\Sign\User;
 
 
-/** Exception thrown when a user is not found. */
 class UserNotFoundException extends \Exception
 {
 }
