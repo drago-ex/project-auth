@@ -52,7 +52,7 @@ php vendor/bin/create-user <username> <email> <password>
 ## Secure access to the section
 
 ```php
-use App\Presentation\Sign\RequireLogged;
+use App\Presentation\Accessory\RequireLogged;
 use Nette\Application\UI\Presenter;
 
 final class SecurePresenter extends Presenter
