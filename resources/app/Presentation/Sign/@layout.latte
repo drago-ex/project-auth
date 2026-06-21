@@ -22,19 +22,10 @@
 			<h1 n:block="brand" class="fs-5 fw-semibold mb-1">Project</h1>
 		</div>
 
-		<button
-			type="button"
-			aria-label="{_'Toggle theme'}"
-			data-theme-switcher
-			data-theme-light-icon="fa-solid fa-sun"
-			data-theme-dark-icon="fa-solid fa-moon"
-			data-theme-light-label="{_'Light mode'}"
-			data-theme-dark-label="{_'Dark mode'}"
-			class="btn btn-link d-inline-flex align-items-center justify-content-center gap-2 flex-shrink-0 py-1 px-2 text-secondary text-decoration-none"
-		>
-			<i data-theme-switcher-icon aria-hidden="true"></i>
-			<span data-theme-switcher-label>{_'Dark mode'}</span>
-		</button>
+		{include '../Accessory/Widget/@theme-switch.latte',
+			class: 'd-inline-flex align-items-center justify-content-center gap-2 flex-shrink-0 py-1 px-2 text-secondary',
+			icon: true
+		}
 	</div>
 
 	<div class="sign-in-shell w-100 bg-body shadow-sm rounded-3 overflow-hidden">
