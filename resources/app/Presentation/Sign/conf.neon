@@ -29,4 +29,4 @@ routing:
 services:
 	- App\Presentation\Sign\Recovery\SessionService
 	- App\Presentation\Sign\Recovery\EmailService
-	- App\Presentation\Sign\User\UserAuthenticator
+	- App\Model\User\UserAuthenticator

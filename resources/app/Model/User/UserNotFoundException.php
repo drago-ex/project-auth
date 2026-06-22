@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Presentation\Sign\User;
+namespace App\Model\User;
 
 
 class UserNotFoundException extends \Exception

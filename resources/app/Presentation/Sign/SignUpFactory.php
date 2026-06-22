@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Sign;
 
-use App\Presentation\Sign\User\UserEntity;
+use App\Model\User\UserEntity;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;
