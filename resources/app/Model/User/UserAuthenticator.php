@@ -16,7 +16,7 @@ use Nette\Security\Passwords;
 use Nette\Security\SimpleIdentity;
 
 
-#[Table(UserEntity::Table, UserEntity::ColumnId, class: UserEntity::class)]
+#[Table(UserEntity::Table, UserEntity::ColumnId, entity: UserEntity::class)]
 class UserAuthenticator implements Authenticator, IdentityHandler
 {
 	/** @phpstan-use Database<UserEntity> */

@@ -24,9 +24,9 @@ composer require drago-ex/project-auth
 ```
 
 ### npm Installation
-The authentication UI requires the theme switcher for proper functionality:
+The authentication UI requires the theme switcher and Font Awesome icons:
 ```bash
-npm install theme-switcher-compostrap
+npm install theme-switcher-compostrap @fortawesome/fontawesome-free
 ```
 
 ## Project files
