@@ -1,6 +1,7 @@
 {templateType App\Presentation\Sign\SignTemplate}
 {varType Drago\Application\UI\Flashes[] $flashes}
 {import '../Accessory/Widget/@lang-switch.latte'}
+{import '../Accessory/Widget/@brand.latte'}
 
 <!DOCTYPE html>
 <html lang="{$lang}" data-bs-theme="light">
@@ -19,13 +20,15 @@
 <div class="sign-in-page mx-auto d-flex flex-column justify-content-center">
 	<div class="d-flex align-items-center justify-content-between mb-3 ms-2">
 		<div class="d-flex align-items-center gap-2 text-body-secondary">
-			<i class="fa-solid fa-cube fs-5 text-primary" aria-hidden="true"></i>
-			<h1 n:block="brand" class="fs-5 fw-semibold mb-1">Project</h1>
+			{include brand-logo}
+			<h1 class="fs-5 fw-semibold mb-1">
+				{include brand}
+			</h1>
 		</div>
 
 		{include '../Accessory/Widget/@theme-switch.latte',
 			class: 'd-inline-flex align-items-center justify-content-center gap-2 flex-shrink-0 py-1 px-2 text-secondary',
-			icon: true
+			icon: false
 		}
 	</div>
 
