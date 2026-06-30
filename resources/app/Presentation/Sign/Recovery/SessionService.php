@@ -6,6 +6,8 @@ namespace App\Presentation\Sign\Recovery;
 
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
+use Nette\Utils\Random;
+use Random\RandomException;
 use RuntimeException;
 
 
@@ -27,12 +29,16 @@ readonly class SessionService
 	}
 
 
+	/**
+	 * @throws RandomException
+	 */
 	public function generateToken(string $email): string
 	{
 		$section = $this->getSection()
 			->setExpiration('15 minutes');
+
 		$section->remove('tokenCheck');
-		$token = str_pad((string) random_int(0, 999_999), self::TokenLength, '0', STR_PAD_LEFT);
+		$token = Random::generate(self::TokenLength, '0-9');
 		$section->set('token', hash('sha256', $token));
 		$section->set('email', $email);
 		$section->set('attempts', 0);

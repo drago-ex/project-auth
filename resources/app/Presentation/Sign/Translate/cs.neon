@@ -45,7 +45,7 @@
 "Enter the code from the email": "Zadejte kód z e-mailu"
 "Please enter the code from the email.": "Zadejte prosím kód z e-mailu."
 "The code entered is invalid.": "Zadaný kód je neplatný."
-"The code must contain six digits.": "Kód musí obsahovat šest číslic."
+"The code must be exactly %d digits.": "Kód musí mít přesně %d číslic"
 "Too many incorrect attempts. Request a new code.": "Příliš mnoho chybných pokusů. Vyžádejte si nový kód."
 "Send a new code": "Odeslat nový kód"
 "A new password recovery code has been sent to your email.": "Na váš e-mail byl odeslán nový kód pro obnovení hesla."

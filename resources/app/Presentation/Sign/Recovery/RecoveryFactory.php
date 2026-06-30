@@ -12,7 +12,10 @@ use Drago\Form\Autocomplete;
 use Drago\Form\Rules\PasswordRules;
 use Nette\Application\UI\Form;
 use Nette\Forms\Control;
+use Nette\Forms\Controls\BaseControl;
 use Nette\Security\Passwords;
+use Random\RandomException;
+use Throwable;
 
 
 readonly class RecoveryFactory
@@ -42,12 +45,10 @@ readonly class RecoveryFactory
 	public function createCheckToken(): Form
 	{
 		$form = $this->factory->create();
-		$form->addTextInput('token', 'Code')
-			->addRule($form::Pattern, 'The code must contain six digits.', '[0-9]{6}')
+		$form->addIntegerInput('token', 'Code')
 			->setRequired('Please enter the code from the email.')
-			->setAutocomplete('one-time-code')
-			->setHtmlAttribute('inputmode', 'numeric')
-			->setHtmlAttribute('maxlength', 6);
+			->addRule($form::Length, 'The code must be exactly %d digits.', 6)
+			->setAutocomplete(Autocomplete::OneTimeCode);
 
 		$form->addSubmit('send', 'Verify code');
 		$form->onValidate[] = $this->validateToken(...);
@@ -59,7 +60,7 @@ readonly class RecoveryFactory
 	private function validateToken(Form $form): void
 	{
 		$input = $form->getComponent('token');
-		assert($input instanceof Control);
+		assert($input instanceof BaseControl);
 
 		if ($input->getErrors() !== []) {
 			return;
@@ -115,13 +116,18 @@ readonly class RecoveryFactory
 			$request = $this->emailService;
 			$request->sendEmail($email, $token, $lang);
 
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			$message = 'Unknown status code.';
 			$form->addError($message);
 		}
 	}
 
 
+	/**
+	 * @throws Throwable
+	 * @throws RandomException
+	 * @throws \Nette\Neon\Exception
+	 */
 	public function resendCode(string $lang): void
 	{
 		$email = $this->sessionService->getEmail();
@@ -148,7 +154,7 @@ readonly class RecoveryFactory
 			$this->userRepository->save($user);
 			$this->sessionService->removeToken();
 
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			$message = match ($e->getCode()) {
 				1001 => 'User with email was not found.',
 				default => 'Unknown status code.',

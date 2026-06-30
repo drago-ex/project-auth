@@ -8,6 +8,8 @@ use Drago\Localization\Translator;
 use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Nette\Mail\Mailer;
 use Nette\Mail\Message;
+use Nette\Neon\Exception;
+use Throwable;
 use Tracy\Debugger;
 
 
@@ -21,6 +23,10 @@ readonly class EmailService
 	}
 
 
+	/**
+	 * @throws Throwable
+	 * @throws Exception
+	 */
 	public function sendEmail(string $email, string $token, string $lang): void
 	{
 		$this->translator->setTranslate($lang);
@@ -40,7 +46,7 @@ readonly class EmailService
 		try {
 			$this->mailer->send($message);
 
-		} catch (\Throwable $e) {
+		} catch (Throwable $e) {
 			Debugger::log($e, Debugger::ERROR);
 		}
 	}

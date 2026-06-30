@@ -10,9 +10,11 @@ use App\Presentation\Sign\Recovery\SessionService;
 use Drago\Application\UI\Alert;
 use Drago\Form\Autocomplete;
 use Nette\Application\Attributes\Persistent;
+use Nette\Application\Attributes\Requires;
 use Nette\Application\UI\Form;
 use Nette\Neon\Exception;
 use Nette\Security\AuthenticationException;
+use Random\RandomException;
 use Throwable;
 
 
@@ -43,13 +45,9 @@ final class SignPresenter extends BasePresenter
 	protected function beforeRender(): void
 	{
 		parent::beforeRender();
-
 		if ($this->getAction() === 'recovery') {
-			$this->template->signRecoveryToken = $this->sessionService->createSignRecoveryToken();
-		}
-
-		if ($this->isAjax()) {
-			$this->redrawSnippets();
+			$token = $this->sessionService->createSignRecoveryToken();
+			$this->template->signRecoveryToken = $token;
 		}
 	}
 
@@ -79,6 +77,44 @@ final class SignPresenter extends BasePresenter
 	}
 
 
+	/**
+	 * @throws Throwable
+	 * @throws Exception
+	 * @throws RandomException
+	 */
+	#[Requires(ajax: true)]
+	public function handleResendRecovery(): void
+	{
+		$this->recoveryFactory->resendCode($this->lang);
+		$this->flashMessage('A new password recovery code has been sent to your email.', Alert::Success);
+		$this->redrawSnippets();
+	}
+
+
+	public function actionIn(): void
+	{
+		$this->redrawSnippets();
+	}
+
+
+	public function actionUp(): void
+	{
+		$this->redrawSnippets();
+	}
+
+
+	public function actionRecovery(): void
+	{
+		$this->redrawSnippets();
+	}
+
+
+	public function actionOut(): void
+	{
+		$this->getUser()->logout();
+	}
+
+
 	protected function createComponentSignUp(): Form
 	{
 		$form = $this->signUpFactory->create();
@@ -105,19 +141,6 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	public function handleResendRecovery(): void
-	{
-		$this->recoveryFactory->resendCode($this->lang);
-		$this->flashMessage('A new password recovery code has been sent to your email.', Alert::Success);
-
-		if (!$this->isAjax()) {
-			$this->redirect('recovery');
-		}
-
-		$this->redrawSnippets();
-	}
-
-
 	protected function createComponentSignRecoveryCheckToken(): Form
 	{
 		$form = $this->recoveryFactory->createCheckToken();
@@ -136,11 +159,5 @@ final class SignPresenter extends BasePresenter
 			$this->redirect('in');
 		};
 		return $form;
-	}
-
-
-	public function actionOut(): void
-	{
-		$this->getUser()->logout();
 	}
 }
