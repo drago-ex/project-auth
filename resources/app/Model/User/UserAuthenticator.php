@@ -19,7 +19,7 @@ use Nette\Security\SimpleIdentity;
 #[Table(UserEntity::Table, UserEntity::ColumnId, entity: UserEntity::class)]
 class UserAuthenticator implements Authenticator, IdentityHandler
 {
-	/** @phpstan-use Database<UserEntity> */
+	/** @use Database<UserEntity> */
 	use Database;
 
 	public function __construct(
