@@ -16,8 +16,8 @@ security:
 
 
 routing:
-    routes:
-        '[<lang=cs cs|en>/]sign/<action>/': Sign:default
+	routes:
+		'[<lang=cs cs|en>/]sign/<action>/': Sign:default
 
 
 services:
