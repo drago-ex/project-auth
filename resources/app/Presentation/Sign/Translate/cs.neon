@@ -34,10 +34,9 @@
 "Please enter your password to check.": "Zadejte prosím své heslo pro kontrolu."
 "Password must be at least %d characters long.": "Heslo musí mít alespoň %d znaků."
 "Back to sign in": "Zpět k přihlášení"
+"Enter your details to create a new account.": "Pro vytvoření účtu vyplňte své údaje."
 "The password must contain uppercase and lowercase letters, numbers, and a special character.":
 	"Heslo musí obsahovat velká a malá písmena, číslice a speciální znak."
-
-"Enter your details to create a new account.": "Pro vytvoření účtu vyplňte své údaje."
 
 # recovery password
 "Password recovery": "Obnovení hesla"
@@ -53,7 +52,6 @@
 "Change password": "Změnit heslo"
 "Code": "Kód"
 "We're sorry, but we don't know such an email address.": "Je nám líto, ale takovou e-mailovou adresu neznáme."
-
 "Follow the steps to restore access to your account.": "Podle následujících kroků obnovte přístup ke svému účtu."
 
 # recovery email
