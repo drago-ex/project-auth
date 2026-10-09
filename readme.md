@@ -10,6 +10,7 @@ extension for projects built on top of the Drago ecosystem and Nette Framework.
 [![Coding Style](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml)
 
 ## Requirements
+
 - PHP >= 8.3
 - Nette Framework
 - Composer
@@ -19,23 +20,27 @@ extension for projects built on top of the Drago ecosystem and Nette Framework.
 - Drago Project core packages
 
 ## Installation
+
 ```bash
 composer require drago-ex/project-auth
 ```
 
 ### npm Installation
+
 The authentication UI requires the theme switcher and Font Awesome icons:
 ```bash
 npm install theme-switcher-compostrap @fortawesome/fontawesome-free
 ```
 
 ## Project files
+
 File copying is handled automatically by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
 which must be installed in your project. Without it, copy the files manually according to the `copy` section
 in this package's `composer.json`. To skip this package, set `"skip": true` under
 `extra.drago-tools.packages.<package-name>` in your root `composer.json`.
 
 ## Features
+
 - User authentication (sign in / sign out)
 - User registration (sign up)
 - Password recovery and reset
@@ -44,6 +49,7 @@ in this package's `composer.json`. To skip this package, set `"skip": true` unde
 - Ready-to-use authentication UI components
 
 ## Adds a new user to the database
+
 Hashes the password, generates a token, and ensures the email is unique.
 ```bash
 php vendor/bin/create-user <username> <email> <password>
@@ -62,12 +68,14 @@ final class SecurePresenter extends Presenter
 ```
 
 ## Generate permission provider
+
 If you use project ACL (drago-ex/permission), you can generate a module permission class:
 ```bash
 php vendor/bin/create-auth-permission
 ```
 
 ## Database migration
+
 ```bash
 php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations
 ```
