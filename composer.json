@@ -1,7 +1,7 @@
 {
 	"name": "drago-ex/project-auth",
-	"type": "drago-tools-resource",
 	"description": "Authentication and user access package for the Drago project.",
+	"type": "drago-tools-resource",
 	"license": ["MIT"],
 	"require": {
 		"php": ">=8.3 <9",
@@ -19,24 +19,6 @@
 	},
 	"suggest": {
 		"drago-ex/permission": "Enables generation of the authentication permission provider."
-	},
-	"extra": {
-		"drago-tools": {
-			"install": {
-				"copy": {
-					"resources/app": "app",
-					"resources/assets": "assets"
-				}
-			},
-			"commands-priority": 10,
-			"commands": {
-				"create:auth-permission": "php vendor/bin/create-auth-permission",
-				"db:migrate-auth": "php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations"
-			}
-		},
-		"drago-translator": {
-			"translation": "app/Presentation/Sign/Translate"
-		}
 	},
 	"require-dev": {
 		"phpstan/phpstan-nette": "^2.0",
@@ -56,5 +38,23 @@
 			"drago-install --dev",
 			"drago-clean"
 		]
+	},
+	"extra": {
+		"drago-tools": {
+			"install": {
+				"copy": {
+					"resources/app": "app",
+					"resources/assets": "assets"
+				}
+			},
+			"commands-priority": 10,
+			"commands": {
+				"create:auth-permission": "php vendor/bin/create-auth-permission",
+				"db:migrate-auth": "php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations"
+			}
+		},
+		"drago-translator": {
+			"translation": "app/Presentation/Sign/Translate"
+		}
 	}
 }
