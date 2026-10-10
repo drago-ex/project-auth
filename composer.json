@@ -54,7 +54,7 @@
 			}
 		},
 		"drago-translator": {
-			"translation": "resources/app/Presentation/Sign/Translate"
+			"translation": "app/Presentation/Sign/Translate"
 		}
 	}
 }
