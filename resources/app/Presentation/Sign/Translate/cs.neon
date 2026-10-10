@@ -1,16 +1,12 @@
 # sign in
-"Email address": "Emailová adresa"
-"Please enter your email address.": "Zadejte prosím svou e-mailovou adresu."
-"Password": "Heslo"
-"Your password": "Vaše heslo"
-"Please enter your password.": "Zadejte prosím své heslo."
+"Administration": "Administrace"
+"Sign out": "Odhlásit se"
 "Sign in": "Přihlásit se"
 "Sign in to your account": "Přihlášení k účtu"
 "Enter your email and password to continue.": "Pro pokračování zadejte svůj e-mail a heslo."
 "Create account": "Vytvořit účet"
 "Forgot your password?": "Zapomněli jste heslo?"
 "The email or password is incorrect.": "E-mail nebo heslo je nesprávné."
-"You must be logged in.": "Musíte být přihlášeni."
 "You have been signed out due to inactivity. Please sign in again.": "Byli jste odhlášeni z důvodu neaktivity. Přihlaste se prosím znovu."
 "Your registration has been successfully completed, you can now log in.":
 	"Vaše registrace byla úspěšně dokončena, nyní se můžete přihlásit."
@@ -25,18 +21,11 @@
 	"Již jste přihlášeni. Můžete pokračovat do administrace nebo se odhlásit a přepnout účet."
 
 # sign up
-"Username": "Uživatel"
 "Full name": "Celé jméno"
 "Please enter your full name.": "Zadejte prosím své celé jméno."
-"Password to check": "Heslo ke kontrole"
-"Re-enter password": "Znovu zadejte heslo"
-"Passwords do not match.": "Hesla se neshodují."
-"Please enter your password to check.": "Zadejte prosím své heslo pro kontrolu."
 "Password must be at least %d characters long.": "Heslo musí mít alespoň %d znaků."
 "Back to sign in": "Zpět k přihlášení"
 "Enter your details to create a new account.": "Pro vytvoření účtu vyplňte své údaje."
-"The password must contain uppercase and lowercase letters, numbers, and a special character.":
-	"Heslo musí obsahovat velká a malá písmena, číslice a speciální znak."
 
 # recovery password
 "Password recovery": "Obnovení hesla"
@@ -70,5 +59,3 @@
 "Toggle theme": "Přepnout motiv"
 "Light mode": "Světlý režim"
 "Dark mode": "Tmavý režim"
-"Switch to light": "Přepnout na světlý režim"
-"Switch to dark": "Přepnout na tmavý režim"

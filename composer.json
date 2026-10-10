@@ -10,7 +10,7 @@
 		"drago-ex/form": "^2.0",
 		"drago-ex/migration": "^2.0",
 		"drago-ex/utils": "^2.0",
-		"drago-ex/translator": "^3.0",
+		"drago-ex/translator": "^4.0",
 		"drago-ex/project-front": "^2.0",
 		"drago-ex/project-backend": "^2.0",
 		"nette/http": "^3.0",
@@ -54,7 +54,7 @@
 			}
 		},
 		"drago-translator": {
-			"translation": "app/Presentation/Sign/Translate"
+			"translation": "resources/app/Presentation/Sign/Translate"
 		}
 	}
 }
