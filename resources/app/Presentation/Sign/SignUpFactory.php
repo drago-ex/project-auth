@@ -31,9 +31,9 @@ readonly class SignUpFactory
 	{
 		$form = $this->factory->create();
 		$form->addTextInput(SignUpValues::Username, 'Full name')
-			->setRequired('Please enter your full name.')
 			->setPlaceholder('Full name')
-			->setAutocomplete(Autocomplete::Name);
+			->setAutocomplete(Autocomplete::Name)
+			->setRequired('Please enter your full name.');
 
 		$form->addEmailField()
 			->setDefaultValue('@');

@@ -46,9 +46,9 @@ readonly class RecoveryFactory
 	{
 		$form = $this->factory->create();
 		$form->addIntegerInput('token', 'Code')
+			->setAutocomplete(Autocomplete::OneTimeCode)
 			->setRequired('Please enter the code from the email.')
-			->addRule($form::Length, 'The code must be exactly %d digits.', 6)
-			->setAutocomplete(Autocomplete::OneTimeCode);
+			->addRule($form::Length, 'The code must be exactly %d digits.', 6);
 
 		$form->addSubmit('send', 'Verify code');
 		$form->onValidate[] = $this->validateToken(...);
