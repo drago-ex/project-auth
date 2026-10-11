@@ -47,7 +47,7 @@ readonly class SignUpFactory
 			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Create account');
-		$form->onSuccess[] = $this->success(...);
+		$form->onSuccess[] = $this->processSignUpForm(...);
 		return $form;
 	}
 
@@ -57,7 +57,7 @@ readonly class SignUpFactory
 	 * @throws Exception
 	 * @throws AssertionException
 	 */
-	private function success(Form $form, SignUpValues $values): void
+	private function processSignUpForm(Form $form, SignUpValues $values): void
 	{
 		$values->password = $this->password->hash($values->password);
 		$values->token = Random::generate(32);

@@ -92,7 +92,7 @@ final class SignPresenter extends BasePresenter
 			->setAutocomplete(Autocomplete::CurrentPassword);
 
 		$form->addSubmit('send', 'Sign in');
-		$form->onSuccess[] = $this->success(...);
+		$form->onSuccess[] = $this->processSignInForm(...);
 		return $form;
 	}
 
@@ -151,7 +151,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	private function success(Form $form, SignValues $values): void
+	private function processSignInForm(Form $form, SignValues $values): void
 	{
 		try {
 			$this->getUser()->login($values->email, $values->password);
