@@ -57,6 +57,36 @@ readonly class RecoveryFactory
 	}
 
 
+	public function createChangePassword(): Form
+	{
+		$form = $this->factory->create();
+		$form->addPasswordField()
+			->setAutocomplete(Autocomplete::NewPassword)
+			->addRule($form::MinLength, 'Password must be at least %d characters long.', 8)
+			->addRule($form::Pattern, PasswordRules::StrongMessage, PasswordRules::StrongPattern);
+
+		$form->addPasswordConfirmationField()
+			->setAutocomplete(Autocomplete::Off);
+
+		$form->addSubmit('send', 'Change password');
+		$form->onSuccess[] = $this->changePassword(...);
+		return $form;
+	}
+
+
+	/**
+	 * @throws Throwable
+	 * @throws RandomException
+	 * @throws \Nette\Neon\Exception
+	 */
+	public function resendCode(string $lang): void
+	{
+		$email = $this->sessionService->getEmail();
+		$token = $this->sessionService->generateToken($email);
+		$this->emailService->sendEmail($email, $token, $lang);
+	}
+
+
 	private function validateToken(Form $form): void
 	{
 		$input = $form->getComponent('token');
@@ -88,23 +118,6 @@ readonly class RecoveryFactory
 	}
 
 
-	public function createChangePassword(): Form
-	{
-		$form = $this->factory->create();
-		$form->addPasswordField()
-			->setAutocomplete(Autocomplete::NewPassword)
-			->addRule($form::MinLength, 'Password must be at least %d characters long.', 8)
-			->addRule($form::Pattern, PasswordRules::StrongMessage, PasswordRules::StrongPattern);
-
-		$form->addPasswordConfirmationField()
-			->setAutocomplete(Autocomplete::Off);
-
-		$form->addSubmit('send', 'Change password');
-		$form->onSuccess[] = $this->changePassword(...);
-		return $form;
-	}
-
-
 	private function request(Form $form, string $lang): void
 	{
 		try {
@@ -120,19 +133,6 @@ readonly class RecoveryFactory
 			$message = 'Unknown status code.';
 			$form->addError($message);
 		}
-	}
-
-
-	/**
-	 * @throws Throwable
-	 * @throws RandomException
-	 * @throws \Nette\Neon\Exception
-	 */
-	public function resendCode(string $lang): void
-	{
-		$email = $this->sessionService->getEmail();
-		$token = $this->sessionService->generateToken($email);
-		$this->emailService->sendEmail($email, $token, $lang);
 	}
 
 

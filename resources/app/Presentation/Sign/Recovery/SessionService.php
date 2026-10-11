@@ -23,12 +23,6 @@ readonly class SessionService
 	}
 
 
-	private function getSection(): SessionSection
-	{
-		return $this->session->getSection('recovery');
-	}
-
-
 	/**
 	 * @throws RandomException
 	 */
@@ -116,5 +110,11 @@ readonly class SessionService
 			hasToken: $this->getToken() !== null,
 			isTokenChecked: (bool) $this->getSection()->get('tokenCheck'),
 		);
+	}
+
+
+	private function getSection(): SessionSection
+	{
+		return $this->session->getSection('recovery');
 	}
 }

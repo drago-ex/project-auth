@@ -35,10 +35,42 @@ final class SignPresenter extends BasePresenter
 	}
 
 
-	private function redrawSnippets(): void
+	public function actionIn(): void
 	{
-		$this->redrawControl('title');
-		$this->redrawControl('content');
+		$this->redrawSnippets();
+	}
+
+
+	public function actionUp(): void
+	{
+		$this->redrawSnippets();
+	}
+
+
+	public function actionRecovery(): void
+	{
+		$this->redrawSnippets();
+	}
+
+
+	public function actionOut(): void
+	{
+		$this->getUser()->logout();
+		$this->redrawSnippets();
+	}
+
+
+	/**
+	 * @throws Throwable
+	 * @throws Exception
+	 * @throws RandomException
+	 */
+	#[Requires(ajax: true)]
+	public function handleResendRecovery(): void
+	{
+		$this->recoveryFactory->resendCode($this->lang);
+		$this->flashMessage('A new password recovery code has been sent to your email.', Alert::Success);
+		$this->redrawSnippets();
 	}
 
 
@@ -62,57 +94,6 @@ final class SignPresenter extends BasePresenter
 		$form->addSubmit('send', 'Sign in');
 		$form->onSuccess[] = $this->success(...);
 		return $form;
-	}
-
-
-	private function success(Form $form, SignValues $values): void
-	{
-		try {
-			$this->getUser()->login($values->email, $values->password);
-			$this->restoreRequest($this->backlink);
-			$this->redirect(':Backend:Admin:');
-		} catch (AuthenticationException) {
-			$form->addError('The email or password is incorrect.');
-		}
-	}
-
-
-	/**
-	 * @throws Throwable
-	 * @throws Exception
-	 * @throws RandomException
-	 */
-	#[Requires(ajax: true)]
-	public function handleResendRecovery(): void
-	{
-		$this->recoveryFactory->resendCode($this->lang);
-		$this->flashMessage('A new password recovery code has been sent to your email.', Alert::Success);
-		$this->redrawSnippets();
-	}
-
-
-	public function actionIn(): void
-	{
-		$this->redrawSnippets();
-	}
-
-
-	public function actionUp(): void
-	{
-		$this->redrawSnippets();
-	}
-
-
-	public function actionRecovery(): void
-	{
-		$this->redrawSnippets();
-	}
-
-
-	public function actionOut(): void
-	{
-		$this->getUser()->logout();
-		$this->redrawSnippets();
 	}
 
 
@@ -160,5 +141,24 @@ final class SignPresenter extends BasePresenter
 			$this->redirect('in');
 		};
 		return $form;
+	}
+
+
+	private function redrawSnippets(): void
+	{
+		$this->redrawControl('title');
+		$this->redrawControl('content');
+	}
+
+
+	private function success(Form $form, SignValues $values): void
+	{
+		try {
+			$this->getUser()->login($values->email, $values->password);
+			$this->restoreRequest($this->backlink);
+			$this->redirect(':Backend:Admin:');
+		} catch (AuthenticationException) {
+			$form->addError('The email or password is incorrect.');
+		}
 	}
 }
