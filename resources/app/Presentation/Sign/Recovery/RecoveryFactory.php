@@ -14,6 +14,7 @@ use Nette\Application\UI\Form;
 use Nette\Forms\Control;
 use Nette\Forms\Controls\BaseControl;
 use Nette\Security\Passwords;
+use Nette\Utils\Random;
 use Random\RandomException;
 use Throwable;
 
@@ -45,10 +46,13 @@ readonly class RecoveryFactory
 	public function createCheckToken(): Form
 	{
 		$form = $this->factory->create();
-		$form->addIntegerInput('token', 'Code')
+		// Text input (not integer): the code may start with zero, e.g. 012345.
+		$form->addTextInput('token', 'Code')
 			->setAutocomplete(Autocomplete::OneTimeCode)
+			->setHtmlAttribute('inputmode', 'numeric')
 			->setRequired('Please enter the code from the email.')
-			->addRule($form::Length, 'The code must be exactly %d digits.', 6);
+			->addRule($form::Length, 'The code must be exactly %d digits.', 6)
+			->addRule($form::Pattern, 'The code must contain digits only.', '[0-9]+');
 
 		$form->addSubmit('send', 'Verify code');
 		$form->onValidate[] = $this->validateToken(...);
@@ -102,7 +106,7 @@ readonly class RecoveryFactory
 
 		$input->addError($this->sessionService->hasAttemptsRemaining()
 			? 'The code entered is invalid.'
-			: 'Too many incorrect attempts. Request a new code.');
+			: 'Too many incorrect attempts. Try again later.');
 	}
 
 
@@ -129,6 +133,9 @@ readonly class RecoveryFactory
 			$request = $this->emailService;
 			$request->sendEmail($email, $token, $lang);
 
+		} catch (RecoveryThrottledException $e) {
+			$form->addError($e->getMessage());
+
 		} catch (Throwable $e) {
 			$message = 'Unknown status code.';
 			$form->addError($message);
@@ -145,12 +152,19 @@ readonly class RecoveryFactory
 
 	private function changePassword(Form $form): void
 	{
+		// The form component can be submitted directly, regardless of what the template shows.
+		if (!$this->sessionService->isTokenChecked()) {
+			$form->addError('Please verify the code first.');
+			return;
+		}
+
 		try {
 			$password = (string) $form->getValues()['password'];
 			$email = $this->sessionService->getEmail();
 			$user = $this->userRepository->getUserByEmail($email);
 
 			$user->password = $this->passwords->hash($password);
+			$user->token = Random::generate(32); // invalidates all existing sessions
 			$this->userRepository->save($user);
 			$this->sessionService->removeToken();
 

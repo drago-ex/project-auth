@@ -15,6 +15,7 @@ readonly class SessionService
 {
 	private const int TokenLength = 6;
 	private const int MaxAttempts = 5;
+	private const int ResendCooldown = 60;
 
 
 	public function __construct(
@@ -24,18 +25,30 @@ readonly class SessionService
 
 
 	/**
+	 * Generates a new recovery code. The failed-attempt counter is kept across
+	 * resends, otherwise requesting a new code would reset the brute-force limit.
 	 * @throws RandomException
+	 * @throws RecoveryThrottledException
 	 */
 	public function generateToken(string $email): string
 	{
-		$section = $this->getSection()
-			->setExpiration('15 minutes');
+		$section = $this->getSection();
 
+		if ((int) $section->get('attempts') >= self::MaxAttempts) {
+			throw new RecoveryThrottledException('Too many incorrect attempts. Try again later.');
+		}
+
+		$sentAt = (int) $section->get('sentAt');
+		if ($sentAt > 0 && time() - $sentAt < self::ResendCooldown) {
+			throw new RecoveryThrottledException('Please wait a moment before requesting a new code.');
+		}
+
+		$section->setExpiration('15 minutes');
 		$section->remove('tokenCheck');
 		$token = Random::generate(self::TokenLength, '0-9');
 		$section->set('token', hash('sha256', $token));
 		$section->set('email', $email);
-		$section->set('attempts', 0);
+		$section->set('sentAt', time());
 		return $token;
 	}
 
@@ -71,7 +84,7 @@ readonly class SessionService
 	public function removeToken(): void
 	{
 		$this->getSection()
-			->remove(['token', 'tokenCheck', 'email', 'attempts']);
+			->remove(['token', 'tokenCheck', 'email', 'attempts', 'sentAt']);
 	}
 
 
@@ -95,6 +108,17 @@ readonly class SessionService
 		}
 
 		return $isValid;
+	}
+
+
+	/**
+	 * True only if a code was issued and then successfully verified in this session.
+	 */
+	public function isTokenChecked(): bool
+	{
+		$section = $this->getSection();
+		return $section->get('token') !== null
+			&& $section->get('tokenCheck') === true;
 	}
 
 

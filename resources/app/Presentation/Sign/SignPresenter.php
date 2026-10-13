@@ -6,6 +6,7 @@ namespace App\Presentation\Sign;
 
 use App\Presentation\BasePresenter;
 use App\Presentation\Sign\Recovery\RecoveryFactory;
+use App\Presentation\Sign\Recovery\RecoveryThrottledException;
 use App\Presentation\Sign\Recovery\SessionService;
 use Drago\Application\UI\Alert;
 use Drago\Form\Autocomplete;
@@ -68,8 +69,14 @@ final class SignPresenter extends BasePresenter
 	#[Requires(ajax: true)]
 	public function handleResendRecovery(): void
 	{
-		$this->recoveryFactory->resendCode($this->lang);
-		$this->flashMessage('A new password recovery code has been sent to your email.', Alert::Success);
+		try {
+			$this->recoveryFactory->resendCode($this->lang);
+			$this->flashMessage('A new password recovery code has been sent to your email.', Alert::Success);
+
+		} catch (RecoveryThrottledException $e) {
+			$this->flashMessage($e->getMessage(), Alert::Danger);
+		}
+
 		$this->redrawSnippets();
 	}
 
