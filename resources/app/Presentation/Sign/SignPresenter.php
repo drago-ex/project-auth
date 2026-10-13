@@ -16,6 +16,7 @@ use Nette\Application\UI\Form;
 use Nette\Neon\Exception;
 use Nette\Security\AuthenticationException;
 use Random\RandomException;
+use RuntimeException;
 use Throwable;
 
 
@@ -71,10 +72,13 @@ final class SignPresenter extends BasePresenter
 	{
 		try {
 			$this->recoveryFactory->resendCode($this->lang);
-			$this->flashMessage('A new password recovery code has been sent to your email.', Alert::Success);
+			$this->flashMessage('If the address is registered, a new recovery code has been sent.', Alert::Success);
 
 		} catch (RecoveryThrottledException $e) {
 			$this->flashMessage($e->getMessage(), Alert::Danger);
+
+		} catch (RuntimeException) {
+			$this->flashMessage('Password recovery session has expired.', Alert::Danger);
 		}
 
 		$this->redrawSnippets();
@@ -124,7 +128,7 @@ final class SignPresenter extends BasePresenter
 	{
 		$form = $this->recoveryFactory->createRequest($this->lang);
 		$form->onSuccess[] = function () {
-			$this->flashMessage('A password recovery code has been sent to your email.', Alert::Success);
+			$this->flashMessage('If the address is registered, a recovery code has been sent.', Alert::Success);
 		};
 		return $form;
 	}

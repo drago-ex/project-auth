@@ -54,17 +54,21 @@ readonly class SessionService
 	}
 
 
+	public function findEmail(): ?string
+	{
+		$email = $this->getSection()->get('email');
+		return is_string($email) ? $email : null;
+	}
+
+
 	/**
 	 * Retrieves the stored email address for password recovery from the session.
 	 * @throws RuntimeException
 	 */
 	public function getEmail(): string
 	{
-		$email = $this->getSection()->get('email');
-		if ($email === null) {
-			throw new RuntimeException('Password recovery session has expired.');
-		}
-		return $email;
+		return $this->findEmail()
+			?? throw new RuntimeException('Password recovery session has expired.');
 	}
 
 

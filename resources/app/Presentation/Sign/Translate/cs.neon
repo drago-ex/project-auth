@@ -13,7 +13,7 @@
 "Your registration has been successfully completed, you can now log in.":
 	"Vaše registrace byla úspěšně dokončena, nyní se můžete přihlásit."
 
-"A password recovery code has been sent to your email.": "Na váš e-mail byl odeslán kód pro obnovení hesla."
+"If the address is registered, a recovery code has been sent.": "Pokud je adresa registrována, byl na ni odeslán kód pro obnovení hesla."
 "Code check was successful.": "Kontrola kódu byla úspěšná."
 "Password change was successful.": "Změna hesla proběhla úspěšně."
 "We're sorry, but an account with this email address already exists.":
@@ -39,13 +39,14 @@
 "Too many incorrect attempts. Try again later.": "Příliš mnoho chybných pokusů. Zkuste to prosím později."
 "Please wait a moment before requesting a new code.": "Před vyžádáním nového kódu chvíli počkejte."
 "Please verify the code first.": "Nejprve prosím ověřte kód."
+"Too many recovery requests. Try again later.": "Příliš mnoho žádostí o obnovení hesla. Zkuste to prosím později."
+"Password recovery session has expired.": "Platnost obnovení hesla vypršela. Začněte prosím znovu."
 "The code must contain digits only.": "Kód smí obsahovat pouze číslice."
 "Send a new code": "Odeslat nový kód"
-"A new password recovery code has been sent to your email.": "Na váš e-mail byl odeslán nový kód pro obnovení hesla."
+"If the address is registered, a new recovery code has been sent.": "Pokud je adresa registrována, byl na ni odeslán nový kód pro obnovení hesla."
 "Verify code": "Ověřit kód"
 "Change password": "Změnit heslo"
 "Code": "Kód"
-"We're sorry, but we don't know such an email address.": "Je nám líto, ale takovou e-mailovou adresu neznáme."
 "Follow the steps to restore access to your account.": "Podle následujících kroků obnovte přístup ke svému účtu."
 
 # recovery email

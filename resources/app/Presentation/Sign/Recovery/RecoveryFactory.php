@@ -6,13 +6,11 @@ namespace App\Presentation\Sign\Recovery;
 
 use App\Model\User\UserRepository;
 use App\Presentation\Sign\Factory;
-use Dibi\Exception;
-use Drago\Attr\AttributeDetectionException;
 use Drago\Form\Autocomplete;
 use Drago\Form\Rules\PasswordRules;
 use Nette\Application\UI\Form;
-use Nette\Forms\Control;
 use Nette\Forms\Controls\BaseControl;
+use Nette\Neon\Exception;
 use Nette\Security\Passwords;
 use Nette\Utils\Random;
 use Random\RandomException;
@@ -27,6 +25,7 @@ readonly class RecoveryFactory
 		private UserRepository $userRepository,
 		private EmailService $emailService,
 		private Passwords $passwords,
+		private RecoveryLimiter $limiter,
 	) {
 	}
 
@@ -34,8 +33,7 @@ readonly class RecoveryFactory
 	public function createRequest(string $lang): Form
 	{
 		$form = $this->factory->create();
-		$form->addEmailField()
-			->addRule($this->emailCheck(...), "We're sorry, but we don't know such an email address.");
+		$form->addEmailField();
 
 		$form->addSubmit('send', 'Send recovery code');
 		$form->onSuccess[] = fn(Form $form) => $this->request($form, $lang);
@@ -80,13 +78,11 @@ readonly class RecoveryFactory
 	/**
 	 * @throws Throwable
 	 * @throws RandomException
-	 * @throws \Nette\Neon\Exception
+	 * @throws Exception
 	 */
 	public function resendCode(string $lang): void
 	{
-		$email = $this->sessionService->getEmail();
-		$token = $this->sessionService->generateToken($email);
-		$this->emailService->sendEmail($email, $token, $lang);
+		$this->issueCode($this->sessionService->getEmail(), $lang);
 	}
 
 
@@ -99,26 +95,49 @@ readonly class RecoveryFactory
 			return;
 		}
 
-		$token = (string) $input->getValue();
-		if ($this->sessionService->isTokenValid($token)) {
+		$email = $this->sessionService->findEmail();
+		if ($email === null) {
+			$input->addError('The code entered is invalid.');
 			return;
 		}
 
-		$input->addError($this->sessionService->hasAttemptsRemaining()
+		if (!$this->limiter->isVerifyAllowed($email)) {
+			$input->addError('Too many incorrect attempts. Try again later.');
+			return;
+		}
+
+		if ($this->sessionService->isTokenValid((string) $input->getValue())) {
+			return;
+		}
+
+		$this->limiter->registerFailure($email);
+		$input->addError($this->sessionService->hasAttemptsRemaining() && $this->limiter->isVerifyAllowed($email)
 			? 'The code entered is invalid.'
 			: 'Too many incorrect attempts. Try again later.');
 	}
 
 
 	/**
-	 * Checks if the email address exists.
-	 * @throws AttributeDetectionException
-	 * @throws Exception
+	 * Issues a recovery code. Unknown addresses get exactly the same response as known ones,
+	 * only the email is not sent, so the form cannot be used to find out who has an account.
+	 * @throws RecoveryThrottledException
+	 * @throws RandomException
+	 * @throws Throwable
 	 */
-	private function emailCheck(Control $input): bool
+	private function issueCode(string $email, string $lang): void
 	{
-		return (bool) $this->userRepository
-			->findUserByEmail($input->getValue());
+		if (!$this->limiter->isRequestAllowed($email)) {
+			throw new RecoveryThrottledException('Too many recovery requests. Try again later.');
+		}
+
+		$token = $this->sessionService->generateToken($email);
+		$this->limiter->registerRequest($email);
+
+		if ($this->userRepository->findUserByEmail($email) === null) {
+			return;
+		}
+
+		$this->emailService->sendEmail($email, $token, $lang);
 	}
 
 
@@ -126,19 +145,13 @@ readonly class RecoveryFactory
 	{
 		try {
 			$values = $form->getValues();
-			$email = (string) $values['email'];
-			$token = $this->sessionService
-				->generateToken($email);
-
-			$request = $this->emailService;
-			$request->sendEmail($email, $token, $lang);
+			$this->issueCode((string) $values['email'], $lang);
 
 		} catch (RecoveryThrottledException $e) {
 			$form->addError($e->getMessage());
 
-		} catch (Throwable $e) {
-			$message = 'Unknown status code.';
-			$form->addError($message);
+		} catch (Throwable) {
+			$form->addError('Unknown status code.');
 		}
 	}
 
