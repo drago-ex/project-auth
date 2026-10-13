@@ -13,9 +13,10 @@ use RuntimeException;
 
 readonly class SessionService
 {
-	private const int TokenLength = 6;
-	private const int MaxAttempts = 5;
-	private const int ResendCooldown = 60;
+	private const int
+		TokenLength = 6,
+		MaxAttempts = 5,
+		ResendCooldown = 60;
 
 
 	public function __construct(

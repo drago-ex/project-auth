@@ -46,7 +46,6 @@ readonly class RecoveryFactory
 	public function createCheckToken(): Form
 	{
 		$form = $this->factory->create();
-		// Text input (not integer): the code may start with zero, e.g. 012345.
 		$form->addTextInput('token', 'Code')
 			->setAutocomplete(Autocomplete::OneTimeCode)
 			->setHtmlAttribute('inputmode', 'numeric')
@@ -100,7 +99,8 @@ readonly class RecoveryFactory
 			return;
 		}
 
-		if ($this->sessionService->isTokenValid((string) $input->getValue())) {
+		$token = (string) $input->getValue();
+		if ($this->sessionService->isTokenValid($token)) {
 			return;
 		}
 
@@ -117,8 +117,8 @@ readonly class RecoveryFactory
 	 */
 	private function emailCheck(Control $input): bool
 	{
-		$findEmail = $this->userRepository->findUserByEmail($input->getValue());
-		return (bool) $findEmail;
+		return (bool) $this->userRepository
+			->findUserByEmail($input->getValue());
 	}
 
 
