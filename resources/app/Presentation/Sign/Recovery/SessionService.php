@@ -7,6 +7,7 @@ namespace App\Presentation\Sign\Recovery;
 use Nette\Http\Session;
 use Nette\Http\SessionSection;
 use Nette\Utils\Random;
+use Nette\Utils\Strings;
 use Random\RandomException;
 use RuntimeException;
 
@@ -40,7 +41,7 @@ readonly class SessionService
 		}
 
 		$sentAt = (int) $section->get('sentAt');
-		if ($sentAt > 0 && time() - $sentAt < self::ResendCooldown) {
+		if ($sentAt > 0 && time() - $sentAt < self::ResendCooldown && $this->isSameEmail($email)) {
 			throw new RecoveryThrottledException('Please wait a moment before requesting a new code.');
 		}
 
@@ -83,6 +84,17 @@ readonly class SessionService
 	{
 		$this->getSection()
 			->set('tokenCheck', true);
+	}
+
+
+	/**
+	 * Drops the current recovery attempt (e.g. a mistyped address) but keeps
+	 * the failed-attempt counter, so it cannot be used to get more guesses.
+	 */
+	public function reset(): void
+	{
+		$this->getSection()
+			->remove(['token', 'tokenCheck', 'email']);
 	}
 
 
@@ -138,7 +150,15 @@ readonly class SessionService
 		return new Token(
 			hasToken: $this->getToken() !== null,
 			isTokenChecked: (bool) $this->getSection()->get('tokenCheck'),
+			email: $this->findEmail(),
 		);
+	}
+
+
+	private function isSameEmail(string $email): bool
+	{
+		$current = $this->findEmail();
+		return $current !== null && Strings::lower($current) === Strings::lower($email);
 	}
 
 

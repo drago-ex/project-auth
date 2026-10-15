@@ -22,6 +22,7 @@ routing:
 
 services:
 	- App\Presentation\Sign\Recovery\SessionService
+	- App\Presentation\Sign\RateLimiter
 	- App\Presentation\Sign\Recovery\RecoveryLimiter
 	- App\Presentation\Sign\Recovery\EmailService
 	- App\Model\User\UserAuthenticator

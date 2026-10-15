@@ -10,6 +10,7 @@ use Drago\Form\Autocomplete;
 use Drago\Form\Rules\PasswordRules;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\BaseControl;
+use Nette\Http\IRequest;
 use Nette\Neon\Exception;
 use Nette\Security\Passwords;
 use Nette\Utils\Random;
@@ -26,6 +27,7 @@ readonly class RecoveryFactory
 		private EmailService $emailService,
 		private Passwords $passwords,
 		private RecoveryLimiter $limiter,
+		private IRequest $httpRequest,
 	) {
 	}
 
@@ -126,12 +128,14 @@ readonly class RecoveryFactory
 	 */
 	private function issueCode(string $email, string $lang): void
 	{
-		if (!$this->limiter->isRequestAllowed($email)) {
+		$ip = $this->httpRequest->getRemoteAddress() ?? 'unknown';
+		if (!$this->limiter->isRequestAllowed($email) || !$this->limiter->isIpAllowed($ip)) {
 			throw new RecoveryThrottledException('Too many recovery requests. Try again later.');
 		}
 
 		$token = $this->sessionService->generateToken($email);
 		$this->limiter->registerRequest($email);
+		$this->limiter->registerIp($ip);
 
 		if ($this->userRepository->findUserByEmail($email) === null) {
 			return;

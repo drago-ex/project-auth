@@ -85,6 +85,14 @@ final class SignPresenter extends BasePresenter
 	}
 
 
+	#[Requires(ajax: true)]
+	public function handleChangeRecoveryEmail(): void
+	{
+		$this->sessionService->reset();
+		$this->redrawSnippets();
+	}
+
+
 	protected function beforeRender(): void
 	{
 		parent::beforeRender();

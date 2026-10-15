@@ -10,6 +10,7 @@ class Token
 	public function __construct(
 		public bool $hasToken = false,
 		public bool $isTokenChecked = false,
+		public ?string $email = null,
 	) {
 	}
 }

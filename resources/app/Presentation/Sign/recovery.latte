@@ -24,6 +24,11 @@
 				{include input, name: 'token', class: 'otp-code text-center font-monospace fw-semibold'}
 				<div class="col-12 d-grid gap-1">
 					{include submit, name: 'send'}
+					<p class="mt-2">{_'If this address is registered, we have sent a code to it:'}</p>
+					<div class="d-flex align-items-center justify-content-between gap-3 rounded px-3 py-2 mb-3 bg-body-tertiary">
+						<span class="text-break">{$signRecoveryToken->email}</span>
+						<a n:href="changeRecoveryEmail!" class="btn btn-link p-0 sign-in-link ajax flex-shrink-0" data-link-disable>{_'Change'}</a>
+					</div>
 				</div>
 			{/block}
 		{/embed}

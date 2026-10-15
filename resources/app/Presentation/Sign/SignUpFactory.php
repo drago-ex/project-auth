@@ -11,6 +11,7 @@ use Drago\Form\Autocomplete;
 use Drago\Form\Rules\PasswordRules;
 use Exception;
 use Nette\Application\UI\Form;
+use Nette\Http\IRequest;
 use Nette\Security\Passwords;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Random;
@@ -19,10 +20,19 @@ use Nette\Utils\Validators;
 
 readonly class SignUpFactory
 {
+	public const string LimitBucket = 'signup';
+
+	public const int
+		MaxAttempts = 10,
+		LimitWindow = 3600;
+
+
 	public function __construct(
 		private Passwords $password,
 		private Factory $factory,
 		private Connection $connection,
+		private RateLimiter $limiter,
+		private IRequest $httpRequest,
 	) {
 	}
 
@@ -33,10 +43,12 @@ readonly class SignUpFactory
 		$form->addTextInput(SignUpValues::Username, 'Full name')
 			->setPlaceholder('Full name')
 			->setAutocomplete(Autocomplete::Name)
-			->setRequired('Please enter your full name.');
+			->setRequired('Please enter your full name.')
+			->addRule($form::MaxLength, 'The full name is too long (maximum %d characters).', 50);
 
 		$form->addEmailField()
-			->setDefaultValue('@');
+			->setDefaultValue('@')
+			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 50);
 
 		$form->addPasswordField()
 			->setAutocomplete(Autocomplete::NewPassword)
@@ -59,6 +71,15 @@ readonly class SignUpFactory
 	 */
 	private function processSignUpForm(Form $form, SignUpValues $values): void
 	{
+		// Limit first: hashing the password is the expensive part.
+		$ip = $this->httpRequest->getRemoteAddress() ?? 'unknown';
+		if (!$this->limiter->isAllowed(self::LimitBucket, $ip, self::MaxAttempts)) {
+			$form->addError('Too many registration attempts. Try again later.');
+			return;
+		}
+
+		$this->limiter->hit(self::LimitBucket, $ip, self::LimitWindow);
+
 		$values->password = $this->password->hash($values->password);
 		$values->token = Random::generate(32);
 		$values->offsetUnset(SignUpValues::Verify);
@@ -71,7 +92,7 @@ readonly class SignUpFactory
 
 		} catch (UniqueConstraintViolationException $e) {
 			$message = match ($e->getCode()) {
-				1062 => "We're sorry, but an account with this email address already exists.",
+				1062 => 'An account with this email address already exists. You can sign in or reset your password.',
 				default => 'Unknown status code.',
 			};
 			$form->addError($message);
