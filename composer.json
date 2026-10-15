@@ -2,7 +2,7 @@
 	"name": "drago-ex/project-auth",
 	"description": "Authentication and user access package for the Drago project.",
 	"type": "drago-tools-resource",
-	"license": ["MIT"],
+	"license": "MIT",
 	"require": {
 		"php": ">=8.3 <9",
 		"drago-ex/database": "^3.0",
@@ -22,6 +22,7 @@
 		"drago-ex/permission": "Enables generation of the authentication permission provider."
 	},
 	"require-dev": {
+		"nette/tester": "^2.5",
 		"phpstan/phpstan-nette": "^2.0",
 		"drago-ex/project-tools": "^1.0"
 	},
@@ -49,6 +50,7 @@
 	},
 	"scripts": {
 		"phpstan": "phpstan analyse",
+		"tester": "tester tests -s",
 		"post-install-cmd": [
 			"drago-install --dev",
 			"drago-clean"
