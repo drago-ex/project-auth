@@ -20,3 +20,4 @@ spl_autoload_register(function (string $class): void {
 });
 
 Tester\Environment::setup();
+Tester\Environment::setupFunctions();
