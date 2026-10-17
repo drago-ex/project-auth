@@ -1,4 +1,6 @@
 parameters:
+	# Sender of the sign-up and password recovery emails; use an address of your domain, otherwise they end up in spam.
+	authMailFrom: no-reply@example.com
 
 
 mail:
@@ -25,5 +27,6 @@ services:
 	- App\Presentation\Sign\RateLimiter
 	- App\Presentation\Sign\SignInLimiter
 	- App\Presentation\Sign\Recovery\RecoveryLimiter
-	- App\Presentation\Sign\Recovery\EmailService
+	- App\Presentation\Sign\Recovery\EmailService(from: %authMailFrom%)
+	- App\Presentation\Sign\Email\SignUpEmailService(from: %authMailFrom%)
 	- App\Model\User\UserAuthenticator

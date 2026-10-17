@@ -44,6 +44,7 @@ in this package's `composer.json`. To skip this package, set `"skip": true` unde
 - User authentication (sign in / sign out)
 - User registration (sign up)
 - Password recovery and reset
+- Confirmation email after registration
 - User identity handling
 - Integration with Nette Security and DI
 - Ready-to-use authentication UI components
@@ -61,6 +62,71 @@ so opening a new session does not reset them. Emails are normalized and all subj
 | Password recovery | 5 requests per email and 20 per IP address in an hour, 10 wrong codes per email in 15 minutes |
 
 Clearing the cache (`temp/cache`) also resets these counters.
+
+The IP address comes from `Nette\Http\IRequest::getRemoteAddress()`. Behind a reverse proxy or load balancer,
+set `http: proxy:` in the configuration; otherwise all visitors share the proxy address and the per-IP limits
+block everyone at once.
+
+## Security
+
+What the package handles for you:
+
+- **Passwords** are hashed by `Nette\Security\Passwords` and rehashed automatically when the algorithm changes.
+- **Sign-in** shows one message for a wrong email or password, and an unknown email takes as long to answer as
+  a known one, so neither reveals who has an account. Nette regenerates the session ID on sign-in, and `backlink`
+  is restored through `restoreRequest()`, so it cannot redirect to another site.
+- **Sessions** are restored by a random token of the user. Changing or recovering the password replaces it,
+  which signs the user out of all other sessions.
+- **Password recovery** answers the same way whether the email exists or not. The 6-digit code is stored hashed
+  in the session, is valid for 15 minutes and for one use only, and is limited per session, email and IP address.
+- **Forms** are protected against CSRF by Nette's same-origin check; signals require AJAX requests.
+
+Deliberate choices you may want to change in your project:
+
+- **Registration reveals an existing email** ("An account with this email address already exists"), which is
+  friendlier for users. It is limited to 10 attempts per IP address in an hour; if it matters for your project,
+  show a neutral message instead and inform the owner by email.
+- **Password rules** require at least 8 characters with uppercase and lowercase letters, a digit and a special
+  character, without spaces. Current recommendations (NIST, OWASP ASVS) prefer longer passwords (e.g. 12+
+  characters) without composition rules and with spaces allowed. Bcrypt uses only the first 72 bytes of a password.
+- **Sign-out** is a plain link (GET), so another site can sign the user out; it cannot sign anyone in.
+- **Email verification** of new accounts and **two-factor authentication** are not included.
+
+Set `authMailFrom` in `Sign/conf.neon` to an address of your domain, otherwise the sign-up and recovery emails
+end up in spam.
+
+## Emails
+
+The package sends two emails: a confirmation after registration (`Sign/Email/sign-up.latte`) and the password
+recovery code (`Sign/Recovery/email.latte`). Both are translated and can be adapted in your project.
+The SMTP connection is set in the `mail` section of `Sign/conf.neon`.
+
+### Testing emails locally with Docker
+
+[Mailpit](https://mailpit.axllent.org) catches every email the application sends and shows it in a web interface,
+so nothing reaches real addresses. Add it to `docker-compose.override.yaml` under `services`:
+
+```yaml
+  # catches all outgoing emails; web interface at http://localhost:8025
+  mailpit:
+    image: axllent/mailpit:v1.27
+    restart: always
+    ports:
+      - '8025:8025'
+```
+
+Point the mailer to it in `Sign/conf.neon`:
+
+```neon
+mail:
+	smtp: true
+	host: mailpit
+	port: 1025
+```
+
+Start it with `docker compose up -d mailpit` and open http://localhost:8025. The application reaches Mailpit by
+the service name `mailpit` inside the Docker network, so port 1025 does not need to be published. Use this only
+for development; production needs a real SMTP server.
 
 ## Adds a new user to the database
 

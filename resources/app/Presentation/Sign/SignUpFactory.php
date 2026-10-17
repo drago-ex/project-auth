@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Sign;
 
 use App\Model\User\UserEntity;
+use App\Presentation\Sign\Email\SignUpEmailService;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;
@@ -33,11 +34,13 @@ readonly class SignUpFactory
 		private Connection $connection,
 		private RateLimiter $limiter,
 		private IRequest $httpRequest,
+		// Optional: the installer creates the administrator without sending an email.
+		private ?SignUpEmailService $emailService = null,
 	) {
 	}
 
 
-	public function create(): Form
+	public function create(string $lang = 'cs'): Form
 	{
 		$form = $this->factory->create();
 		$form->addTextInput(SignUpValues::Username, 'Full name')
@@ -59,7 +62,7 @@ readonly class SignUpFactory
 			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Create account');
-		$form->onSuccess[] = $this->processSignUpForm(...);
+		$form->onSuccess[] = fn(Form $form, SignUpValues $values) => $this->processSignUpForm($form, $values, $lang);
 		return $form;
 	}
 
@@ -69,7 +72,7 @@ readonly class SignUpFactory
 	 * @throws Exception
 	 * @throws AssertionException
 	 */
-	private function processSignUpForm(Form $form, SignUpValues $values): void
+	private function processSignUpForm(Form $form, SignUpValues $values, string $lang): void
 	{
 		// Limit first: hashing the password is the expensive part.
 		$ip = $this->httpRequest->getRemoteAddress() ?? 'unknown';
@@ -89,6 +92,8 @@ readonly class SignUpFactory
 		try {
 			$this->connection->insert(UserEntity::Table, $values->toArray())
 				->execute();
+
+			$this->emailService?->sendEmail($values->email, $values->username, $lang);
 
 		} catch (UniqueConstraintViolationException $e) {
 			$message = match ($e->getCode()) {

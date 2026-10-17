@@ -71,3 +71,11 @@
 "Toggle theme": "Přepnout motiv"
 "Light mode": "Světlý režim"
 "Dark mode": "Tmavý režim"
+
+# sign-up email
+"Your account has been created": "Váš účet byl vytvořen"
+"Welcome, %s!": "Vítejte, %s!"
+"Your account has been created. You can now sign in with your email address and password.":
+	"Váš účet byl vytvořen. Nyní se můžete přihlásit svou e-mailovou adresou a heslem."
+"If you did not create this account, you can ignore and delete this email.":
+	"Pokud jste tento účet nevytvořili, můžete tento e-mail ignorovat a smazat."

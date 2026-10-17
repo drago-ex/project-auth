@@ -119,7 +119,7 @@ final class SignPresenter extends BasePresenter
 
 	protected function createComponentSignUp(): Form
 	{
-		$form = $this->signUpFactory->create();
+		$form = $this->signUpFactory->create($this->lang);
 		$form->onSuccess[] = function () {
 			$this->flashMessage('Your registration has been successfully completed, you can now log in.', Alert::Success);
 			$this->redirect('in');

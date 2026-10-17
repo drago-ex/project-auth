@@ -16,6 +16,8 @@ use Nette\Security\Passwords;
 use Nette\Utils\Random;
 use Random\RandomException;
 use Throwable;
+use Tracy\Debugger;
+use Tracy\ILogger;
 
 
 readonly class RecoveryFactory
@@ -154,7 +156,8 @@ readonly class RecoveryFactory
 		} catch (RecoveryThrottledException $e) {
 			$form->addError($e->getMessage());
 
-		} catch (Throwable) {
+		} catch (Throwable $e) {
+			Debugger::log($e, ILogger::EXCEPTION);
 			$form->addError('Unknown status code.');
 		}
 	}
@@ -186,6 +189,10 @@ readonly class RecoveryFactory
 			$this->sessionService->removeToken();
 
 		} catch (Throwable $e) {
+			if ($e->getCode() !== 1001) {
+				Debugger::log($e, ILogger::EXCEPTION);
+			}
+
 			$message = match ($e->getCode()) {
 				1001 => 'User with email was not found.',
 				default => 'Unknown status code.',

@@ -40,6 +40,8 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 		$user = $this->userRepository->findUserByEmail($username);
 
 		if (!$user) {
+			// Hashing takes as long as verifying, so the response time does not reveal which emails have an account.
+			$this->password->hash($password);
 			throw new AuthenticationException('User not found.');
 		}
 
