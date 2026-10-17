@@ -30,6 +30,7 @@
 "Full name": "Celé jméno"
 "Please enter your full name.": "Zadejte prosím své celé jméno."
 "Password must be at least %d characters long.": "Heslo musí mít alespoň %d znaků."
+"The password is too long.": "Heslo je příliš dlouhé."
 "Back to sign in": "Zpět k přihlášení"
 "Enter your details to create a new account.": "Pro vytvoření účtu vyplňte své údaje."
 
@@ -66,6 +67,7 @@
 # sign out
 "Signed out": "Odhlášení"
 "You are now signed out of your account.": "Nyní jste odhlášeni ze svého účtu."
+"Do you want to sign out of your account?": "Chcete se odhlásit ze svého účtu?"
 
 # theme
 "Toggle theme": "Přepnout motiv"

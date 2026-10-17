@@ -44,6 +44,12 @@ USAGE;
 
 [, $username, $email, $password] = $argv;
 
+$passwordError = App\Presentation\Sign\PasswordPolicy::validate($password);
+if ($passwordError !== null) {
+    fwrite(STDERR, "{$red}ERROR: {$passwordError}{$reset}\n");
+    exit(1);
+}
+
 $model = $container->getByType(Connection::class);
 \assert($model instanceof Connection);
 

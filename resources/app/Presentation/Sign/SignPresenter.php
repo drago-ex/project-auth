@@ -13,6 +13,7 @@ use Drago\Form\Autocomplete;
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\Attributes\Requires;
 use Nette\Application\UI\Form;
+use Nette\Http\FetchSite;
 use Nette\Neon\Exception;
 use Nette\Security\AuthenticationException;
 use Random\RandomException;
@@ -56,9 +57,16 @@ final class SignPresenter extends BasePresenter
 	}
 
 
+	/**
+	 * A sign-out link on this site signs out at once. A link from another site, or a prefetch,
+	 * only shows the sign-out button, so another site cannot sign the user out (as Nette protects signals).
+	 */
 	public function actionOut(): void
 	{
-		$this->getUser()->logout();
+		if ($this->getUser()->isLoggedIn() && $this->isSameOriginNavigation()) {
+			$this->getUser()->logout();
+		}
+
 		$this->redrawSnippets();
 	}
 
@@ -161,6 +169,27 @@ final class SignPresenter extends BasePresenter
 			$this->redirect('in');
 		};
 		return $form;
+	}
+
+
+	protected function createComponentSignOut(): Form
+	{
+		$form = $this->factory->create();
+		$form->addSubmit('send', 'Sign out');
+		$form->onSuccess[] = function () {
+			$this->getUser()->logout();
+			$this->redirect('out');
+		};
+		return $form;
+	}
+
+
+	private function isSameOriginNavigation(): bool
+	{
+		$request = $this->getHttpRequest();
+		$purpose = (string) ($request->getHeader('Sec-Purpose') ?? $request->getHeader('Purpose'));
+
+		return $request->isFrom(FetchSite::SameOrigin) && !str_contains($purpose, 'prefetch');
 	}
 
 

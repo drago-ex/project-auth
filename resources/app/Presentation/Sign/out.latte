@@ -1,10 +1,20 @@
-{block title}{_'Signed out'}{/block}
-{block subtitle}{_'You are now signed out of your account.'}{/block}
+{block title}{if $user->loggedIn}{_'Sign out'}{else}{_'Signed out'}{/if}{/block}
+{block subtitle}{if $user->loggedIn}{_'Do you want to sign out of your account?'}{else}{_'You are now signed out of your account.'}{/if}{/block}
 
 {block content}
-	<div class="text-end">
-		<a n:href="in" class="btn btn-sm btn-primary ajax" data-link-disable>
-			{_"Back to sign in"}
-		</a>
-	</div>
+	{if $user->loggedIn}
+		{embed '../Accessory/Widget/@form.latte', name: 'signOut', najaHistory: 'replace'}
+			{block form}
+				<div class="col-12 d-grid gap-1">
+					{include submit, name: 'send'}
+				</div>
+			{/block}
+		{/embed}
+	{else}
+		<div class="text-end">
+			<a n:href="in" class="btn btn-sm btn-primary ajax" data-link-disable>
+				{_"Back to sign in"}
+			</a>
+		</div>
+	{/if}
 {/block}

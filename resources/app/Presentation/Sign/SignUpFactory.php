@@ -9,7 +9,6 @@ use App\Presentation\Sign\Email\SignUpEmailService;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;
-use Drago\Form\Rules\PasswordRules;
 use Exception;
 use Nette\Application\UI\Form;
 use Nette\Http\IRequest;
@@ -53,10 +52,9 @@ readonly class SignUpFactory
 			->setDefaultValue('@')
 			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 254);
 
-		$form->addPasswordField()
-			->setAutocomplete(Autocomplete::NewPassword)
-			->addRule($form::MinLength, 'Password must be at least %d characters long.', 8)
-			->addRule($form::Pattern, PasswordRules::StrongMessage, PasswordRules::StrongPattern);
+		$password = $form->addPasswordField()
+			->setAutocomplete(Autocomplete::NewPassword);
+		PasswordPolicy::apply($password);
 
 		$form->addPasswordConfirmationField()
 			->setAutocomplete(Autocomplete::Off);

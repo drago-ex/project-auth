@@ -79,6 +79,11 @@ What the package handles for you:
   which signs the user out of all other sessions.
 - **Password recovery** answers the same way whether the email exists or not. The 6-digit code is stored hashed
   in the session, is valid for 15 minutes and for one use only, and is limited per session, email and IP address.
+- **Password rules** (`Sign/PasswordPolicy`) follow NIST SP 800-63B and OWASP ASVS: at least 12 characters,
+  no required character classes, spaces allowed, at most 72 bytes (bcrypt ignores the rest). Registration,
+  password recovery, the account (`drago-ex/project-account`) and `bin/create-user` use the same rules.
+- **Sign-out** happens at once only from a link on your site. A link from another site, or a browser prefetch,
+  shows a sign-out button (POST form) instead, so another site cannot sign the user out.
 - **Forms** are protected against CSRF by Nette's same-origin check; signals require AJAX requests.
 
 Deliberate choices you may want to change in your project:
@@ -86,10 +91,6 @@ Deliberate choices you may want to change in your project:
 - **Registration reveals an existing email** ("An account with this email address already exists"), which is
   friendlier for users. It is limited to 10 attempts per IP address in an hour; if it matters for your project,
   show a neutral message instead and inform the owner by email.
-- **Password rules** require at least 8 characters with uppercase and lowercase letters, a digit and a special
-  character, without spaces. Current recommendations (NIST, OWASP ASVS) prefer longer passwords (e.g. 12+
-  characters) without composition rules and with spaces allowed. Bcrypt uses only the first 72 bytes of a password.
-- **Sign-out** is a plain link (GET), so another site can sign the user out; it cannot sign anyone in.
 - **Email verification** of new accounts and **two-factor authentication** are not included.
 
 Set `authMailFrom` in `Sign/conf.neon` to an address of your domain, otherwise the sign-up and recovery emails
