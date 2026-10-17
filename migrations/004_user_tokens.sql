@@ -1,12 +1,6 @@
---  Email verification
--- -------------------
--- Existing accounts are marked as verified, so nobody loses access when verification is turned on.
-ALTER TABLE users
-    ADD verified_at DATETIME NULL;
-
-UPDATE users SET verified_at = NOW();
-
--- One-time links for confirming an email address (after registration or when changing it).
+--  One-time links
+-- ---------------
+-- Links for confirming an email address (after registration or when changing it).
 -- Only a hash of the token is stored; the token itself is sent in the email.
 CREATE TABLE user_tokens (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,

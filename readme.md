@@ -111,7 +111,7 @@ Verification is on by default (`authRequireEmailVerification` in `Sign/conf.neon
   the password, in case someone else made the change.
 - Links lead to `Sign:verify`, which confirms the address and signs nobody in.
 - Accounts created by the installer or `bin/create-user` are verified at once. The migration
-  `003_users_email_verification.sql` marks existing accounts as verified, so nobody loses access.
+  `003_users_verified_at.sql` marks existing accounts as verified, so nobody loses access.
 
 With `authRequireEmailVerification: false`, new accounts can sign in at once and get a welcome email instead,
 and an email change applies immediately (the previous address is still notified).
