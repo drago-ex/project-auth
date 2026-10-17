@@ -47,6 +47,20 @@ in this package's `composer.json`. To skip this package, set `"skip": true` unde
 - User identity handling
 - Integration with Nette Security and DI
 - Ready-to-use authentication UI components
+- Rate limiting of sign-in, registration and password recovery
+
+## Rate limiting
+
+Attempts are counted in the application cache (`Nette\Caching\Storage`), independently of the session,
+so opening a new session does not reset them. Emails are normalized and all subjects are hashed in cache keys.
+
+| Action | Limit |
+|---|---|
+| Sign-in | 10 failed attempts per email and 30 per IP address in 15 minutes; a successful sign-in clears the email counter |
+| Registration | 10 attempts per IP address in an hour |
+| Password recovery | 5 requests per email and 20 per IP address in an hour, 10 wrong codes per email in 15 minutes |
+
+Clearing the cache (`temp/cache`) also resets these counters.
 
 ## Adds a new user to the database
 

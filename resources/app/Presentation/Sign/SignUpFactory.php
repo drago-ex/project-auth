@@ -48,7 +48,7 @@ readonly class SignUpFactory
 
 		$form->addEmailField()
 			->setDefaultValue('@')
-			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 50);
+			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 254);
 
 		$form->addPasswordField()
 			->setAutocomplete(Autocomplete::NewPassword)

@@ -32,6 +32,7 @@ final class SignPresenter extends BasePresenter
 		private readonly SignUpFactory $signUpFactory,
 		private readonly RecoveryFactory $recoveryFactory,
 		private readonly SessionService $sessionService,
+		private readonly SignInLimiter $signInLimiter,
 	) {
 		parent::__construct();
 	}
@@ -172,12 +173,23 @@ final class SignPresenter extends BasePresenter
 
 	private function processSignInForm(Form $form, SignValues $values): void
 	{
+		// Checked before login, so a blocked attempt does not even verify the password.
+		$ip = $this->getHttpRequest()->getRemoteAddress() ?? 'unknown';
+		if (!$this->signInLimiter->isAllowed($values->email, $ip)) {
+			$form->addError('Too many sign-in attempts. Try again later.');
+			return;
+		}
+
 		try {
 			$this->getUser()->login($values->email, $values->password);
-			$this->restoreRequest($this->backlink);
-			$this->redirect(':Backend:Admin:');
 		} catch (AuthenticationException) {
+			$this->signInLimiter->registerFailure($values->email, $ip);
 			$form->addError('The email or password is incorrect.');
+			return;
 		}
+
+		$this->signInLimiter->registerSuccess($values->email);
+		$this->restoreRequest($this->backlink);
+		$this->redirect(':Backend:Admin:');
 	}
 }

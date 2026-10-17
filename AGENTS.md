@@ -18,6 +18,12 @@ Use this file as package-specific guidance when working in this repository. Keep
 - `.github/`: CI workflows; keep their PHP versions and commands consistent with Composer and the package scripts.
 - `composer.json`: package metadata, dependency constraints, autoloading, and available Composer scripts.
 
+## Key Parts
+- Resources in `resources/app` are copied into the project by drago-tools; `tests/bootstrap.php` autoloads them from there. Files of `project-front` and `project-backend` are copied into this repository only by `drago-install --dev` and must not be committed.
+- Sign-in, registration and password recovery are rate limited through `Sign\RateLimiter` (cache-based); `SignInLimiter` and `Recovery\RecoveryLimiter` define the limits.
+- Password recovery: `Recovery\SessionService` keeps the hashed code and attempts; `RecoveryFactory::changePassword()` must keep the check that the code was verified, and a password change generates a new user token to end other sessions.
+- Schema changes need a new file in `migrations/`; executed migrations must never be edited (checksums).
+
 ## Dependencies
 
 Composer constraints describe the package contract. Before changing integration behavior, inspect the source and the actual call sites in this package; do not infer runtime usage solely from dependency declarations.
