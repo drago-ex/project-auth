@@ -40,8 +40,7 @@
 			},
 			"commands-priority": 10,
 			"commands": {
-				"create:auth-permission": "php vendor/bin/create-auth-permission",
-				"db:migrate-auth": "php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations"
+				"create:auth-permission": "php vendor/bin/create-auth-permission"
 			}
 		},
 		"drago-translator": {

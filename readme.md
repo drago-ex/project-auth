@@ -185,9 +185,17 @@ php vendor/bin/create-auth-permission
 
 ## Database migration
 
+The migrations are exported into the project's `migrations/` directory and run from there, together with
+those of the other packages in one order (`db-migration-order.json`). This package has `commands-priority` 10,
+so its tables exist before the packages that use the `users` table.
+
 ```bash
-php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations
+php vendor/bin/sql-export
+php vendor/bin/migration db:migrate migrations
 ```
+
+With [drago-ex/project-tools](https://github.com/drago-ex/project-tools), the `db:migrate` operation of
+`drago-setup` does both.
 
 ## Automated setup
 
