@@ -197,6 +197,14 @@ php vendor/bin/migration db:migrate migrations
 With [drago-ex/project-tools](https://github.com/drago-ex/project-tools), the `db:migrate` operation of
 `drago-setup` does both.
 
+To run only the migrations of this package, run them straight from `vendor/`:
+
+```bash
+php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations
+```
+
+Both ways can be combined; a migration that already ran from one place is not run again from the other.
+
 ## Automated setup
 
 This package exposes setup commands in `composer.json` under `extra.drago-tools.commands`.
