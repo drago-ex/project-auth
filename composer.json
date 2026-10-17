@@ -38,7 +38,7 @@
 					"resources/assets": "assets"
 				}
 			},
-			"commands-priority": 10,
+			"migration-priority": 10,
 			"commands": {
 				"create:auth-permission": "php vendor/bin/create-auth-permission"
 			}

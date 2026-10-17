@@ -186,7 +186,7 @@ php vendor/bin/create-auth-permission
 ## Database migration
 
 The migrations run straight from `vendor/`, together with those of the other packages in one order. This package
-has `commands-priority` 10, so its tables exist before the packages that use the `users` table.
+has `migration-priority` 10, so its tables exist before the packages that use the `users` table.
 
 ```bash
 php vendor/bin/migration db:migrate --packages
