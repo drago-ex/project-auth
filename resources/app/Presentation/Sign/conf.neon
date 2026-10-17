@@ -1,6 +1,10 @@
 parameters:
-	# Sender of the sign-up and password recovery emails; use an address of your domain, otherwise they end up in spam.
+	# Sender of the account emails; use an address of your domain, otherwise they end up in spam.
 	authMailFrom: no-reply@example.com
+
+	# New accounts must confirm their email address by a link before they can sign in,
+	# and a changed email address applies only after it is confirmed.
+	authRequireEmailVerification: true
 
 
 mail:
@@ -28,5 +32,6 @@ services:
 	- App\Presentation\Sign\SignInLimiter
 	- App\Presentation\Sign\Recovery\RecoveryLimiter
 	- App\Presentation\Sign\Recovery\EmailService(from: %authMailFrom%)
-	- App\Presentation\Sign\Email\SignUpEmailService(from: %authMailFrom%)
-	- App\Model\User\UserAuthenticator
+	- App\Presentation\Sign\Email\EmailSender(from: %authMailFrom%)
+	- App\Presentation\Sign\Verification\VerificationService(enabled: %authRequireEmailVerification%)
+	- App\Model\User\UserAuthenticator(requireVerification: %authRequireEmailVerification%)

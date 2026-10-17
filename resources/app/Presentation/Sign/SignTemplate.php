@@ -11,4 +11,5 @@ use App\Presentation\Sign\Recovery\Token;
 final class SignTemplate extends BaseTemplate
 {
 	public Token $signRecoveryToken;
+	public bool $verificationEnabled;
 }

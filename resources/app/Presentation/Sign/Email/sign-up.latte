@@ -1,50 +1,11 @@
+{layout '@email.latte'}
 {varType string $username}
-{varType string $signInLink}
-{varType string $lang}
+{varType string $link}
 
-<!DOCTYPE html>
-<html lang="{$lang}">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>{_'Your account has been created'}</title>
-</head>
-<body style="margin: 0; padding: 0; background-color: #f0f0f0; color: #666666; font-family: Arial, sans-serif;">
-	<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f0f0f0" style="width: 100%; border-collapse: collapse; background-color: #f0f0f0;">
-		<tr>
-			<td align="center" style="padding: 50px 20px;">
-				<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width: 100%; max-width: 600px; border-collapse: collapse; background-color: #ffffff;">
-					<tr>
-						<td align="center" style="padding: 45px 40px 40px;">
-							<h1 style="margin: 0; color: #000000; font-size: 38px; line-height: 52px; font-weight: 700;">
-								{_'Welcome, %s!', $username}
-							</h1>
-						</td>
-					</tr>
-					<tr>
-						<td align="center" style="padding: 0 40px 30px; color: #666666; font-size: 18px; line-height: 30px;">
-							{_'Your account has been created. You can now sign in with your email address and password.'}
-						</td>
-					</tr>
-					<tr>
-						<td align="center" style="padding: 0 40px 40px;">
-							<table role="presentation" cellpadding="0" cellspacing="0" border="0" bgcolor="#0055ff" style="border-collapse: separate; background-color: #0055ff; border-radius: 3px;">
-								<tr>
-									<td align="center" style="padding: 15px 28px; font-size: 20px; line-height: 24px; font-weight: 700;">
-										<a href="{$signInLink}" style="color: #ffffff; text-decoration: none;">{_'Sign in'}</a>
-									</td>
-								</tr>
-							</table>
-						</td>
-					</tr>
-					<tr>
-						<td align="center" style="padding: 0 40px 45px; color: #999999; font-size: 12px; line-height: 19px;">
-							{_'If you did not create this account, you can ignore and delete this email.'}
-						</td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
-</body>
-</html>
+{block heading}{_'Welcome, %s!', $username}{/block}
+
+{block text}{_'Your account has been created. You can now sign in with your email address and password.'}{/block}
+
+{block button}<a href="{$link}" style="color: #ffffff; text-decoration: none;">{_'Sign in'}</a>{/block}
+
+{block footer}{_'If you did not create this account, you can ignore and delete this email.'}{/block}

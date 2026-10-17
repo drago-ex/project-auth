@@ -1,0 +1,11 @@
+{layout '@email.latte'}
+{varType string $username}
+{varType string $link}
+
+{block heading}{_'Welcome, %s!', $username}{/block}
+
+{block text}{_'Confirm your email address to finish the registration. The link is valid for 24 hours.'}{/block}
+
+{block button}<a href="{$link}" style="color: #ffffff; text-decoration: none;">{_'Confirm email address'}</a>{/block}
+
+{block footer}{_'If you did not create this account, you can ignore and delete this email.'}{/block}

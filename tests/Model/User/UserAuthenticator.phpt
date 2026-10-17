@@ -44,3 +44,43 @@ test('Unknown email costs a password hash, so the response time does not reveal 
 	);
 	Assert::same(1, $passwords->hashed);
 });
+
+
+test('An unconfirmed account cannot sign in, but only after the right password', function () {
+	$passwords = new Passwords;
+	$user = new UserEntity;
+	$user->id = 1;
+	$user->email = 'new@example.com';
+	$user->password = $passwords->hash('correct horse battery staple');
+	$user->verified_at = null;
+
+	$repository = new class (new Connection(['driver' => 'mysqli', 'lazy' => true]), $user) extends UserRepository {
+		public function __construct(
+			Connection $connection,
+			private UserEntity $user,
+		) {
+			parent::__construct($connection);
+		}
+
+
+		public function findUserByEmail(string $email): ?UserEntity
+		{
+			return $this->user;
+		}
+	};
+
+	$authenticator = new UserAuthenticator($passwords, $repository);
+
+	$e = Assert::exception(
+		fn() => $authenticator->authenticate('new@example.com', 'wrong password'),
+		AuthenticationException::class,
+	);
+	Assert::notSame(Nette\Security\Authenticator::NotApproved, $e->getCode());
+
+	Assert::exception(
+		fn() => $authenticator->authenticate('new@example.com', 'correct horse battery staple'),
+		AuthenticationException::class,
+		null,
+		Nette\Security\Authenticator::NotApproved,
+	);
+});

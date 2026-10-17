@@ -17,6 +17,7 @@
 		<div class="text-end mt-2">
 			<p class="m-0"><a n:href="up" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Create account'}</a></p>
 			<p class="m-0"><a n:href="recovery" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Forgot your password?'}</a></p>
+			<p n:if="$verificationEnabled" class="m-0"><a n:href="verification" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Send the confirmation email again'}</a></p>
 		</div>
 
 		{else}

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Presentation\Sign\Email;
 
 use Drago\Localization\Translator;
-use Nette\Application\LinkGenerator;
 use Nette\Bridges\ApplicationLatte\TemplateFactory;
 use Nette\Mail\Mailer;
 use Nette\Mail\Message;
@@ -15,36 +14,39 @@ use Tracy\ILogger;
 
 
 /**
- * Sends the confirmation of a new account. A failed email does not undo the registration, it is only logged.
+ * Renders a translated email template and sends it. A failed email is logged and does not stop the action
+ * that sent it (e.g. a registration stays valid when the mail server is down).
  */
-readonly class SignUpEmailService
+readonly class EmailSender
 {
 	public function __construct(
 		private string $from,
 		private Translator $translator,
 		private Mailer $mailer,
 		private TemplateFactory $templateFactory,
-		private LinkGenerator $linkGenerator,
 	) {
 	}
 
 
-	public function sendEmail(string $email, string $username, string $lang): void
+	/**
+	 * @param array<string, mixed> $parameters
+	 */
+	public function send(string $to, string $subject, string $file, array $parameters, string $lang): void
 	{
 		try {
 			$this->translator->setTranslate($lang);
 
 			$template = $this->templateFactory->createTemplate();
-			$template->setFile(__DIR__ . '/sign-up.latte');
+			$template->setFile($file);
 			$template->setTranslator($this->translator);
-			$template->lang = $lang;
-			$template->username = $username;
-			$template->signInLink = $this->linkGenerator->link('Sign:in', ['lang' => $lang]);
+			foreach ($parameters + ['lang' => $lang, 'subject' => $subject] as $name => $value) {
+				$template->$name = $value;
+			}
 
 			$message = new Message;
 			$message->setFrom($this->from)
-				->addTo($email)
-				->setSubject($this->translator->translate('Your account has been created'))
+				->addTo($to)
+				->setSubject($this->translator->translate($subject))
 				->setHtmlBody($template->renderToString());
 
 			$this->mailer->send($message);

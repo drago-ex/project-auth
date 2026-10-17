@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Sign;
 
 use App\Model\User\UserEntity;
-use App\Presentation\Sign\Email\SignUpEmailService;
+use App\Presentation\Sign\Verification\VerificationService;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;
@@ -33,8 +33,8 @@ readonly class SignUpFactory
 		private Connection $connection,
 		private RateLimiter $limiter,
 		private IRequest $httpRequest,
-		// Optional: the installer creates the administrator without sending an email.
-		private ?SignUpEmailService $emailService = null,
+		// Optional: the installer creates a verified administrator without sending an email.
+		private ?VerificationService $verification = null,
 	) {
 	}
 
@@ -87,11 +87,15 @@ readonly class SignUpFactory
 
 		Validators::assert($values->email, 'email');
 
+		// Without verification (or in the installer) the account is usable at once.
+		$data = $values->toArray();
+		$data[UserEntity::ColumnVerifiedAt] = $this->verification?->isEnabled() ? null : new \DateTimeImmutable;
+
 		try {
-			$this->connection->insert(UserEntity::Table, $values->toArray())
+			$this->connection->insert(UserEntity::Table, $data)
 				->execute();
 
-			$this->emailService?->sendEmail($values->email, $values->username, $lang);
+			$this->verification?->registered($this->connection->getInsertId(), $values->email, $values->username, $lang);
 
 		} catch (UniqueConstraintViolationException $e) {
 			$message = match ($e->getCode()) {

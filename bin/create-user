@@ -62,6 +62,7 @@ try {
         UserEntity::ColumnEmail => $email,
         UserEntity::ColumnPassword => $hash->hash($password),
         UserEntity::ColumnToken => Random::generate(32),
+        UserEntity::ColumnVerifiedAt => new DateTimeImmutable,
     ])->execute();
 
     echo "{$green}OK User '$username' was created successfully.{$reset}\n";
