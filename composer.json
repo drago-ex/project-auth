@@ -8,7 +8,7 @@
 		"drago-ex/database": "^3.0",
 		"drago-ex/application": "^3.0",
 		"drago-ex/form": "^2.0",
-		"drago-ex/migration": "^2.0",
+		"drago-ex/migration": "^2.3",
 		"drago-ex/utils": "^2.0",
 		"drago-ex/translator": "^4.0",
 		"drago-ex/project-front": "^2.0",
