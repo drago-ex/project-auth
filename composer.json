@@ -27,8 +27,7 @@
 		"drago-ex/project-tools": "^1.1"
 	},
 	"bin": [
-		"bin/create-user",
-		"bin/create-auth-permission"
+		"bin/create-user"
 	],
 	"extra": {
 		"drago-tools": {
@@ -38,11 +37,9 @@
 					"resources/assets": "assets"
 				}
 			},
-			"migration-priority": 10,
-			"commands": {
-				"create:auth-permission": "php vendor/bin/create-auth-permission"
-			}
+			"migration-priority": 10
 		},
+		"drago-permission": "permission.php",
 		"drago-translator": {
 			"translation": "app/Presentation/Sign/Translate"
 		}

@@ -12,6 +12,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 
 ## Repository Layout
 - `bin/`: command-line entry points.
+- `permission.php`: basic access rules for `drago-ex/permission`, declared in `extra.drago-permission` and generated into the project by `create-permission --packages`.
 - `migrations/`: database migrations.
 - `resources/`: application resources contributed to the consuming Drago project.
 - `tests/`: automated tests.
