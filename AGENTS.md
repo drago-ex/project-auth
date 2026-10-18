@@ -23,6 +23,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - Resources in `resources/app` are copied into the project by drago-tools; `tests/bootstrap.php` autoloads them from there. Files of `project-front` and `project-backend` are copied into this repository only by `drago-install --dev` and must not be committed.
 - Sign-in, registration and password recovery are rate limited through `Sign\RateLimiter` (cache-based); `SignInLimiter` and `Recovery\RecoveryLimiter` define the limits.
 - Password recovery: `Recovery\SessionService` keeps the hashed code and attempts; `RecoveryFactory::changePassword()` must keep the check that the code was verified, and a password change generates a new user token to end other sessions.
+- The package stays independent of optional packages such as `project-account`: no `class_exists()` checks for their classes. A signed-in user is redirected to `SignPresenter::SignedInDestination` (`:Backend:Admin:`, from the required `project-backend`); projects change that constant.
 - Schema changes need a new file in `migrations/`; executed migrations must never be edited (checksums).
 
 ## Dependencies

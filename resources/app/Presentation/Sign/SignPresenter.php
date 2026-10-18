@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Presentation\Sign;
 
-use App\Presentation\Account\AccountPresenter;
 use App\Presentation\BasePresenter;
 use App\Presentation\Sign\Recovery\RecoveryFactory;
 use App\Presentation\Sign\Recovery\RecoveryThrottledException;
@@ -28,6 +27,9 @@ use Throwable;
 /** @property-read SignTemplate $template */
 final class SignPresenter extends BasePresenter
 {
+	/** Where a signed-in user goes after signing in or confirming an email link; change it to the project's own page. */
+	private const string SignedInDestination = ':Backend:Admin:';
+
 	#[Persistent]
 	public string $backlink = '';
 
@@ -90,8 +92,7 @@ final class SignPresenter extends BasePresenter
 			$this->redirect('in');
 		}
 
-		// The account screen comes from drago-ex/project-account, which may not be installed.
-		$this->redirect(class_exists(AccountPresenter::class) ? ':Account:' : ':Backend:Admin:');
+		$this->redirect(self::SignedInDestination);
 	}
 
 
@@ -289,6 +290,6 @@ final class SignPresenter extends BasePresenter
 
 		$this->signInLimiter->registerSuccess($values->email);
 		$this->restoreRequest($this->backlink);
-		$this->redirect(':Backend:Admin:');
+		$this->redirect(self::SignedInDestination);
 	}
 }

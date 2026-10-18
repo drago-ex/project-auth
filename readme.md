@@ -39,6 +39,11 @@ which must be installed in your project. Without it, copy the files manually acc
 in this package's `composer.json`. To skip this package, set `"skip": true` under
 `extra.drago-tools.packages.<package-name>` in your root `composer.json`.
 
+After signing in, and after confirming an email link while signed in, the user goes to the administration
+(`:Backend:Admin:`). To send them elsewhere, for example to an account screen, change the `SignedInDestination`
+constant in `app/Presentation/Sign/SignPresenter.php`. The package knows no other packages that may be installed
+next to it; the copied presenter is yours to adapt.
+
 ## Features
 
 - User authentication (sign in / sign out)
