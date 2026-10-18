@@ -197,8 +197,7 @@ has `migration-priority` 10, so its tables exist before the packages that use th
 php vendor/bin/migration db:migrate --packages
 ```
 
-With [drago-ex/project-tools](https://github.com/drago-ex/project-tools), the `db:migrate` operation of
-`drago-setup` runs the same command, and the web installer of `drago-ex/project-install` uses the same order.
+The web installer of `drago-ex/project-install` uses the same order.
 
 To run only the migrations of this package:
 
@@ -207,12 +206,3 @@ php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations
 ```
 
 Both ways can be combined; a migration that already ran is never run again.
-
-## Automated setup
-
-This package exposes setup commands in `composer.json` under `extra.drago-tools.commands`.
-If [drago-ex/project-tools](https://github.com/drago-ex/project-tools) is installed, you can run them from the project root:
-
-```bash
-php vendor/bin/drago-setup
-```
