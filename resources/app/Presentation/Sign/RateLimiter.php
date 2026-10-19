@@ -50,6 +50,12 @@ readonly class RateLimiter
 	}
 
 
+	public function clear(string $bucket, string $subject): void
+	{
+		$this->cache->remove($this->key($bucket, $subject));
+	}
+
+
 	private function count(string $bucket, string $subject): int
 	{
 		$data = $this->cache->load($this->key($bucket, $subject));

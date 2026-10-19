@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-namespace tests;
-
 use App\Presentation\Accessory\RequireLogged;
 
 
+/** Lets PHPStan analyse the RequireLogged trait, which no class in the package uses. */
 class TraitStub
 {
 	use RequireLogged;

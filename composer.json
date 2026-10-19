@@ -8,7 +8,7 @@
 		"drago-ex/database": "^3.0",
 		"drago-ex/application": "^3.0",
 		"drago-ex/form": "^2.0",
-		"drago-ex/migration": "^2.0",
+		"drago-ex/migration": "^2.3",
 		"drago-ex/utils": "^2.0",
 		"drago-ex/translator": "^4.0",
 		"drago-ex/project-front": "^2.0",
@@ -24,11 +24,10 @@
 	"require-dev": {
 		"nette/tester": "^2.5",
 		"phpstan/phpstan-nette": "^2.0",
-		"drago-ex/project-tools": "^1.0"
+		"drago-ex/project-tools": "^2.0"
 	},
 	"bin": [
-		"bin/create-user",
-		"bin/create-auth-permission"
+		"bin/create-user"
 	],
 	"extra": {
 		"drago-tools": {
@@ -38,19 +37,16 @@
 					"resources/assets": "assets"
 				}
 			},
-			"commands-priority": 10,
-			"commands": {
-				"create:auth-permission": "php vendor/bin/create-auth-permission",
-				"db:migrate-auth": "php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations"
-			}
+			"migration-priority": 10
 		},
+		"drago-permission": "permission.php",
 		"drago-translator": {
 			"translation": "app/Presentation/Sign/Translate"
 		}
 	},
 	"scripts": {
 		"phpstan": "phpstan analyse",
-		"tester": "tester tests -s",
+		"tester": "tester tests -s -C",
 		"post-install-cmd": [
 			"drago-install --dev",
 			"drago-clean"

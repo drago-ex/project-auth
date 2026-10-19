@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Presentation\Sign;
 
 use App\Model\User\UserEntity;
+use App\Presentation\Sign\Verification\VerificationService;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Drago\Form\Autocomplete;
-use Drago\Form\Rules\PasswordRules;
 use Exception;
 use Nette\Application\UI\Form;
 use Nette\Http\IRequest;
@@ -33,11 +33,13 @@ readonly class SignUpFactory
 		private Connection $connection,
 		private RateLimiter $limiter,
 		private IRequest $httpRequest,
+		// Optional: the installer creates a verified administrator without sending an email.
+		private ?VerificationService $verification = null,
 	) {
 	}
 
 
-	public function create(): Form
+	public function create(string $lang = 'cs'): Form
 	{
 		$form = $this->factory->create();
 		$form->addTextInput(SignUpValues::Username, 'Full name')
@@ -48,18 +50,17 @@ readonly class SignUpFactory
 
 		$form->addEmailField()
 			->setDefaultValue('@')
-			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 50);
+			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 254);
 
-		$form->addPasswordField()
-			->setAutocomplete(Autocomplete::NewPassword)
-			->addRule($form::MinLength, 'Password must be at least %d characters long.', 8)
-			->addRule($form::Pattern, PasswordRules::StrongMessage, PasswordRules::StrongPattern);
+		$password = $form->addPasswordField()
+			->setAutocomplete(Autocomplete::NewPassword);
+		PasswordPolicy::apply($password);
 
 		$form->addPasswordConfirmationField()
 			->setAutocomplete(Autocomplete::Off);
 
 		$form->addSubmit('send', 'Create account');
-		$form->onSuccess[] = $this->processSignUpForm(...);
+		$form->onSuccess[] = fn(Form $form, SignUpValues $values) => $this->processSignUpForm($form, $values, $lang);
 		return $form;
 	}
 
@@ -69,7 +70,7 @@ readonly class SignUpFactory
 	 * @throws Exception
 	 * @throws AssertionException
 	 */
-	private function processSignUpForm(Form $form, SignUpValues $values): void
+	private function processSignUpForm(Form $form, SignUpValues $values, string $lang): void
 	{
 		// Limit first: hashing the password is the expensive part.
 		$ip = $this->httpRequest->getRemoteAddress() ?? 'unknown';
@@ -86,9 +87,15 @@ readonly class SignUpFactory
 
 		Validators::assert($values->email, 'email');
 
+		// Without verification (or in the installer) the account is usable at once.
+		$data = $values->toArray();
+		$data[UserEntity::ColumnVerifiedAt] = $this->verification?->isEnabled() ? null : new \DateTimeImmutable;
+
 		try {
-			$this->connection->insert(UserEntity::Table, $values->toArray())
+			$this->connection->insert(UserEntity::Table, $data)
 				->execute();
+
+			$this->verification?->registered($this->connection->getInsertId(), $values->email, $values->username, $lang);
 
 		} catch (UniqueConstraintViolationException $e) {
 			$message = match ($e->getCode()) {

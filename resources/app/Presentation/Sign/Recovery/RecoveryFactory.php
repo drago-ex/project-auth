@@ -6,8 +6,8 @@ namespace App\Presentation\Sign\Recovery;
 
 use App\Model\User\UserRepository;
 use App\Presentation\Sign\Factory;
+use App\Presentation\Sign\PasswordPolicy;
 use Drago\Form\Autocomplete;
-use Drago\Form\Rules\PasswordRules;
 use Nette\Application\UI\Form;
 use Nette\Forms\Controls\BaseControl;
 use Nette\Http\IRequest;
@@ -16,6 +16,8 @@ use Nette\Security\Passwords;
 use Nette\Utils\Random;
 use Random\RandomException;
 use Throwable;
+use Tracy\Debugger;
+use Tracy\ILogger;
 
 
 readonly class RecoveryFactory
@@ -63,10 +65,9 @@ readonly class RecoveryFactory
 	public function createChangePassword(): Form
 	{
 		$form = $this->factory->create();
-		$form->addPasswordField()
-			->setAutocomplete(Autocomplete::NewPassword)
-			->addRule($form::MinLength, 'Password must be at least %d characters long.', 8)
-			->addRule($form::Pattern, PasswordRules::StrongMessage, PasswordRules::StrongPattern);
+		$password = $form->addPasswordField()
+			->setAutocomplete(Autocomplete::NewPassword);
+		PasswordPolicy::apply($password);
 
 		$form->addPasswordConfirmationField()
 			->setAutocomplete(Autocomplete::Off);
@@ -154,7 +155,8 @@ readonly class RecoveryFactory
 		} catch (RecoveryThrottledException $e) {
 			$form->addError($e->getMessage());
 
-		} catch (Throwable) {
+		} catch (Throwable $e) {
+			Debugger::log($e, ILogger::EXCEPTION);
 			$form->addError('Unknown status code.');
 		}
 	}
@@ -182,10 +184,16 @@ readonly class RecoveryFactory
 
 			$user->password = $this->passwords->hash($password);
 			$user->token = Random::generate(32); // invalidates all existing sessions
+			// The code came by email, which proves the address, so the account is confirmed too.
+			$user->verified_at ??= new \DateTimeImmutable;
 			$this->userRepository->save($user);
 			$this->sessionService->removeToken();
 
 		} catch (Throwable $e) {
+			if ($e->getCode() !== 1001) {
+				Debugger::log($e, ILogger::EXCEPTION);
+			}
+
 			$message = match ($e->getCode()) {
 				1001 => 'User with email was not found.',
 				default => 'Unknown status code.',

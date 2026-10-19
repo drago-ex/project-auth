@@ -6,3 +6,12 @@ parameters:
 	paths:
 		- resources/app
 		- tests
+
+	# resources of the dependencies, installed by drago-install --dev
+	scanDirectories:
+		- .dev-resource
+	excludePaths:
+		analyseAndScan:
+			- tests/tmp (?)
+			- tests/*/temp/* (?)
+			- tests/*/*/temp/* (?)

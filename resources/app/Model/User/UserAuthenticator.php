@@ -25,6 +25,7 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 	public function __construct(
 		private readonly Passwords $password,
 		private readonly UserRepository $userRepository,
+		private readonly bool $requireVerification = true,
 	) {
 	}
 
@@ -40,11 +41,18 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 		$user = $this->userRepository->findUserByEmail($username);
 
 		if (!$user) {
+			// Hashing takes as long as verifying, so the response time does not reveal which emails have an account.
+			$this->password->hash($password);
 			throw new AuthenticationException('User not found.');
 		}
 
 		if (!$this->password->verify($password, $user->password)) {
 			throw new AuthenticationException('Incorrect password.');
+		}
+
+		// Checked after the password, so it does not tell strangers that the account exists.
+		if ($this->requireVerification && $user->verified_at === null) {
+			throw new AuthenticationException('The email address is not confirmed.', self::NotApproved);
 		}
 
 		if ($this->password->needsRehash($user->password)) {

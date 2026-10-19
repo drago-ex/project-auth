@@ -19,6 +19,7 @@
 "An account with this email address already exists. You can sign in or reset your password.":
 	"Účet s touto e-mailovou adresou již existuje. Můžete se přihlásit nebo obnovit heslo."
 "Too many registration attempts. Try again later.": "Příliš mnoho pokusů o registraci. Zkuste to prosím později."
+"Too many sign-in attempts. Try again later.": "Příliš mnoho pokusů o přihlášení. Zkuste to prosím později."
 "The full name is too long (maximum %d characters).": "Jméno je příliš dlouhé (maximálně %d znaků)."
 "The email address is too long (maximum %d characters).": "E-mailová adresa je příliš dlouhá (maximálně %d znaků)."
 
@@ -29,6 +30,7 @@
 "Full name": "Celé jméno"
 "Please enter your full name.": "Zadejte prosím své celé jméno."
 "Password must be at least %d characters long.": "Heslo musí mít alespoň %d znaků."
+"The password is too long.": "Heslo je příliš dlouhé."
 "Back to sign in": "Zpět k přihlášení"
 "Enter your details to create a new account.": "Pro vytvoření účtu vyplňte své údaje."
 
@@ -65,8 +67,49 @@
 # sign out
 "Signed out": "Odhlášení"
 "You are now signed out of your account.": "Nyní jste odhlášeni ze svého účtu."
+"Do you want to sign out of your account?": "Chcete se odhlásit ze svého účtu?"
 
 # theme
 "Toggle theme": "Přepnout motiv"
 "Light mode": "Světlý režim"
 "Dark mode": "Tmavý režim"
+
+# sign-up email
+"Your account has been created": "Váš účet byl vytvořen"
+"Welcome, %s!": "Vítejte, %s!"
+"Your account has been created. You can now sign in with your email address and password.":
+	"Váš účet byl vytvořen. Nyní se můžete přihlásit svou e-mailovou adresou a heslem."
+"If you did not create this account, you can ignore and delete this email.":
+	"Pokud jste tento účet nevytvořili, můžete tento e-mail ignorovat a smazat."
+
+# email verification
+"Confirm your email address": "Potvrďte svou e-mailovou adresu"
+"Confirm your email address to finish the registration. The link is valid for 24 hours.":
+	"Potvrďte svou e-mailovou adresu a dokončete tak registraci. Odkaz platí 24 hodin."
+"Confirm email address": "Potvrdit e-mailovou adresu"
+"Your account has been created. Confirm your email address using the link we have sent you, then sign in.":
+	"Váš účet byl vytvořen. Potvrďte svou e-mailovou adresu pomocí odkazu, který jsme vám poslali, a pak se přihlaste."
+"Please confirm your email address first. You can request a new confirmation link below.":
+	"Nejprve prosím potvrďte svou e-mailovou adresu. Nový potvrzovací odkaz si můžete vyžádat níže."
+"Send the confirmation email again": "Znovu poslat potvrzovací e-mail"
+"Did not get the email, or has the link expired? Enter your email address and we will send you a new link.":
+	"Nepřišel vám e-mail, nebo odkaz vypršel? Zadejte svou e-mailovou adresu a pošleme vám nový odkaz."
+"Send a new link": "Poslat nový odkaz"
+"Too many requests. Try again later.": "Příliš mnoho požadavků. Zkuste to prosím později."
+"If the address is registered and not yet confirmed, we have sent a new link to it.":
+	"Pokud je adresa registrována a dosud nepotvrzena, poslali jsme na ni nový odkaz."
+"Your email address has been confirmed. You can sign in now.": "Vaše e-mailová adresa byla potvrzena. Nyní se můžete přihlásit."
+"Your email address has been changed.": "Vaše e-mailová adresa byla změněna."
+"This email address is already used by another account.": "Tuto e-mailovou adresu již používá jiný účet."
+"The link is invalid or has expired.": "Odkaz je neplatný nebo vypršel."
+
+# email change
+"Confirm your new email address": "Potvrďte svou novou e-mailovou adresu"
+"Confirm that you want to use this address for your account. The link is valid for 1 hour.":
+	"Potvrďte, že chcete tuto adresu používat pro svůj účet. Odkaz platí 1 hodinu."
+"If you did not request this change, you can ignore and delete this email.":
+	"Pokud jste o tuto změnu nežádali, můžete tento e-mail ignorovat a smazat."
+"Your email address has been changed": "Vaše e-mailová adresa byla změněna"
+"The email address of your account has been changed to %s. If you did not make this change, reset your password right away.":
+	"E-mailová adresa vašeho účtu byla změněna na %s. Pokud jste tuto změnu neprovedli, ihned si obnovte heslo."
+"Reset password": "Obnovit heslo"

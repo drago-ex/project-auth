@@ -13,9 +13,13 @@ spl_autoload_register(function (string $class): void {
 		return;
 	}
 
-	$file = __DIR__ . '/../resources/app/' . str_replace('\\', '/', substr($class, strlen($prefix))) . '.php';
-	if (is_file($file)) {
-		require $file;
+	// The package's own classes first, then those of its dependencies installed by drago-install --dev.
+	$path = str_replace('\\', '/', substr($class, strlen($prefix))) . '.php';
+	foreach (['/../resources/app/', '/../.dev-resource/app/'] as $dir) {
+		if (is_file($file = __DIR__ . $dir . $path)) {
+			require $file;
+			return;
+		}
 	}
 });
 

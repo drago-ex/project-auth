@@ -1,0 +1,11 @@
+{layout '@email.latte'}
+{varType string $username}
+{varType string $link}
+
+{block heading}{_'Welcome, %s!', $username}{/block}
+
+{block text}{_'Your account has been created. You can now sign in with your email address and password.'}{/block}
+
+{block button}<a href="{$link}" style="color: #ffffff; text-decoration: none;">{_'Sign in'}</a>{/block}
+
+{block footer}{_'If you did not create this account, you can ignore and delete this email.'}{/block}

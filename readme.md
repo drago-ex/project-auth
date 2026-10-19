@@ -10,7 +10,6 @@ extension for projects built on top of the Drago ecosystem and Nette Framework.
 [![Coding Style](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml)
 
 ## Requirements
-
 - PHP >= 8.3, < 9
 - Nette Framework
 - Composer
@@ -20,43 +19,88 @@ extension for projects built on top of the Drago ecosystem and Nette Framework.
 - Drago Project core packages
 
 ## Installation
-
 ```bash
 composer require drago-ex/project-auth
 ```
 
 ### npm Installation
-
 The authentication UI requires the theme switcher and Font Awesome icons:
 ```bash
 npm install theme-switcher-compostrap @fortawesome/fontawesome-free
 ```
 
 ## Project files
-
 File copying is handled automatically by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
 which must be installed in your project. Without it, copy the files manually according to the `copy` section
 in this package's `composer.json`. To skip this package, set `"skip": true` under
 `extra.drago-tools.packages.<package-name>` in your root `composer.json`.
 
 ## Features
-
 - User authentication (sign in / sign out)
 - User registration (sign up)
 - Password recovery and reset
+- Email address verification (after registration and when the address changes)
+- Rate limiting of sign-in, registration and password recovery
 - User identity handling
 - Integration with Nette Security and DI
 - Ready-to-use authentication UI components
 
-## Adds a new user to the database
+## Configuration
+Parameters in `app/Presentation/Sign/conf.neon`:
+- `authMailFrom` - sender of the account emails, use an address of your domain
+- `authRequireEmailVerification` - a new account confirms its email address by a link (default `true`)
+- `mail` section - SMTP connection
 
+After signing in, the user goes to the administration (`:Backend:Admin:`). To change it, edit the
+`SignedInDestination` constant in `app/Presentation/Sign/SignPresenter.php`.
+
+Behind a reverse proxy, set `http: proxy:`, otherwise the per-IP limits apply to the proxy address.
+
+## Rate limiting
+Attempts are counted in the application cache; clearing `temp/cache` resets them.
+
+| Action | Limit |
+|---|---|
+| Sign-in | 10 failed attempts per email and 30 per IP address in 15 minutes |
+| Registration | 10 attempts per IP address in an hour |
+| Password recovery | 5 requests per email and 20 per IP address in an hour, 10 wrong codes in 15 minutes |
+| New confirmation link | 3 requests per email and 10 per IP address in an hour |
+
+## Security
+- Passwords are hashed by `Nette\Security\Passwords`; rules in `Sign/PasswordPolicy` (at least 12 characters).
+- Sign-in and password recovery do not reveal whether an email has an account.
+- Changing or recovering the password signs the user out of all other sessions.
+- Recovery codes and confirmation links are stored hashed, expire and work only once.
+- Registration says that an email is already used; change it if that matters for your project.
+- Two-factor authentication is not included.
+
+## Emails
+The email templates are in `Sign/Email/` (shared layout `@email.latte`) and `Sign/Recovery/email.latte`.
+
+To catch emails locally, add [Mailpit](https://mailpit.axllent.org) to `docker-compose.override.yaml`:
+```yaml
+  mailpit:
+    image: axllent/mailpit:v1.27
+    restart: always
+    ports:
+      - '8025:8025'
+```
+and point the mailer to it in `Sign/conf.neon`:
+```neon
+mail:
+	smtp: true
+	host: mailpit
+	port: 1025
+```
+Emails are shown at http://localhost:8025.
+
+## Adds a new user to the database
 Hashes the password, generates a token, and ensures the email is unique.
 ```bash
 php vendor/bin/create-user <username> <email> <password>
 ```
 
 ## Secure access to the section
-
 ```php
 use App\Presentation\Accessory\RequireLogged;
 use Nette\Application\UI\Presenter;
@@ -67,24 +111,15 @@ final class SecurePresenter extends Presenter
 }
 ```
 
-## Generate permission provider
-
-If you use project ACL (drago-ex/permission), you can generate a module permission class:
+## Permission provider
+With [drago-ex/permission](https://github.com/drago-ex/permission), the access rules from [`permission.php`](permission.php)
+are generated into the project by:
 ```bash
-php vendor/bin/create-auth-permission
+php vendor/bin/create-permission --packages
 ```
 
 ## Database migration
-
 ```bash
-php vendor/bin/migration db:migrate vendor/drago-ex/project-auth/migrations
+php vendor/bin/migration db:migrate --packages
 ```
-
-## Automated setup
-
-This package exposes setup commands in `composer.json` under `extra.drago-tools.commands`.
-If [drago-ex/project-tools](https://github.com/drago-ex/project-tools) is installed, you can run them from the project root:
-
-```bash
-php vendor/bin/drago-setup
-```
+The package has `migration-priority` 10, so the `users` table exists before the packages that use it.

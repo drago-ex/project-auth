@@ -1,0 +1,17 @@
+{block title}{_'Confirm email address'}{/block}
+{block subtitle}{_'Did not get the email, or has the link expired? Enter your email address and we will send you a new link.'}{/block}
+
+{block content}
+	{embed '../Accessory/Widget/@form.latte', name: 'signVerification', class: 'ajax', najaHistory: 'replace'}
+		{block form}
+			{include input, name: 'email'}
+			<div class="col-12 d-grid gap-1">
+				{include submit, name: 'send'}
+			</div>
+		{/block}
+	{/embed}
+
+	<p class="mt-2 mb-0 text-end">
+		<a n:href="in" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Back to sign in'}</a>
+	</p>
+{/block}

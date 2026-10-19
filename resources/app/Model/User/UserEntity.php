@@ -19,11 +19,13 @@ class UserEntity extends Entity
 		ColumnUsername = 'username',
 		ColumnEmail = 'email',
 		ColumnPassword = 'password',
-		ColumnToken = 'token';
+		ColumnToken = 'token',
+		ColumnVerifiedAt = 'verified_at';
 
 	public int $id;
 	public string $username;
 	public string $email;
 	public string $password;
 	public string $token;
+	public ?\DateTimeInterface $verified_at = null;
 }

@@ -16,6 +16,7 @@ use Tracy\Debugger;
 readonly class EmailService
 {
 	public function __construct(
+		private string $from,
 		private Translator $translator,
 		private Mailer $mailer,
 		private TemplateFactory $templateFactory,
@@ -38,7 +39,7 @@ readonly class EmailService
 		$template->token = $token;
 
 		$message = new Message;
-		$message->setFrom('no-reply@email.com')
+		$message->setFrom($this->from)
 			->addTo($email)
 			->setSubject($this->translator->translate('Request to reset password'))
 			->setHtmlBody($template->renderToString());
