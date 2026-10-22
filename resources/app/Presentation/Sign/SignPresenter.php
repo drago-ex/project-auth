@@ -280,6 +280,8 @@ final class SignPresenter extends BasePresenter
 			// The password was right, so this is not a failed attempt.
 			if ($e->getCode() === Authenticator::NotApproved) {
 				$form->addError('Please confirm your email address first. You can request a new confirmation link below.');
+				// Shown only now: the password was right, so the link tells nothing to someone who does not know it.
+				$this->template->notConfirmed = true;
 				return;
 			}
 

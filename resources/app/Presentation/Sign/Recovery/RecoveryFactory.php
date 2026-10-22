@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Presentation\Sign\Recovery;
 
 use App\Model\User\UserRepository;
+use App\Presentation\Sign\Email\EmailSender;
 use App\Presentation\Sign\Factory;
 use App\Presentation\Sign\PasswordPolicy;
 use Drago\Form\Autocomplete;
@@ -26,7 +27,7 @@ readonly class RecoveryFactory
 		private Factory $factory,
 		private SessionService $sessionService,
 		private UserRepository $userRepository,
-		private EmailService $emailService,
+		private EmailSender $emailSender,
 		private Passwords $passwords,
 		private RecoveryLimiter $limiter,
 		private IRequest $httpRequest,
@@ -142,7 +143,7 @@ readonly class RecoveryFactory
 			return;
 		}
 
-		$this->emailService->sendEmail($email, $token, $lang);
+		$this->emailSender->send($email, 'Request to reset password', __DIR__ . '/email.latte', ['token' => $token], $lang);
 	}
 
 

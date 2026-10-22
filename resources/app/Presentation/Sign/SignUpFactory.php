@@ -98,6 +98,12 @@ readonly class SignUpFactory
 			$this->verification?->registered($this->connection->getInsertId(), $values->email, $values->username, $lang);
 
 		} catch (UniqueConstraintViolationException $e) {
+			// With verification the form does not reveal that the address is registered, see alreadyRegistered().
+			if ($e->getCode() === 1062 && $this->verification?->isEnabled()) {
+				$this->verification->alreadyRegistered($values->email, $lang);
+				return;
+			}
+
 			$message = match ($e->getCode()) {
 				1062 => 'An account with this email address already exists. You can sign in or reset your password.',
 				default => 'Unknown status code.',

@@ -8,10 +8,23 @@ use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
 use Nette\Security\Passwords;
 use Nette\Utils\Random;
+use Nette\Utils\Validators;
 
 $green = "\033[32m";
 $red = "\033[31m";
 $reset = "\033[0m";
+
+if ($argc !== 4) {
+	echo <<<USAGE
+		Add new user to database.
+
+		Usage: create-user <username> <email> <password>
+
+		USAGE;
+	exit(1);
+}
+
+[, $username, $email, $password] = $argv;
 
 $root = getcwd();
 
@@ -29,26 +42,19 @@ if (!is_file($bootstrapFile)) {
 }
 require $bootstrapFile;
 
-$bootstrap = new \App\Bootstrap;
-$container = $bootstrap->bootWebApplication();
-
-if ($argc !== 4) {
-    echo <<<USAGE
-Add new user to database.
-
-Usage: create-user <username> <email> <password>
-
-USAGE;
-    exit(1);
+if (!Validators::isEmail($email)) {
+	fwrite(STDERR, "{$red}ERROR: '{$email}' is not a valid email address.{$reset}\n");
+	exit(1);
 }
-
-[, $username, $email, $password] = $argv;
 
 $passwordError = App\Presentation\Sign\PasswordPolicy::validate($password);
 if ($passwordError !== null) {
-    fwrite(STDERR, "{$red}ERROR: {$passwordError}{$reset}\n");
-    exit(1);
+	fwrite(STDERR, "{$red}ERROR: {$passwordError}{$reset}\n");
+	exit(1);
 }
+
+$bootstrap = new \App\Bootstrap;
+$container = $bootstrap->bootWebApplication();
 
 $model = $container->getByType(Connection::class);
 \assert($model instanceof Connection);
@@ -57,17 +63,17 @@ $hash = $container->getByType(Passwords::class);
 \assert($hash instanceof Passwords);
 
 try {
-    $model->insert(UserEntity::Table, [
-        UserEntity::ColumnUsername => $username,
-        UserEntity::ColumnEmail => $email,
-        UserEntity::ColumnPassword => $hash->hash($password),
-        UserEntity::ColumnToken => Random::generate(32),
-        UserEntity::ColumnVerifiedAt => new DateTimeImmutable,
-    ])->execute();
+	$model->insert(UserEntity::Table, [
+		UserEntity::ColumnUsername => $username,
+		UserEntity::ColumnEmail => $email,
+		UserEntity::ColumnPassword => $hash->hash($password),
+		UserEntity::ColumnToken => Random::generate(32),
+		UserEntity::ColumnVerifiedAt => new DateTimeImmutable,
+	])->execute();
 
-    echo "{$green}OK User '$username' was created successfully.{$reset}\n";
+	echo "{$green}OK User '$username' was created successfully.{$reset}\n";
 
 } catch (UniqueConstraintViolationException) {
-    echo "{$red}ERROR: duplicate email.{$reset}\n";
-    exit(1);
+	echo "{$red}ERROR: duplicate email.{$reset}\n";
+	exit(1);
 }

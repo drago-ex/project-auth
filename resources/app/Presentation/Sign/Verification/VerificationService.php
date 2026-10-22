@@ -74,6 +74,20 @@ class VerificationService
 
 
 	/**
+	 * Someone registered with an address that already has an account. The form answers as if the account was
+	 * created, so it does not tell who is registered, and the owner gets an email with the way to sign in.
+	 * Only with verification on: without it, the new account is usable at once, so the form says the address is taken.
+	 * @throws InvalidLinkException
+	 */
+	public function alreadyRegistered(string $email, string $lang): void
+	{
+		$this->emailSender->send($email, 'Someone tried to create an account', self::EmailDir . '/account-exists.latte', [
+			'link' => $this->linkGenerator->link('Sign:recovery', ['lang' => $lang]),
+		], $lang);
+	}
+
+
+	/**
 	 * Sends a new confirmation link. The answer does not depend on whether the address exists,
 	 * so it cannot be used to find out who has an account.
 	 * @return bool false when too many links were requested

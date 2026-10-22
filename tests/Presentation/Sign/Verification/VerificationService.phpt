@@ -173,6 +173,16 @@ test('Without verification, a new account gets a welcome email instead', functio
 });
 
 
+test('A registration with a registered address only emails the owner', function () {
+	[$service, $users, $tokens, $sent] = createService();
+	$users->add(1, 'taken@example.com', new DateTimeImmutable);
+
+	$service->alreadyRegistered('taken@example.com', 'en');
+	Assert::same([['taken@example.com', 'account-exists.latte']], $sent->getArrayCopy());
+	Assert::same([], $tokens->tokens);
+});
+
+
 test('An unknown or expired link is invalid', function () {
 	[$service, $users, $tokens] = createService();
 	$users->add(1, 'new@example.com', null);

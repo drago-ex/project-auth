@@ -8,7 +8,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="noindex, nofollow">
 	<title n:snippet="title">{ifset title}{include title|stripHtml|firstUpper} &bull; {/ifset}{include brand|stripHtml}</title>
 
@@ -55,7 +55,7 @@
 				</header>
 
 				{snippet message}
-					{include '../Accessory/Widget/@toast.latte', messages: $flashes}
+					{include '../Accessory/Widget/@toast.latte', flashes: $flashes}
 				{/snippet}
 
 				{include content}

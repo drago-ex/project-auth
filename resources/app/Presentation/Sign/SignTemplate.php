@@ -12,4 +12,7 @@ final class SignTemplate extends BaseTemplate
 {
 	public Token $signRecoveryToken;
 	public bool $verificationEnabled;
+
+	/** The right password of an account that is not confirmed yet was entered, so the resend link is shown. */
+	public bool $notConfirmed = false;
 }

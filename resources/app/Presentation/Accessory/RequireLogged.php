@@ -19,10 +19,10 @@ trait RequireLogged
 
 			if ($user->getLogoutReason() === $user::LogoutInactivity) {
 				$presenter->flashMessage('You have been signed out due to inactivity. Please sign in again.');
-				$presenter->redirect(':Sign:in', ['backlink' => $presenter->storeRequest()]);
-			} else {
-				$presenter->redirect(':Sign:in');
 			}
+
+			// After signing in, the user gets back to the page they asked for.
+			$presenter->redirect(':Sign:in', ['backlink' => $presenter->storeRequest()]);
 		};
 	}
 }

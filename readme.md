@@ -71,11 +71,13 @@ Attempts are counted in the application cache; clearing `temp/cache` resets them
 - Sign-in and password recovery do not reveal whether an email has an account.
 - Changing or recovering the password signs the user out of all other sessions.
 - Recovery codes and confirmation links are stored hashed, expire and work only once.
-- Registration says that an email is already used; change it if that matters for your project.
+- With email verification on, registration answers the same for a registered address and only emails its owner;
+  without verification it says that the address is already used (the new account would be usable at once).
+- The link for a new confirmation email is shown only after the right password of an unconfirmed account.
 - Two-factor authentication is not included.
 
 ## Emails
-The email templates are in `Sign/Email/` (shared layout `@email.latte`) and `Sign/Recovery/email.latte`.
+The email templates are in `Sign/Email/` (shared layout `@email.latte`, also used by `Sign/Recovery/email.latte`).
 
 To catch emails locally, add [Mailpit](https://mailpit.axllent.org) to `docker-compose.override.yaml`:
 ```yaml
@@ -95,7 +97,7 @@ mail:
 Emails are shown at http://localhost:8025.
 
 ## Adds a new user to the database
-Hashes the password, generates a token, and ensures the email is unique.
+Validates the email and the password (`PasswordPolicy`), hashes the password, generates a token, and ensures the email is unique.
 ```bash
 php vendor/bin/create-user <username> <email> <password>
 ```
@@ -110,6 +112,7 @@ final class SecurePresenter extends Presenter
 	use RequireLogged;
 }
 ```
+A visitor who is not signed in goes to the sign-in page and, after signing in, back to the requested page.
 
 ## Permission provider
 With [drago-ex/permission](https://github.com/drago-ex/permission), the access rules from [`permission.php`](permission.php)

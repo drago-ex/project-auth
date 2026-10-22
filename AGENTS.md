@@ -7,7 +7,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **Type**: drago-tools-resource
 - **Purpose**: Authentication and user access package for the Drago project.
 - **PHP**: >=8.3 <9
-- **Runtime dependencies**: drago-ex/database (^3.0), drago-ex/application (^3.0), drago-ex/form (^2.0), drago-ex/migration (^2.3), drago-ex/utils (^2.0), drago-ex/translator (^4.0), drago-ex/project-front (^2.0), drago-ex/project-backend (^2.0), nette/caching (^3.3), nette/http (^3.0), nette/mail (^4.0), nette/security (^3.2)
+- **Runtime dependencies**: drago-ex/database (^3.0 || ^4.0), drago-ex/application (^3.0), drago-ex/form (^2.0 || ^3.0), drago-ex/migration (^2.3), drago-ex/utils (^2.0), drago-ex/translator (^4.0), drago-ex/project-front (^2.0), drago-ex/project-backend (^2.0), nette/caching (^3.3), nette/http (^3.0), nette/mail (^4.0), nette/security (^3.2)
 - **License**: MIT
 
 ## Repository Layout
@@ -24,6 +24,9 @@ Use this file as package-specific guidance when working in this repository. Keep
 - Sign-in, registration and password recovery are rate limited through `Sign\RateLimiter` (cache-based); `SignInLimiter` and `Recovery\RecoveryLimiter` define the limits.
 - Password recovery: `Recovery\SessionService` keeps the hashed code and attempts; `RecoveryFactory::changePassword()` must keep the check that the code was verified, and a password change generates a new user token to end other sessions.
 - The package stays independent of optional packages such as `project-account`: no `class_exists()` checks for their classes. A signed-in user is redirected to `SignPresenter::SignedInDestination` (`:Backend:Admin:`, from the required `project-backend`); projects change that constant.
+- Every account email (confirmation, email change, recovery code) goes through `SignmailmailSender` with the `Email/@email.latte` layout; a failed send is logged and the action continues, so the answer never tells whether an address is registered.
+- Sign-up with a registered address and verification on: `VerificationService::alreadyRegistered()` emails the owner and the form answers like a success; without verification the form says the address is used. The sign-in page shows the resend-confirmation link only after the right password of an unconfirmed account (`SignTemplate::$notConfirmed`); `Sign:verification` stays reachable directly.
+- `AccessoryRequireLogged` redirects to the sign-in with a `backlink`, so the user gets back to the requested page.
 - Schema changes need a new file in `migrations/`; executed migrations must never be edited (checksums).
 
 ## Dependencies

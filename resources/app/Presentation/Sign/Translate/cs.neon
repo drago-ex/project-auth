@@ -113,3 +113,10 @@
 "The email address of your account has been changed to %s. If you did not make this change, reset your password right away.":
 	"E-mailová adresa vašeho účtu byla změněna na %s. Pokud jste tuto změnu neprovedli, ihned si obnovte heslo."
 "Reset password": "Obnovit heslo"
+
+# registration with a registered address
+"Someone tried to create an account": "Někdo se pokusil vytvořit účet"
+"An account with this email address already exists. If it was you, sign in with your password, or reset it if you have forgotten it.":
+	"Účet s touto e-mailovou adresou již existuje. Pokud jste to byli vy, přihlaste se svým heslem, nebo si ho obnovte, pokud jste ho zapomněli."
+"If it was not you, you can ignore and delete this email. Nothing has changed in your account.":
+	"Pokud jste to nebyli vy, můžete tento e-mail ignorovat a smazat. Ve vašem účtu se nic nezměnilo."

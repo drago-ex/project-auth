@@ -9,9 +9,9 @@ declare(strict_types=1);
 use App\Model\User\UserEntity;
 use App\Model\User\UserNotFoundException;
 use App\Model\User\UserRepository;
+use App\Presentation\Sign\Email\EmailSender;
 use App\Presentation\Sign\Factory;
 use App\Presentation\Sign\RateLimiter;
-use App\Presentation\Sign\Recovery\EmailService;
 use App\Presentation\Sign\Recovery\RecoveryFactory;
 use App\Presentation\Sign\Recovery\RecoveryLimiter;
 use App\Presentation\Sign\Recovery\SessionService;
@@ -55,6 +55,19 @@ class MemoryUserRepository extends UserRepository
 }
 
 
+readonly class NullEmailSender extends EmailSender
+{
+	public function __construct()
+	{
+	}
+
+
+	public function send(string $to, string $subject, string $file, array $parameters, string $lang): void
+	{
+	}
+}
+
+
 /** @return array{RecoveryFactory, SessionService, MemoryUserRepository} */
 function createRecovery(): array
 {
@@ -80,7 +93,7 @@ function createRecovery(): array
 		new Factory($translator),
 		$sessionService,
 		$repository,
-		(new ReflectionClass(EmailService::class))->newInstanceWithoutConstructor(),
+		new NullEmailSender,
 		new Passwords,
 		new RecoveryLimiter(new RateLimiter(new MemoryStorage)),
 		$request,

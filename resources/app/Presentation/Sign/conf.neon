@@ -31,7 +31,6 @@ services:
 	- App\Presentation\Sign\RateLimiter
 	- App\Presentation\Sign\SignInLimiter
 	- App\Presentation\Sign\Recovery\RecoveryLimiter
-	- App\Presentation\Sign\Recovery\EmailService(from: %authMailFrom%)
 	- App\Presentation\Sign\Email\EmailSender(from: %authMailFrom%)
 	- App\Presentation\Sign\Verification\VerificationService(enabled: %authRequireEmailVerification%)
 	- App\Model\User\UserAuthenticator(requireVerification: %authRequireEmailVerification%)
