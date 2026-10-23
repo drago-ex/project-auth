@@ -1,5 +1,7 @@
 # Drago Project Auth
 
+English | [Čeština](readme.cs.md)
+
 Authentication and user access package for the Drago project.
 This package provides a complete authentication layer including user login,
 registration, password recovery and access control. It is designed as a modular
