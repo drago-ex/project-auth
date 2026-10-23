@@ -114,11 +114,32 @@ final class SecurePresenter extends Presenter
 ```
 A visitor who is not signed in goes to the sign-in page and, after signing in, back to the requested page.
 
-## Permission provider
-With [drago-ex/permission](https://github.com/drago-ex/permission), the access rules from [`permission.php`](permission.php)
-are generated into the project by:
+## Permissions
+The package works without permissions and without [drago-ex/permission](https://github.com/drago-ex/permission).
+For basic permissions, install drago-ex/permission and generate the access rules from [`permission.php`](permission.php):
 ```bash
 php vendor/bin/create-permission --packages
+```
+
+Users have no roles of their own until `getRolesByUser()` in `app/Model/User/UserRepository.php` returns them.
+To load them from the database of [drago-ex/project-permission](https://github.com/drago-ex/project-permission),
+implement it (in a project composed by [netis](https://github.com/netis-cms/netis), project-preset does it for you):
+```php
+use App\Presentation\Backend\Permission\Component\Roles\RolesEntity;
+use App\Presentation\Backend\Permission\Component\Users\UsersRolesEntity;
+use Drago\Permission\Role;
+
+public function getRolesByUser(int $userId): array
+{
+	$roles = $this->getConnection()
+		->select('r.*')->from(RolesEntity::Table)->as('r')
+		->innerJoin(UsersRolesEntity::Table)->as('ur')->on('ur.role_id = r.id')
+		->where('ur.%n = ?', UsersRolesEntity::ColumnUserId, $userId)
+		->fetchPairs(value: RolesEntity::ColumnName);
+
+	$roles = array_values($roles);
+	return $roles ?: [Role::RoleUser];
+}
 ```
 
 ## Database migration
