@@ -27,7 +27,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - Every account email (confirmation, email change, recovery code) goes through `Sign\Email\EmailSender` with the `Email/@email.latte` layout; a failed send is logged and the action continues, so the answer never tells whether an address is registered.
 - Sign-up with a registered address and verification on: `VerificationService::alreadyRegistered()` emails the owner and the form answers like a success; without verification the form says the address is used. The sign-in page shows the resend-confirmation link only after the right password of an unconfirmed account (`SignTemplate::$notConfirmed`); `Sign:verification` stays reachable directly.
 - `Accessory\RequireLogged` redirects to the sign-in with a `backlink`, so the user gets back to the requested page.
-- Schema changes need a new file in `migrations/`; executed migrations must never be edited (checksums).
+- Migrations: `001_users.sql` (complete `users` table incl. `verified_at`), `002_user_tokens.sql`; see the workspace rule (one complete `CREATE TABLE` per table while no real project runs).
 
 ## Dependencies
 
