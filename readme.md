@@ -53,8 +53,9 @@ Parameters in `app/Presentation/Sign/conf.neon`:
 - `authRequireEmailVerification` - a new account confirms its email address by a link (default `true`)
 - `mail` section - SMTP connection
 
-After signing in, the user goes to the administration (`:Backend:Admin:`). To change it, edit the
-`SignedInDestination` constant in `app/Presentation/Sign/SignPresenter.php`.
+After signing in, the user goes to the administration (`:Backend:Admin:`), or to the front page (`:Front:Home:`)
+when the ACL does not allow the administration to them. To change it, edit the `SignedInDestination` and
+`FallbackDestination` constants in `app/Presentation/Sign/SignPresenter.php`.
 
 Behind a reverse proxy, set `http: proxy:`, otherwise the per-IP limits apply to the proxy address.
 

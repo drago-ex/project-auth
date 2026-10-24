@@ -16,6 +16,7 @@ use Nette\Application\Attributes\Persistent;
 use Nette\Application\Attributes\Requires;
 use Nette\Application\UI\Form;
 use Nette\Http\FetchSite;
+use Nette\InvalidStateException;
 use Nette\Neon\Exception;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Authenticator;
@@ -29,6 +30,9 @@ final class SignPresenter extends BasePresenter
 {
 	/** Where a signed-in user goes after signing in or confirming an email link; change it to the project's own page. */
 	private const string SignedInDestination = ':Backend:Admin:';
+
+	/** Where a signed-in user goes who may not open SignedInDestination (e.g. a role without the administration). */
+	private const string FallbackDestination = ':Front:Home:';
 
 	#[Persistent]
 	public string $backlink = '';
@@ -92,7 +96,7 @@ final class SignPresenter extends BasePresenter
 			$this->redirect('in');
 		}
 
-		$this->redirect(self::SignedInDestination);
+		$this->redirect($this->signedInDestination());
 	}
 
 
@@ -292,6 +296,34 @@ final class SignPresenter extends BasePresenter
 
 		$this->signInLimiter->registerSuccess($values->email);
 		$this->restoreRequest($this->backlink);
-		$this->redirect(self::SignedInDestination);
+		$this->redirect($this->signedInDestination());
+	}
+
+
+	/**
+	 * SignedInDestination when the user may open it, otherwise FallbackDestination. Checked like the Authorization
+	 * trait of drago-ex/permission does ("{action}-read" of the presenter); without an authorizator all is allowed.
+	 */
+	private function signedInDestination(): string
+	{
+		$user = $this->getUser();
+		if ($user->getAuthorizatorIfExists() === null) {
+			return self::SignedInDestination;
+		}
+
+		// ':Backend:Admin:' -> resource 'Backend:Admin', privilege 'default-read'
+		$destination = ltrim(self::SignedInDestination, ':');
+		$separator = (int) strrpos($destination, ':');
+		$resource = substr($destination, 0, $separator);
+		$action = substr($destination, $separator + 1) ?: 'default';
+
+		try {
+			$allowed = $user->isAllowed($resource, "$action-read");
+		} catch (InvalidStateException) {
+			// a resource the ACL does not know is denied
+			$allowed = false;
+		}
+
+		return $allowed ? self::SignedInDestination : self::FallbackDestination;
 	}
 }

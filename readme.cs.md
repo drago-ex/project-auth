@@ -53,8 +53,9 @@ Parametry v `app/Presentation/Sign/conf.neon`:
 - `authRequireEmailVerification` - nový účet potvrzuje svou e-mailovou adresu odkazem (výchozí `true`)
 - sekce `mail` - připojení k SMTP
 
-Po přihlášení se uživatel dostane do administrace (`:Backend:Admin:`). Pro změnu upravte
-konstantu `SignedInDestination` v `app/Presentation/Sign/SignPresenter.php`.
+Po přihlášení se uživatel dostane do administrace (`:Backend:Admin:`), nebo na úvodní stránku webu (`:Front:Home:`),
+pokud mu ACL administraci nepovoluje. Pro změnu upravte konstanty `SignedInDestination` a `FallbackDestination`
+v `app/Presentation/Sign/SignPresenter.php`.
 
 Za reverzní proxy nastavte `http: proxy:`, jinak se limity podle IP adresy počítají pro adresu proxy.
 
