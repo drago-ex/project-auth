@@ -21,8 +21,11 @@ trait RequireLogged
 				$presenter->flashMessage('You have been signed out due to inactivity. Please sign in again.');
 			}
 
-			// After signing in, the user gets back to the page they asked for.
-			$presenter->redirect(':Sign:in', ['backlink' => $presenter->storeRequest()]);
+			// After signing in, the user gets back to the page they asked for. Only a plain GET page is stored: a signal
+			// or a form replayed after signing in would pass as a same-origin request (e.g. a delete from a sent link).
+			$request = $presenter->getRequest();
+			$backlink = $presenter->getSignal() === null && $request->isMethod('GET') ? $presenter->storeRequest() : null;
+			$presenter->redirect(':Sign:in', ['backlink' => $backlink]);
 		};
 	}
 }

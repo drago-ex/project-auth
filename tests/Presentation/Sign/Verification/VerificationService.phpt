@@ -173,13 +173,19 @@ test('Without verification, a new account gets a welcome email instead', functio
 });
 
 
-test('A registration with a registered address only emails the owner', function () {
-	[$service, $users, $tokens, $sent] = createService();
-	$users->add(1, 'taken@example.com', new DateTimeImmutable);
+test('A registration with a registered address only emails the owner, at most three times an hour', function () {
+	[$service, , $tokens, $sent] = createService();
 
-	$service->alreadyRegistered('taken@example.com', 'en');
-	Assert::same([['taken@example.com', 'account-exists.latte']], $sent->getArrayCopy());
+	for ($i = 0; $i < 5; $i++) {
+		$service->alreadyRegistered('taken@example.com', 'en');
+	}
+
+	Assert::same(array_fill(0, 3, ['taken@example.com', 'account-exists.latte']), $sent->getArrayCopy());
 	Assert::same([], $tokens->tokens);
+
+	// another address has its own limit
+	$service->alreadyRegistered('other@example.com', 'en');
+	Assert::count(4, $sent);
 });
 
 

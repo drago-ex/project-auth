@@ -26,11 +26,14 @@ class VerificationService
 		VerifyLifetime = 86400,
 		EmailChangeLifetime = 3600;
 
-	private const string ResendBucket = 'verification-resend';
+	private const string
+		ResendBucket = 'verification-resend',
+		AccountExistsBucket = 'account-exists';
 
 	private const int
 		MaxResends = 3,
 		MaxResendsPerIp = 10,
+		MaxAccountExists = 3,
 		ResendWindow = 3600;
 
 	private const string EmailDir = __DIR__ . '/../Email';
@@ -77,10 +80,17 @@ class VerificationService
 	 * Someone registered with an address that already has an account. The form answers as if the account was
 	 * created, so it does not tell who is registered, and the owner gets an email with the way to sign in.
 	 * Only with verification on: without it, the new account is usable at once, so the form says the address is taken.
+	 * At most MaxAccountExists emails per address and hour (the sign-up limit is per IP), so the form cannot be used
+	 * to flood an inbox; over the limit nothing is sent and the form answers the same.
 	 * @throws InvalidLinkException
 	 */
 	public function alreadyRegistered(string $email, string $lang): void
 	{
+		if (!$this->limiter->isAllowed(self::AccountExistsBucket, $email, self::MaxAccountExists)) {
+			return;
+		}
+
+		$this->limiter->hit(self::AccountExistsBucket, $email, self::ResendWindow);
 		$this->emailSender->send($email, 'Someone tried to create an account', self::EmailDir . '/account-exists.latte', [
 			'link' => $this->linkGenerator->link('Sign:recovery', ['lang' => $lang]),
 		], $lang);
