@@ -135,7 +135,7 @@ php vendor/bin/drago-commands
 
 Users have no roles of their own until `getRolesByUser()` in `app/Model/User/UserRepository.php` returns them.
 To load them from the database of [drago-ex/project-permission](https://github.com/drago-ex/project-permission),
-implement it (in a project composed by [netis](https://github.com/netis-cms/netis), project-preset does it for you):
+implement it:
 ```php
 use App\Presentation\Backend\Permission\Component\Roles\RolesEntity;
 use App\Presentation\Backend\Permission\Component\Users\UsersRolesEntity;

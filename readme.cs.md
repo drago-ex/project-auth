@@ -135,7 +135,7 @@ php vendor/bin/drago-commands
 
 Uživatelé nemají vlastní role, dokud je nevrací `getRolesByUser()` v `app/Model/User/UserRepository.php`.
 Pro načítání rolí z databáze [drago-ex/project-permission](https://github.com/drago-ex/project-permission)
-metodu implementujte (v projektu sestaveném přes [netis](https://github.com/netis-cms/netis) to udělá project-preset):
+metodu implementujte:
 ```php
 use App\Presentation\Backend\Permission\Component\Roles\RolesEntity;
 use App\Presentation\Backend\Permission\Component\Users\UsersRolesEntity;
