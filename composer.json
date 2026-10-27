@@ -5,14 +5,14 @@
 	"license": "MIT",
 	"require": {
 		"php": ">=8.3 <9",
-		"drago-ex/database": "^3.0 || ^4.0",
-		"drago-ex/application": "^3.0 || ^4.0",
-		"drago-ex/form": "^2.0 || ^3.0",
-		"drago-ex/migration": "^2.3",
+		"drago-ex/database": "^4.0",
+		"drago-ex/application": "^4.0",
+		"drago-ex/form": "^3.0",
+		"drago-ex/migration": "^1.0",
 		"drago-ex/utils": "^2.0",
-		"drago-ex/translator": "^4.0 || ^5.0",
-		"drago-ex/project-front": "^2.0",
-		"drago-ex/project-backend": "^2.0",
+		"drago-ex/translator": "^4.0",
+		"drago-ex/project-front": "^1.0",
+		"drago-ex/project-backend": "^1.0",
 		"nette/caching": "^3.3",
 		"nette/http": "^3.0",
 		"nette/mail": "^4.0",
@@ -24,7 +24,7 @@
 	"require-dev": {
 		"nette/tester": "^2.5",
 		"phpstan/phpstan-nette": "^2.0",
-		"drago-ex/project-tools": "^2.0"
+		"drago-ex/project-tools": "^1.0"
 	},
 	"bin": [
 		"bin/create-user"
