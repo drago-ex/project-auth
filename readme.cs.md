@@ -120,11 +120,17 @@ final class SecurePresenter extends Presenter
 ```
 Nepřihlášený návštěvník se dostane na přihlašovací stránku a po přihlášení zpět na požadovanou stránku.
 
-## Oprávnění
+---
+
+## Volitelné doplňky
+
+Balíček funguje i bez nich. Pokud je projekt potřebuje, nastavte je ručně podle popisu níže.
+
+### Oprávnění
 Balíček funguje bez oprávnění i bez [drago-ex/permission](https://github.com/drago-ex/permission).
-Pro základní oprávnění nainstalujte drago-ex/permission a vygenerujte pravidla přístupu z [`permission.php`](permission.php):
+Pro základní oprávnění nainstalujte drago-ex/permission a vygenerujte pravidla přístupu z [`bin/create-auth-permission`](bin/create-auth-permission):
 ```bash
-php vendor/bin/create-permission --packages
+php vendor/bin/drago-commands
 ```
 
 Uživatelé nemají vlastní role, dokud je nevrací `getRolesByUser()` v `app/Model/User/UserRepository.php`.

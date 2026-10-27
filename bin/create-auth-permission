@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Generates the permission providers of this package into the project with drago-ex/permission.
+ * Run from the project root by vendor/bin/drago-commands (extra.drago-tools.commands in composer.json).
+ * Existing providers are kept, so the project may change them.
+ */
+$generator = 'vendor/drago-ex/permission/bin/create-permission';
+if (!is_file($generator)) {
+	echo "drago-ex/permission is not installed, no permission provider generated.\n";
+	exit(0);
+}
+
+// Class, namespace, resource, output directory and access rules (see create-permission --help).
+$providers = [
+	// Guests may sign in, sign up and recover their password.
+	['PermissionProvider', 'App\Presentation\Sign', 'Sign', 'app/Presentation/Sign', '--allow=RoleGuest,self::Resource'],
+];
+
+foreach ($providers as $arguments) {
+	[$className, , , $outputDir] = $arguments;
+	if (is_file("$outputDir/$className.php")) {
+		continue;
+	}
+
+	$process = proc_open([PHP_BINARY, $generator, ...$arguments], [STDIN, STDOUT, STDERR], $pipes);
+	if (!is_resource($process) || proc_close($process) !== 0) {
+		exit(1);
+	}
+}

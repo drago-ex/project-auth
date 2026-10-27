@@ -120,11 +120,17 @@ final class SecurePresenter extends Presenter
 ```
 A visitor who is not signed in goes to the sign-in page and, after signing in, back to the requested page.
 
-## Permissions
+---
+
+## Optional add-ons
+
+The package works without them. Set them up by hand as described below when the project needs them.
+
+### Permissions
 The package works without permissions and without [drago-ex/permission](https://github.com/drago-ex/permission).
-For basic permissions, install drago-ex/permission and generate the access rules from [`permission.php`](permission.php):
+For basic permissions, install drago-ex/permission and generate the access rules from [`bin/create-auth-permission`](bin/create-auth-permission):
 ```bash
-php vendor/bin/create-permission --packages
+php vendor/bin/drago-commands
 ```
 
 Users have no roles of their own until `getRolesByUser()` in `app/Model/User/UserRepository.php` returns them.
