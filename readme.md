@@ -29,11 +29,10 @@ The authentication UI requires the theme switcher and Font Awesome icons:
 npm install theme-switcher-compostrap @fortawesome/fontawesome-free
 ```
 
-## Project files
-File copying is handled automatically by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
-which must be installed in your project. Without it, copy the files manually according to the `copy` section
-in this package's `composer.json`. To skip this package, set `"skip": true` under
-`extra.drago-tools.packages.<package-name>` in your root `composer.json`.
+## Files copied into the project
+
+The files are copied into the project by [drago-ex/project-tools](https://github.com/drago-ex/project-tools),
+as set in `extra.drago-tools` of this package's `composer.json`.
 
 ## Database migration
 ```bash
