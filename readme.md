@@ -35,6 +35,12 @@ which must be installed in your project. Without it, copy the files manually acc
 in this package's `composer.json`. To skip this package, set `"skip": true` under
 `extra.drago-tools.packages.<package-name>` in your root `composer.json`.
 
+## Database migration
+```bash
+php vendor/bin/migration db:migrate --packages
+```
+The package has `migration-priority` 10, so the `users` table exists before the packages that use it.
+
 ## Features
 - User authentication (sign in / sign out)
 - User registration (sign up)
@@ -142,9 +148,3 @@ public function getRolesByUser(int $userId): array
 	return $roles ?: [Role::RoleUser];
 }
 ```
-
-## Database migration
-```bash
-php vendor/bin/migration db:migrate --packages
-```
-The package has `migration-priority` 10, so the `users` table exists before the packages that use it.

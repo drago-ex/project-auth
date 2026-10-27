@@ -35,6 +35,12 @@ který musí být v projektu nainstalovaný. Bez něj zkopírujte soubory ručn�
 v `composer.json` tohoto balíčku. Pro přeskočení balíčku nastavte `"skip": true` v
 `extra.drago-tools.packages.<package-name>` v kořenovém `composer.json`.
 
+## Migrace databáze
+```bash
+php vendor/bin/migration db:migrate --packages
+```
+Balíček má `migration-priority` 10, takže tabulka `users` existuje dřív než balíčky, které ji používají.
+
 ## Funkce
 - Přihlášení a odhlášení uživatele
 - Registrace uživatele
@@ -142,9 +148,3 @@ public function getRolesByUser(int $userId): array
 	return $roles ?: [Role::RoleUser];
 }
 ```
-
-## Migrace databáze
-```bash
-php vendor/bin/migration db:migrate --packages
-```
-Balíček má `migration-priority` 10, takže tabulka `users` existuje dřív než balíčky, které ji používají.
