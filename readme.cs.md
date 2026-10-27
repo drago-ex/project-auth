@@ -1,7 +1,5 @@
 # Drago Project Auth
 
-[English](readme.md) | Čeština
-
 Balíček pro přihlašování a přístup uživatelů v projektu Drago.
 Poskytuje kompletní autentizační vrstvu: přihlášení, registraci, obnovu hesla
 a řízení přístupu. Je navržený jako modulární rozšíření pro projekty postavené
