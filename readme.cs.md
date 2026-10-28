@@ -10,13 +10,9 @@ na ekosystému Drago a Nette Frameworku.
 [![Coding Style](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml)
 
 ## Požadavky
+
 - PHP >= 8.3, < 9
-- Nette Framework
-- Composer
-- Bootstrap
-- Naja
-- Node.js
-- Základní balíčky Drago Project
+- [Drago Project](https://github.com/drago-ex/project)
 
 ## Instalace
 ```bash

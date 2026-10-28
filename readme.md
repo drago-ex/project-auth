@@ -10,13 +10,9 @@ extension for projects built on top of the Drago ecosystem and Nette Framework.
 [![Coding Style](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml/badge.svg)](https://github.com/drago-ex/project-auth/actions/workflows/coding-style.yml)
 
 ## Requirements
+
 - PHP >= 8.3, < 9
-- Nette Framework
-- Composer
-- Bootstrap
-- Naja
-- Node.js
-- Drago Project core packages
+- [Drago Project](https://github.com/drago-ex/project)
 
 ## Installation
 ```bash
