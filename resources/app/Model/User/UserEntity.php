@@ -24,5 +24,5 @@ class UserEntity extends Entity
 	public string $email;
 	public string $password;
 	public string $token;
-	public ?\DateTimeInterface $verified_at = null;
+	public ?\DateTimeInterface $verifiedAt = null;
 }

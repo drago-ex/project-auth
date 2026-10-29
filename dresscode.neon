@@ -12,9 +12,6 @@ fileExtensions:
 	- php
 	- phpt
 
-# properties of entities and value objects carry the names of database columns
-naming: {property: keep}
-
 overrides:
 	-
 		paths: [resources]

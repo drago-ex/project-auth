@@ -49,7 +49,7 @@ class UserAuthenticator implements Authenticator, IdentityHandler
 		}
 
 		// Checked after the password, so it does not tell strangers that the account exists.
-		if ($this->requireVerification && $user->verified_at === null) {
+		if ($this->requireVerification && $user->verifiedAt === null) {
 			throw new AuthenticationException('The email address is not confirmed.', self::NotApproved);
 		}
 

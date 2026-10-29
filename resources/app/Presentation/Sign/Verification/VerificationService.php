@@ -113,7 +113,7 @@ class VerificationService
 		$this->limiter->hit(self::ResendBucket . '-ip', $ip, self::ResendWindow);
 
 		$user = $this->userRepository->findUserByEmail($email);
-		if ($this->enabled && $user !== null && $user->verified_at === null) {
+		if ($this->enabled && $user !== null && $user->verifiedAt === null) {
 			$this->sendVerification($user->id, $user->email, $user->username, $lang);
 		}
 
@@ -164,7 +164,7 @@ class VerificationService
 				return ConfirmResult::Invalid;
 			}
 
-			$user->verified_at ??= new \DateTimeImmutable;
+			$user->verifiedAt ??= new \DateTimeImmutable;
 			$this->userRepository->save($user);
 			return ConfirmResult::Verified;
 		}
@@ -213,7 +213,7 @@ class VerificationService
 	{
 		$previousEmail = $user->email;
 		$user->email = $newEmail;
-		$user->verified_at = new \DateTimeImmutable;
+		$user->verifiedAt = new \DateTimeImmutable;
 		$this->userRepository->save($user);
 
 		$this->emailSender->send($previousEmail, 'Your email address has been changed', self::EmailDir . '/email-changed.latte', [

@@ -47,7 +47,7 @@ class MemoryUsers extends UserRepository
 		$user->email = $email;
 		$user->password = 'hash';
 		$user->token = 'token';
-		$user->verified_at = $verifiedAt;
+		$user->verifiedAt = $verifiedAt;
 		return $this->users[$id] = $user;
 	}
 
@@ -157,7 +157,7 @@ test('A new account gets a confirmation link, and the link confirms it once', fu
 
 	$token = array_key_first($tokens->tokens);
 	Assert::same(ConfirmResult::Verified, $service->confirm($token, 'en'));
-	Assert::type(DateTimeInterface::class, $user->verified_at);
+	Assert::type(DateTimeInterface::class, $user->verifiedAt);
 	Assert::same(ConfirmResult::Invalid, $service->confirm($token, 'en'));
 });
 

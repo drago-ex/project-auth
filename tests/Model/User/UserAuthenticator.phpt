@@ -50,7 +50,7 @@ test('An unconfirmed account cannot sign in, but only after the right password',
 	$user->id = 1;
 	$user->email = 'new@example.com';
 	$user->password = $passwords->hash('correct horse battery staple');
-	$user->verified_at = null;
+	$user->verifiedAt = null;
 
 	$repository = new class (new Connection(['driver' => 'mysqli', 'lazy' => true]), $user) extends UserRepository {
 		public function __construct(
