@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: App\Model\User\UserAuthenticator
  */
-
-declare(strict_types=1);
 
 use App\Model\User\UserAuthenticator;
 use App\Model\User\UserEntity;
@@ -22,7 +20,7 @@ test('Unknown email costs a password hash, so the response time does not reveal 
 		public int $hashed = 0;
 
 
-		public function hash(#[\SensitiveParameter] string $password): string
+		public function hash(#[SensitiveParameter] string $password): string
 		{
 			$this->hashed++;
 			return parent::hash($password);

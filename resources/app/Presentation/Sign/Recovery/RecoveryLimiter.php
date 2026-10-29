@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Sign\Recovery;
 
@@ -13,8 +11,7 @@ use App\Presentation\Sign\RateLimiter;
  */
 readonly class RecoveryLimiter
 {
-	private const int
-		MaxRequests = 5,
+	private const int MaxRequests = 5,
 		RequestWindow = 3600,
 		MaxFailures = 10,
 		FailureWindow = 900,

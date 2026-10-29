@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: App\Presentation\Sign\Verification\VerificationService
  */
-
-declare(strict_types=1);
 
 use App\Model\User\UserEntity;
 use App\Model\User\UserRepository;

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Sign;
 
@@ -9,8 +7,7 @@ use Drago\Utils\ExtraArrayHash;
 
 class SignUpValues extends ExtraArrayHash
 {
-	public const string
-		Username = 'username',
+	public const string Username = 'username',
 		Email = 'email',
 		Password = 'password',
 		Verify = 'verify';

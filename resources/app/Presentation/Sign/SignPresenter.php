@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Sign;
 
@@ -76,7 +74,7 @@ final class SignPresenter extends BasePresenter
 
 	/**
 	 * Applies a link from an account email: confirms a new account or a changed email address.
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	public function actionVerify(string $token = ''): void
 	{
@@ -220,7 +218,7 @@ final class SignPresenter extends BasePresenter
 
 	/**
 	 * Sends a new confirmation link; the answer is the same whether the address exists or not.
-	 * @throws \Throwable
+	 * @throws Throwable
 	 */
 	protected function createComponentSignVerification(): Form
 	{

@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Model\User;
 
@@ -8,6 +6,7 @@ use Dibi\Connection;
 use Dibi\Exception;
 use Dibi\Row;
 use Nette\Utils\Random;
+use function is_string;
 
 
 /**
@@ -15,8 +14,7 @@ use Nette\Utils\Random;
  */
 class UserTokenRepository
 {
-	public const string
-		Table = 'user_tokens',
+	public const string Table = 'user_tokens',
 		TypeVerify = 'verify',
 		TypeEmailChange = 'email-change';
 

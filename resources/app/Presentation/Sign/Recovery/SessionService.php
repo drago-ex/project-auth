@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Sign\Recovery;
 
@@ -10,12 +8,12 @@ use Nette\Utils\Random;
 use Nette\Utils\Strings;
 use Random\RandomException;
 use RuntimeException;
+use function is_string;
 
 
 readonly class SessionService
 {
-	private const int
-		TokenLength = 6,
+	private const int TokenLength = 6,
 		MaxAttempts = 5,
 		ResendCooldown = 60;
 

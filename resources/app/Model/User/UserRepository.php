@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Model\User;
 
@@ -43,10 +41,7 @@ class UserRepository
 	 */
 	public function getUserByEmail(string $email): UserEntity
 	{
-		$user = $this->findUserByEmail($email);
-		if ($user === null) {
-			throw new UserNotFoundException("User with email '$email' was not found.", 1001);
-		}
+		$user = $this->findUserByEmail($email) ?? throw new UserNotFoundException("User with email '$email' was not found.", 1001);
 		return $user;
 	}
 

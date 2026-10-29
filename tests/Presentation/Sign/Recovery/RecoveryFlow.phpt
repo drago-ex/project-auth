@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: password recovery flow (App\Presentation\Sign\Recovery)
  */
-
-declare(strict_types=1);
 
 use App\Model\User\UserEntity;
 use App\Model\User\UserNotFoundException;

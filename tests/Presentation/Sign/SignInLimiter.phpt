@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: App\Presentation\Sign\SignInLimiter
  */
-
-declare(strict_types=1);
 
 use App\Presentation\Sign\RateLimiter;
 use App\Presentation\Sign\SignInLimiter;

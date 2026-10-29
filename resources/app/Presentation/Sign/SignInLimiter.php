@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Sign;
 
@@ -11,8 +9,7 @@ namespace App\Presentation\Sign;
  */
 readonly class SignInLimiter
 {
-	private const int
-		MaxFailures = 10,
+	private const int MaxFailures = 10,
 		MaxFailuresPerIp = 30,
 		FailureWindow = 900;
 

@@ -1,12 +1,11 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Sign;
 
 use Nette\Forms\Control;
 use Nette\Forms\Controls\BaseControl;
 use Nette\Forms\Form;
+use function sprintf, strlen;
 
 
 /**
@@ -16,8 +15,7 @@ use Nette\Forms\Form;
  */
 final class PasswordPolicy
 {
-	public const int
-		MinLength = 12,
+	public const int MinLength = 12,
 		MaxBytes = 72;
 
 

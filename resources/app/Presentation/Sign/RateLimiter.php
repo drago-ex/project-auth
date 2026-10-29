@@ -1,12 +1,11 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Sign;
 
 use Nette\Caching\Cache;
 use Nette\Caching\Storage;
 use Nette\Utils\Strings;
+use function is_array;
 
 
 /**

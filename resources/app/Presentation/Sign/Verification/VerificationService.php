@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Sign\Verification;
 
@@ -22,16 +20,13 @@ use Nette\Application\UI\InvalidLinkException;
  */
 class VerificationService
 {
-	public const int
-		VerifyLifetime = 86400,
+	public const int VerifyLifetime = 86400,
 		EmailChangeLifetime = 3600;
 
-	private const string
-		ResendBucket = 'verification-resend',
+	private const string ResendBucket = 'verification-resend',
 		AccountExistsBucket = 'account-exists';
 
-	private const int
-		MaxResends = 3,
+	private const int MaxResends = 3,
 		MaxResendsPerIp = 10,
 		MaxAccountExists = 3,
 		ResendWindow = 3600;

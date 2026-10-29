@@ -1,10 +1,8 @@
-<?php
+<?php declare(strict_types=1);
 
 /**
  * Test: App\Presentation\Sign\PasswordPolicy
  */
-
-declare(strict_types=1);
 
 use App\Presentation\Sign\PasswordPolicy;
 use Nette\Forms\Form;

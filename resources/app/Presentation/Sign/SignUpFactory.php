@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace App\Presentation\Sign;
 
@@ -22,8 +20,7 @@ readonly class SignUpFactory
 {
 	public const string LimitBucket = 'signup';
 
-	public const int
-		MaxAttempts = 10,
+	public const int MaxAttempts = 10,
 		LimitWindow = 3600;
 
 
