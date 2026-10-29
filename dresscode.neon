@@ -1,0 +1,24 @@
+use:
+	- nette
+	- modernizations
+
+typeAnalysis: phpstan
+
+paths:
+	- resources
+	- tests
+
+fileExtensions:
+	- php
+	- phpt
+
+# properties of entities and value objects carry the names of database columns
+naming: {property: keep}
+
+overrides:
+	-
+		paths: [resources]
+		nameResolution: certain
+		use:
+			- compilerOptimizations
+			- deprecations
