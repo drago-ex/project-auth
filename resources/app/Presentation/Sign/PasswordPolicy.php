@@ -33,9 +33,7 @@ final class PasswordPolicy
 	}
 
 
-	/**
-	 * Returns an error message, or null when the password meets the rules (for command-line tools).
-	 */
+	/** Returns an error message, or null when the password meets the rules (for command-line tools). */
 	public static function validate(#[\SensitiveParameter] string $password): ?string
 	{
 		if (mb_strlen($password) < self::MinLength) {

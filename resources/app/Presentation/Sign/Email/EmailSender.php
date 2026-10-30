@@ -26,9 +26,7 @@ readonly class EmailSender
 	}
 
 
-	/**
-	 * @param array<string, mixed> $parameters
-	 */
+	/** @param array<string, mixed> $parameters */
 	public function send(string $to, string $subject, string $file, array $parameters, string $lang): void
 	{
 		try {

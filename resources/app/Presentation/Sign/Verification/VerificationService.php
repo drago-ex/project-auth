@@ -223,9 +223,7 @@ readonly class VerificationService
 	}
 
 
-	/**
-	 * @throws InvalidLinkException
-	 */
+	/** @throws InvalidLinkException */
 	private function verifyLink(string $token, string $lang): string
 	{
 		return $this->linkGenerator->link('Sign:verify', ['token' => $token, 'lang' => $lang]);

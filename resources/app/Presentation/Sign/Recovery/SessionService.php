@@ -126,9 +126,7 @@ readonly class SessionService
 	}
 
 
-	/**
-	 * True only if a code was issued and then successfully verified in this session.
-	 */
+	/** True only if a code was issued and then successfully verified in this session. */
 	public function isTokenChecked(): bool
 	{
 		$section = $this->getSection();

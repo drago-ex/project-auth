@@ -31,9 +31,7 @@ readonly class RateLimiter
 	}
 
 
-	/**
-	 * The window starts with the first hit and is not extended by later ones.
-	 */
+	/** The window starts with the first hit and is not extended by later ones. */
 	public function hit(string $bucket, string $subject, int $window): void
 	{
 		$key = $this->key($bucket, $subject);

@@ -9,9 +9,7 @@ use Nette\Utils\Random;
 use function is_string;
 
 
-/**
- * One-time tokens sent by email. Only a hash is stored, so a leaked database does not reveal usable links.
- */
+/** One-time tokens sent by email. Only a hash is stored, so a leaked database does not reveal usable links. */
 class UserTokenRepository
 {
 	public const string Table = 'user_tokens',
