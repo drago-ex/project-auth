@@ -41,7 +41,7 @@ class UserTokenRepository
 			'type' => $type,
 			'token_hash' => self::hash($token),
 			'email' => $email,
-			'expires_at' => new \DateTimeImmutable("+$lifetime seconds"),
+			'expires_at' => (new \DateTimeImmutable)->setTimestamp(time() + $lifetime),
 		])->execute();
 
 		return $token;

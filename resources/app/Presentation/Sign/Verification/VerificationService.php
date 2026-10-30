@@ -18,7 +18,7 @@ use Nette\Application\UI\InvalidLinkException;
  * Confirms email addresses by one-time links: after registration, and when a user changes the address.
  * With verification turned off, new accounts are verified at once and an email change applies immediately.
  */
-class VerificationService
+readonly class VerificationService
 {
 	public const int VerifyLifetime = 86400,
 		EmailChangeLifetime = 3600;
@@ -35,12 +35,12 @@ class VerificationService
 
 
 	public function __construct(
-		private readonly bool $enabled,
-		private readonly UserRepository $userRepository,
-		private readonly UserTokenRepository $tokenRepository,
-		private readonly EmailSender $emailSender,
-		private readonly LinkGenerator $linkGenerator,
-		private readonly RateLimiter $limiter,
+		private bool $enabled,
+		private UserRepository $userRepository,
+		private UserTokenRepository $tokenRepository,
+		private EmailSender $emailSender,
+		private LinkGenerator $linkGenerator,
+		private RateLimiter $limiter,
 	) {
 	}
 

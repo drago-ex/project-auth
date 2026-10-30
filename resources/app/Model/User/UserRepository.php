@@ -16,7 +16,7 @@ class UserRepository
 	use Database;
 
 	public function __construct(
-		protected readonly Connection $connection,
+		private readonly Connection $connection,
 	) {
 	}
 
@@ -41,8 +41,7 @@ class UserRepository
 	 */
 	public function getUserByEmail(string $email): UserEntity
 	{
-		$user = $this->findUserByEmail($email) ?? throw new UserNotFoundException("User with email '$email' was not found.", 1001);
-		return $user;
+		return $this->findUserByEmail($email) ?? throw new UserNotFoundException("User with email '$email' was not found.", 1001);
 	}
 
 
