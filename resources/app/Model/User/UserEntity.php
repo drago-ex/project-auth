@@ -19,6 +19,9 @@ class UserEntity extends Entity
 		ColumnToken = 'token',
 		ColumnVerifiedAt = 'verified_at';
 
+	public const int ColumnUsernameSize = 50,
+		ColumnEmailSize = 254;
+
 	public int $id;
 	public string $username;
 	public string $email;

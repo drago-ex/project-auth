@@ -43,11 +43,11 @@ readonly class SignUpFactory
 			->setPlaceholder('Full name')
 			->setAutocomplete(Autocomplete::Name)
 			->setRequired('Please enter your full name.')
-			->addRule($form::MaxLength, 'The full name is too long (maximum %d characters).', 50);
+			->addRule($form::MaxLength, 'The full name is too long (maximum %d characters).', UserEntity::ColumnUsernameSize);
 
 		$form->addEmailField()
 			->setDefaultValue('@')
-			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', 254);
+			->addRule($form::MaxLength, 'The email address is too long (maximum %d characters).', UserEntity::ColumnEmailSize);
 
 		$password = $form->addPasswordField()
 			->setAutocomplete(Autocomplete::NewPassword);
