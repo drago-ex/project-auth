@@ -1,5 +1,6 @@
 includes:
 	- vendor/phpstan/phpstan-nette/extension.neon
+	- vendor/drago-ex/database/extension.neon
 
 parameters:
 	level: 8
