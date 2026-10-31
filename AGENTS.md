@@ -7,7 +7,7 @@ Use this file as package-specific guidance when working in this repository. Keep
 - **Type**: drago-tools-resource
 - **Purpose**: Authentication and user access package for the Drago project.
 - **PHP**: >=8.3 <9
-- **Runtime dependencies**: drago-ex/database (^4.1), drago-ex/application (^4.0), drago-ex/form (^3.0), drago-ex/migration (^1.0), drago-ex/utils (^2.0), drago-ex/translator (^4.0.1), drago-ex/project-front (^3.0), drago-ex/project-backend (^1.0), nette/caching (^3.3), nette/http (^3.0), nette/mail (^4.0), nette/security (^3.2)
+- **Runtime dependencies**: drago-ex/database (^5.0), drago-ex/application (^4.0), drago-ex/form (^3.0), drago-ex/migration (^1.0), drago-ex/utils (^2.0), drago-ex/translator (^4.0.1), drago-ex/project-front (^3.0), drago-ex/project-backend (^1.0), nette/caching (^3.3), nette/http (^3.0), nette/mail (^4.0), nette/security (^3.2)
 - **License**: MIT
 
 ## Repository Layout

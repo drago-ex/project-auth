@@ -9,7 +9,6 @@ use App\Presentation\Sign\Email\EmailSender;
 use App\Presentation\Sign\RateLimiter;
 use Dibi\Exception;
 use Dibi\UniqueConstraintViolationException;
-use Drago\Attr\AttributeDetectionException;
 use Nette\Application\LinkGenerator;
 use Nette\Application\UI\InvalidLinkException;
 
@@ -97,7 +96,6 @@ readonly class VerificationService
 	 * so it cannot be used to find out who has an account.
 	 * @return bool false when too many links were requested
 	 * @throws Exception
-	 * @throws AttributeDetectionException
 	 * @throws InvalidLinkException
 	 */
 	public function resend(string $email, string $ip, string $lang): bool
@@ -126,7 +124,6 @@ readonly class VerificationService
 	 * to the new address; otherwise it applies at once. The previous address is notified either way.
 	 * @return bool true when the change waits for confirmation
 	 * @throws Exception
-	 * @throws AttributeDetectionException
 	 * @throws InvalidLinkException
 	 */
 	public function changeEmail(UserEntity $user, string $newEmail, string $lang): bool
@@ -148,7 +145,6 @@ readonly class VerificationService
 	/**
 	 * Applies a link from an email.
 	 * @throws Exception
-	 * @throws AttributeDetectionException
 	 * @throws InvalidLinkException
 	 */
 	public function confirm(string $token, string $lang): ConfirmResult
@@ -165,7 +161,7 @@ readonly class VerificationService
 			}
 
 			$user->verifiedAt ??= new \DateTimeImmutable;
-			$this->userRepository->save($user);
+			$this->userRepository->table->save($user);
 			return ConfirmResult::Verified;
 		}
 
@@ -206,7 +202,6 @@ readonly class VerificationService
 
 	/**
 	 * @throws Exception
-	 * @throws AttributeDetectionException
 	 * @throws InvalidLinkException
 	 */
 	private function applyEmailChange(UserEntity $user, string $newEmail, string $lang): void
@@ -214,7 +209,7 @@ readonly class VerificationService
 		$previousEmail = $user->email;
 		$user->email = $newEmail;
 		$user->verifiedAt = new \DateTimeImmutable;
-		$this->userRepository->save($user);
+		$this->userRepository->table->save($user);
 
 		$this->emailSender->send($previousEmail, 'Your email address has been changed', self::EmailDir . '/email-changed.latte', [
 			'newEmail' => $newEmail,
@@ -230,12 +225,9 @@ readonly class VerificationService
 	}
 
 
-	/**
-	 * @throws Exception
-	 * @throws AttributeDetectionException
-	 */
+	/** @throws Exception */
 	private function findUser(int $id): ?UserEntity
 	{
-		return $this->userRepository->get($id)->record();
+		return $this->userRepository->table->get($id)->record();
 	}
 }

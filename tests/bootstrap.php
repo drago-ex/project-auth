@@ -21,5 +21,7 @@ spl_autoload_register(function (string $class): void {
 	}
 });
 
+require __DIR__ . '/MemoryTable.php';
+
 Tester\Environment::setup();
 Tester\Environment::setupFunctions();

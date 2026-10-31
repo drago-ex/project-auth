@@ -25,13 +25,13 @@ require __DIR__ . '/../../../bootstrap.php';
 
 class MemoryUserRepository extends UserRepository
 {
-	/** @var list<UserEntity> */
-	public array $saved = [];
+	public MemoryTable $memory;
 
 
 	public function __construct(
 		private UserEntity $user,
 	) {
+		$this->table = $this->memory = new MemoryTable;
 	}
 
 
@@ -42,13 +42,6 @@ class MemoryUserRepository extends UserRepository
 		}
 
 		return $this->user;
-	}
-
-
-	public function save(mixed $args): Dibi\Result|int|null
-	{
-		$this->saved[] = clone $args;
-		return 1;
 	}
 }
 
@@ -128,7 +121,7 @@ test('The password cannot be changed before the code is verified', function () {
 	$form = submitChangePassword($factory, 'NewSecret123!');
 
 	Assert::same(['Please verify the code first.'], $form->getErrors());
-	Assert::same([], $repository->saved);
+	Assert::count(0, $repository->memory->saved);
 });
 
 
@@ -141,9 +134,9 @@ test('After the code is verified the password and the session token are changed'
 	$form = submitChangePassword($factory, 'NewSecret123!');
 
 	Assert::same([], $form->getErrors());
-	Assert::count(1, $repository->saved);
-	Assert::true((new Passwords)->verify('NewSecret123!', $repository->saved[0]->password));
-	Assert::notSame('old-token', $repository->saved[0]->token);
+	Assert::count(1, $repository->memory->saved);
+	Assert::true((new Passwords)->verify('NewSecret123!', $repository->memory->saved[0]->password));
+	Assert::notSame('old-token', $repository->memory->saved[0]->token);
 	Assert::false($sessionService->isTokenChecked(), 'the recovery session is closed');
 });
 

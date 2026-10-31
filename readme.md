@@ -139,7 +139,7 @@ use Drago\Permission\Role;
 
 public function getRolesByUser(int $userId): array
 {
-	$roles = $this->getConnection()
+	$roles = $this->table->getConnection()
 		->select('r.*')->from(RolesEntity::Table)->as('r')
 		->innerJoin(UsersRolesEntity::Table)->as('ur')->on('ur.role_id = r.id')
 		->where('ur.%n = ?', UsersRolesEntity::ColumnUserId, $userId)

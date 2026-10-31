@@ -11,8 +11,6 @@ use App\Presentation\Sign\Email\EmailSender;
 use App\Presentation\Sign\RateLimiter;
 use App\Presentation\Sign\Verification\ConfirmResult;
 use App\Presentation\Sign\Verification\VerificationService;
-use Dibi\Connection;
-use Drago\Database\ExtraFluent;
 use Nette\Application\LinkGenerator;
 use Nette\Application\Routers\Route;
 use Nette\Caching\Storages\MemoryStorage;
@@ -22,20 +20,15 @@ use Tester\Assert;
 require __DIR__ . '/../../../bootstrap.php';
 
 
-function lazyConnection(): Connection
-{
-	return new Connection(['driver' => 'mysqli', 'lazy' => true]);
-}
-
-
 class MemoryUsers extends UserRepository
 {
-	/** @var array<int, UserEntity> */
-	public array $users = [];
+	/** @var ArrayObject<int, UserEntity> */
+	public ArrayObject $users;
 
 
 	public function __construct()
 	{
+		$this->table = new MemoryTable($this->users = new ArrayObject);
 	}
 
 
@@ -61,32 +54,6 @@ class MemoryUsers extends UserRepository
 		}
 
 		return null;
-	}
-
-
-	public function get(int $id): ExtraFluent
-	{
-		$user = $this->users[$id] ?? null;
-		return new class (lazyConnection(), $user) extends ExtraFluent {
-			public function __construct(
-				Connection $connection,
-				private ?UserEntity $user,
-			) {
-				parent::__construct($connection);
-			}
-
-
-			public function record(): ?Dibi\Row
-			{
-				return $this->user;
-			}
-		};
-	}
-
-
-	public function save(mixed $args): Dibi\Result|int|null
-	{
-		return 1;
 	}
 }
 

@@ -185,7 +185,7 @@ readonly class RecoveryFactory
 			$user->token = Random::generate(32); // invalidates all existing sessions
 			// The code came by email, which proves the address, so the account is confirmed too.
 			$user->verifiedAt ??= new \DateTimeImmutable;
-			$this->userRepository->save($user);
+			$this->userRepository->table->save($user);
 			$this->sessionService->removeToken();
 
 		} catch (Throwable $e) {

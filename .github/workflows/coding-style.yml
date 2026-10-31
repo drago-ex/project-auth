@@ -38,5 +38,5 @@ jobs:
 
       - run: composer install --no-progress --prefer-dist
       - run: composer create-project dresscode/dresscode temp/dresscode ^1.1 --no-progress
-      - run: composer require --working-dir=temp/dresscode phpstan/phpstan-nette:^2.0 drago-ex/database:^4.1 --no-progress
+      - run: composer require --working-dir=temp/dresscode phpstan/phpstan-nette:^2.0 --no-progress
       - run: php temp/dresscode/bin/dresscode check --no-cache

@@ -5,7 +5,7 @@
 	"license": "MIT",
 	"require": {
 		"php": ">=8.3 <9",
-		"drago-ex/database": "^4.1",
+		"drago-ex/database": "^5.0",
 		"drago-ex/application": "^4.0",
 		"drago-ex/form": "^3.0",
 		"drago-ex/migration": "^1.0",
