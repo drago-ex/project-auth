@@ -52,9 +52,35 @@ class UserRepository
 	}
 
 
-	/** @return list<string> */
+	/**
+	 * Names of the roles given to the user (table user_roles).
+	 * @return list<string>
+	 * @throws Exception
+	 */
 	public function getRolesByUser(int $userId): array
 	{
-		return [];
+		$roles = $this->table->getConnection()
+			->select(UserRoleEntity::ColumnRole)
+			->from(UserRoleEntity::Table)
+			->where('%n = ?', UserRoleEntity::ColumnUserId, $userId)
+			->fetchPairs(value: UserRoleEntity::ColumnRole);
+
+		return array_values(array_map(strval(...), $roles));
+	}
+
+
+	/**
+	 * Gives the user the role; a role the user already has is kept.
+	 * @throws Exception
+	 */
+	public function addRole(int $userId, string $role): void
+	{
+		$this->table->getConnection()
+			->insert(UserRoleEntity::Table, [
+				UserRoleEntity::ColumnUserId => $userId,
+				UserRoleEntity::ColumnRole => $role,
+			])
+			->setFlag('IGNORE')
+			->execute();
 	}
 }

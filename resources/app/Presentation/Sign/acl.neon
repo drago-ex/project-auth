@@ -1,0 +1,8 @@
+# Guests may sign in, sign up and recover their password.
+security:
+	resources:
+		Sign:
+
+	rules:
+		allow:
+			- [guest, Sign]

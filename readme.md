@@ -34,7 +34,7 @@ as set in `extra.drago-tools` of this package's `composer.json`.
 ```bash
 php vendor/bin/migration db:migrate --packages
 ```
-The package has `migration-priority` 10, so the `users` table exists before the packages that use it.
+The package has `migration-priority` 10, so the `users` table exists before the packages that use it. It creates the tables `users`, `user_tokens` and `user_roles`.
 
 ## Features
 - User authentication (sign in / sign out)
@@ -100,8 +100,9 @@ Emails are shown at http://localhost:8025.
 
 ## Adds a new user to the database
 Validates the email and the password (`PasswordPolicy`), hashes the password, generates a token, and ensures the email is unique.
+`--admin` gives the user the role `admin`; without it the user has the role `user`.
 ```bash
-php vendor/bin/create-user <username> <email> <password>
+php vendor/bin/create-user <username> <email> <password> [--admin]
 ```
 
 ## Secure access to the section
@@ -116,36 +117,22 @@ final class SecurePresenter extends Presenter
 ```
 A visitor who is not signed in goes to the sign-in page and, after signing in, back to the requested page.
 
----
+## Access rules
 
-## Optional add-ons
+The access rules are in `app/Presentation/Sign/acl.neon`: the resource `Sign` for everyone.
+[drago-ex/permission](https://github.com/drago-ex/permission) merges them with its base roles, in which the administrator is allowed everything.
 
-The package works without them. Set them up by hand as described below when the project needs them.
+## User roles
 
-### Permissions
-The package works without permissions and without [drago-ex/permission](https://github.com/drago-ex/permission).
-For basic permissions, install drago-ex/permission and generate the access rules from [`bin/create-auth-permission`](bin/create-auth-permission):
-```bash
-php vendor/bin/drago-commands
-```
+The roles of the users are in the table `user_roles` (migration `003_user_roles.sql`), stored by name: `admin` or a custom
+role of [drago-ex/project-permission](https://github.com/drago-ex/project-permission). A user may have more roles.
+They are loaded into the identity on signing in; roles the ACL does not know (e.g. a removed custom role) are left out,
+and a user without a role has the role `user`, so the sign-up writes nothing.
 
-Users have no roles of their own until `getRolesByUser()` in `app/Model/User/UserRepository.php` returns them.
-To load them from the database of [drago-ex/project-permission](https://github.com/drago-ex/project-permission),
-implement it:
+The administrator created by `php vendor/bin/create-user <name> <email> <password> --admin` (or by `bin/project-setup`
+of [drago-ex/project](https://github.com/drago-ex/project), which asks for it) gets the role `admin`. A role can also
+be given in code:
+
 ```php
-use App\Presentation\Backend\Permission\Component\Roles\RolesEntity;
-use App\Presentation\Backend\Permission\Component\Users\UsersRolesEntity;
-use Drago\Permission\Role;
-
-public function getRolesByUser(int $userId): array
-{
-	$roles = $this->table->getConnection()
-		->select('r.*')->from(RolesEntity::Table)->as('r')
-		->innerJoin(UsersRolesEntity::Table)->as('ur')->on('ur.role_id = r.id')
-		->where('ur.%n = ?', UsersRolesEntity::ColumnUserId, $userId)
-		->fetchPairs(value: RolesEntity::ColumnName);
-
-	$roles = array_values($roles);
-	return $roles ?: [Role::RoleUser];
-}
+$userRepository->addRole($userId, Drago\Permission\Role::Admin);
 ```

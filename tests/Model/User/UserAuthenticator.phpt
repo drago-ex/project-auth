@@ -8,8 +8,11 @@ use App\Model\User\UserAuthenticator;
 use App\Model\User\UserEntity;
 use App\Model\User\UserRepository;
 use Dibi\Connection;
+use Drago\Permission\Role;
 use Nette\Security\AuthenticationException;
+use Nette\Security\Authorizator;
 use Nette\Security\Passwords;
+use Nette\Security\Permission;
 use Tester\Assert;
 
 require __DIR__ . '/../../bootstrap.php';
@@ -81,4 +84,59 @@ test('An unconfirmed account cannot sign in, but only after the right password',
 		null,
 		Nette\Security\Authenticator::NotApproved,
 	);
+});
+
+
+/**
+ * Signs in a confirmed user whose stored roles are $roles.
+ * @param list<string> $roles
+ * @return list<string> the roles of the identity
+ */
+function signInRoles(array $roles, ?Authorizator $authorizator): array
+{
+	$passwords = new Passwords;
+	$user = new UserEntity;
+	$user->id = 1;
+	$user->email = 'user@example.com';
+	$user->password = $passwords->hash('correct horse battery staple');
+	$user->verifiedAt = new DateTimeImmutable;
+
+	$repository = new class (new Connection(['driver' => 'mysqli', 'lazy' => true]), $user, $roles) extends UserRepository {
+		public function __construct(
+			Connection $connection,
+			private UserEntity $user,
+			/** @var list<string> */
+			private array $roles,
+		) {
+			parent::__construct($connection);
+		}
+
+
+		public function findUserByEmail(string $email): ?UserEntity
+		{
+			return $this->user;
+		}
+
+
+		public function getRolesByUser(int $userId): array
+		{
+			return $this->roles;
+		}
+	};
+
+	$authenticator = new UserAuthenticator($passwords, $repository, authorizator: $authorizator);
+	return $authenticator->authenticate('user@example.com', 'correct horse battery staple')->getRoles();
+}
+
+
+test('Stored roles the ACL does not know are dropped, and a user without roles is "user"', function () {
+	$acl = new Permission;
+	$acl->addRole(Role::Guest);
+	$acl->addRole(Role::User, Role::Guest);
+	$acl->addRole(Role::Admin, Role::User);
+
+	Assert::same([Role::Admin], signInRoles([Role::Admin, 'removed-moderator'], $acl));
+	Assert::same([Role::User], signInRoles(['removed-moderator'], $acl));
+	Assert::same([Role::User], signInRoles([], $acl));
+	Assert::same(['moderator'], signInRoles(['moderator'], null));
 });

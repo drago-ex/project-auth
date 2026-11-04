@@ -3,11 +3,14 @@
 namespace App\Model\User;
 
 use Dibi\Exception;
+use Drago\Permission\Role;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Authenticator;
+use Nette\Security\Authorizator;
 use Nette\Security\IdentityHandler;
 use Nette\Security\IIdentity;
 use Nette\Security\Passwords;
+use Nette\Security\Permission;
 use Nette\Security\SimpleIdentity;
 
 
@@ -17,6 +20,7 @@ readonly class UserAuthenticator implements Authenticator, IdentityHandler
 		private Passwords $password,
 		private UserRepository $userRepository,
 		private bool $requireVerification = true,
+		private ?Authorizator $authorizator = null,
 	) {
 	}
 
@@ -51,8 +55,7 @@ readonly class UserAuthenticator implements Authenticator, IdentityHandler
 		}
 
 		$user->offsetUnset('password');
-		$roles = $this->userRepository->getRolesByUser($user->id);
-		return new SimpleIdentity(id: $user->id, roles: $roles, data: $user->toArray());
+		return new SimpleIdentity(id: $user->id, roles: $this->getRoles($user->id), data: $user->toArray());
 	}
 
 
@@ -80,7 +83,23 @@ readonly class UserAuthenticator implements Authenticator, IdentityHandler
 		}
 
 		$user->offsetUnset('password');
-		$roles = $this->userRepository->getRolesByUser($user->id);
-		return new SimpleIdentity(id: $user->id, roles: $roles, data: $user->toArray());
+		return new SimpleIdentity(id: $user->id, roles: $this->getRoles($user->id), data: $user->toArray());
+	}
+
+
+	/**
+	 * The roles of the user known to the ACL (a removed custom role may still be stored); "user" when none is left,
+	 * so every signed-in user has the basics of the user role.
+	 * @return list<string>
+	 * @throws Exception
+	 */
+	private function getRoles(int $userId): array
+	{
+		$roles = $this->userRepository->getRolesByUser($userId);
+		if ($this->authorizator instanceof Permission) {
+			$roles = array_values(array_filter($roles, $this->authorizator->hasRole(...)));
+		}
+
+		return $roles ?: [Role::User];
 	}
 }

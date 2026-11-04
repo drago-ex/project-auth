@@ -16,10 +16,8 @@
 		"nette/caching": "^3.3",
 		"nette/http": "^3.0",
 		"nette/mail": "^4.0",
-		"nette/security": "^3.2"
-	},
-	"suggest": {
-		"drago-ex/permission": "Enables generation of the authentication permission provider."
+		"nette/security": "^3.2",
+		"drago-ex/permission": "^2.0"
 	},
 	"require-dev": {
 		"nette/tester": "^2.5",
@@ -37,9 +35,6 @@
 					"resources/assets": "assets"
 				}
 			},
-			"commands": [
-				"bin/create-auth-permission"
-			],
 			"migration-priority": 10
 		},
 		"drago-translator": {

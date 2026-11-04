@@ -4,8 +4,10 @@
 declare(strict_types=1);
 
 use App\Model\User\UserEntity;
+use App\Model\User\UserRepository;
 use Dibi\Connection;
 use Dibi\UniqueConstraintViolationException;
+use Drago\Permission\Role;
 use Nette\Security\Passwords;
 use Nette\Utils\Random;
 use Nette\Utils\Validators;
@@ -14,17 +16,23 @@ $green = "\033[32m";
 $red = "\033[31m";
 $reset = "\033[0m";
 
-if ($argc !== 4) {
+$arguments = array_slice($argv, 1);
+$admin = in_array('--admin', $arguments, true);
+$arguments = array_values(array_diff($arguments, ['--admin']));
+
+if (count($arguments) !== 3) {
 	echo <<<USAGE
 		Add new user to database.
 
-		Usage: create-user <username> <email> <password>
+		Usage: create-user <username> <email> <password> [--admin]
+
+		  --admin  give the user the admin role (otherwise the user has the role "user")
 
 		USAGE;
 	exit(1);
 }
 
-[, $username, $email, $password] = $argv;
+[$username, $email, $password] = $arguments;
 
 $root = getcwd();
 
@@ -71,7 +79,14 @@ try {
 		UserEntity::ColumnVerifiedAt => new DateTimeImmutable,
 	])->execute();
 
-	echo "{$green}OK User '$username' was created successfully.{$reset}\n";
+	if ($admin) {
+		$users = $container->getByType(UserRepository::class);
+		\assert($users instanceof UserRepository);
+		$users->addRole((int) $model->getInsertId(), Role::Admin);
+	}
+
+	$role = $admin ? Role::Admin : Role::User;
+	echo "{$green}OK User '$username' was created successfully with the role '$role'.{$reset}\n";
 
 } catch (UniqueConstraintViolationException) {
 	echo "{$red}ERROR: duplicate email.{$reset}\n";

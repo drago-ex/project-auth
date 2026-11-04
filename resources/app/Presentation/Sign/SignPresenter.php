@@ -10,11 +10,11 @@ use App\Presentation\Sign\Verification\ConfirmResult;
 use App\Presentation\Sign\Verification\VerificationService;
 use Drago\Application\UI\Alert;
 use Drago\Form\Autocomplete;
+use Drago\Permission\Privilege;
 use Nette\Application\Attributes\Persistent;
 use Nette\Application\Attributes\Requires;
 use Nette\Application\UI\Form;
 use Nette\Http\FetchSite;
-use Nette\InvalidStateException;
 use Nette\Neon\Exception;
 use Nette\Security\AuthenticationException;
 use Nette\Security\Authenticator;
@@ -300,7 +300,7 @@ final class SignPresenter extends BasePresenter
 
 	/**
 	 * SignedInDestination when the user may open it, otherwise FallbackDestination. Checked like the Authorization
-	 * trait of drago-ex/permission does ("{action}-read" of the presenter); without an authorizator all is allowed.
+	 * trait of drago-ex/permission does (the action of the presenter); without an authorizator all is allowed.
 	 */
 	private function signedInDestination(): string
 	{
@@ -309,19 +309,14 @@ final class SignPresenter extends BasePresenter
 			return self::SignedInDestination;
 		}
 
-		// ':Backend:Admin:' -> resource 'Backend:Admin', privilege 'default-read'
+		// ':Backend:Admin:' -> resource 'Backend:Admin', privilege 'default'
 		$destination = ltrim(self::SignedInDestination, ':');
 		$separator = (int) strrpos($destination, ':');
 		$resource = substr($destination, 0, $separator);
 		$action = substr($destination, $separator + 1) ?: 'default';
 
-		try {
-			$allowed = $user->isAllowed($resource, "$action-read");
-		} catch (InvalidStateException) {
-			// a resource the ACL does not know is denied
-			$allowed = false;
-		}
-
-		return $allowed ? self::SignedInDestination : self::FallbackDestination;
+		return Privilege::isAllowed($user, $resource, $action)
+			? self::SignedInDestination
+			: self::FallbackDestination;
 	}
 }

@@ -34,7 +34,7 @@ podle nastavení v `extra.drago-tools` v `composer.json` tohoto balíčku.
 ```bash
 php vendor/bin/migration db:migrate --packages
 ```
-Balíček má `migration-priority` 10, takže tabulka `users` existuje dřív než balíčky, které ji používají.
+Balíček má `migration-priority` 10, takže tabulka `users` existuje dřív než balíčky, které ji používají. Vytvoří tabulky `users`, `user_tokens` a `user_roles`.
 
 ## Funkce
 - Přihlášení a odhlášení uživatele
@@ -100,8 +100,9 @@ E-maily se zobrazí na http://localhost:8025.
 
 ## Přidání nového uživatele do databáze
 Ověří e-mail a heslo (`PasswordPolicy`), zahashuje heslo, vygeneruje token a zajistí jedinečnost e-mailu.
+`--admin` dá uživateli roli `admin`; bez ní má uživatel roli `user`.
 ```bash
-php vendor/bin/create-user <username> <email> <password>
+php vendor/bin/create-user <username> <email> <password> [--admin]
 ```
 
 ## Zabezpečení části webu
@@ -116,36 +117,22 @@ final class SecurePresenter extends Presenter
 ```
 Nepřihlášený návštěvník se dostane na přihlašovací stránku a po přihlášení zpět na požadovanou stránku.
 
----
+## Pravidla přístupu
 
-## Volitelné doplňky
+Pravidla přístupu jsou v `app/Presentation/Sign/acl.neon`: zdroj `Sign` pro všechny.
+[drago-ex/permission](https://github.com/drago-ex/permission) je sloučí se svými výchozími rolemi, ve kterých administrátor smí všechno.
 
-Balíček funguje i bez nich. Pokud je projekt potřebuje, nastavte je ručně podle popisu níže.
+## Role uživatelů
 
-### Oprávnění
-Balíček funguje bez oprávnění i bez [drago-ex/permission](https://github.com/drago-ex/permission).
-Pro základní oprávnění nainstalujte drago-ex/permission a vygenerujte pravidla přístupu z [`bin/create-auth-permission`](bin/create-auth-permission):
-```bash
-php vendor/bin/drago-commands
-```
+Role uživatelů jsou v tabulce `user_roles` (migrace `003_user_roles.sql`), uložené názvem: `admin` nebo vlastní role
+z [drago-ex/project-permission](https://github.com/drago-ex/project-permission). Uživatel může mít víc rolí.
+Při přihlášení se načtou do identity; role, které ACL nezná (např. smazaná vlastní role), se vynechají, a uživatel
+bez role má roli `user`, takže registrace nic nezapisuje.
 
-Uživatelé nemají vlastní role, dokud je nevrací `getRolesByUser()` v `app/Model/User/UserRepository.php`.
-Pro načítání rolí z databáze [drago-ex/project-permission](https://github.com/drago-ex/project-permission)
-metodu implementujte:
+Administrátor vytvořený příkazem `php vendor/bin/create-user <name> <email> <password> --admin` (nebo skriptem
+`bin/project-setup` balíčku [drago-ex/project](https://github.com/drago-ex/project), který se na něj zeptá) dostane roli
+`admin`. Roli lze dát i v kódu:
+
 ```php
-use App\Presentation\Backend\Permission\Component\Roles\RolesEntity;
-use App\Presentation\Backend\Permission\Component\Users\UsersRolesEntity;
-use Drago\Permission\Role;
-
-public function getRolesByUser(int $userId): array
-{
-	$roles = $this->table->getConnection()
-		->select('r.*')->from(RolesEntity::Table)->as('r')
-		->innerJoin(UsersRolesEntity::Table)->as('ur')->on('ur.role_id = r.id')
-		->where('ur.%n = ?', UsersRolesEntity::ColumnUserId, $userId)
-		->fetchPairs(value: RolesEntity::ColumnName);
-
-	$roles = array_values($roles);
-	return $roles ?: [Role::RoleUser];
-}
+$userRepository->addRole($userId, Drago\Permission\Role::Admin);
 ```
