@@ -1,56 +1,51 @@
 # Agent Guide
 
-Use this file as package-specific guidance when working in this repository. Keep changes aligned with the existing public API, project conventions, and supported PHP range.
+`drago-ex/project-auth` (type drago-tools-resource, PHP >=8.3 <9, `migration-priority` 10): users, sign-in,
+sign-up, password recovery, email verification, user roles and `bin/create-user`. The workspace rules are in
+`../AGENTS.md`; dependencies are in `composer.json`.
 
-## Package Overview
-- **Package**: `drago-ex/project-auth`
-- **Type**: drago-tools-resource
-- **Purpose**: Authentication and user access package for the Drago project.
-- **PHP**: >=8.3 <9
-- **Runtime dependencies**: drago-ex/database (^5.0), drago-ex/application (^4.0), drago-ex/form (^3.0), drago-ex/migration (^1.0), drago-ex/utils (^2.0), drago-ex/translator (^4.0.1), drago-ex/project-front (^3.0), drago-ex/project-backend (^1.0), nette/caching (^3.3), nette/http (^3.0), nette/mail (^4.0), nette/security (^3.2), drago-ex/permission (^2.0: ACL, `Role`, `Privilege`)
-- **License**: MIT
+## Layout
+- `migrations/`: `001_users.sql` (complete `users` incl. `verified_at`), `002_user_tokens.sql`, `003_user_roles.sql`.
+- `resources/app/Model/User`: `UserAuthenticator`, `UserRepository`, `UserTokenRepository`, entities.
+- `resources/app/Presentation/Sign`: `SignPresenter`, factories, `PasswordPolicy`, `RateLimiter`, `SignInLimiter`,
+  `Recovery/`, `Verification/`, `Email/`, `conf.neon`, `acl.neon`, `Translate/cs.neon`.
+- `resources/app/Presentation/Accessory`: `RequireLogged`, `Widget/@brand.latte`, `Widget/@theme-switch.latte`
+  (copied, so project-settings can replace the brand).
+- `resources/assets/sign-in.js` + `.scss`: an own Vite entry; `package.json` (with `name`) brings its npm
+  dependencies through `npm-loader.js` of drago-ex/project.
+- `bin/create-user`, `tests/`.
 
-## Repository Layout
-- `bin/`: command-line entry points.
-- `resources/app/Presentation/Sign/acl.neon`: the ACL of the package (resources = presenter names, rules only for roles other than the administrator), merged by Nette with `role.acl.neon` of drago-ex/permission (required); a new presenter gets its resource in the `acl.neon` next to it. No bin script or providers.
-- `migrations/`: database migrations.
-- `resources/`: application resources contributed to the consuming Drago project.
-- `tests/`: automated tests.
-- `.github/`: CI workflows; keep their PHP versions and commands consistent with Composer and the package scripts.
-- `composer.json`: package metadata, dependency constraints, autoloading, and available Composer scripts.
+## How it works
+- `tests/bootstrap.php` autoloads `resources/app`. Files of project-front and project-backend come into this
+  repository only by `drago-install --dev` and must not be committed.
+- Rate limits: `Sign\RateLimiter` (cache), limits defined in `SignInLimiter` and `Recovery\RecoveryLimiter`.
+- Password recovery: `Recovery\SessionService` keeps the hashed code and the attempts;
+  `RecoveryFactory::changePassword()` must keep the check that the code was verified. A password change
+  generates a new user token, which ends the other sessions.
+- After sign-in the user goes to `SignPresenter::SignedInDestination` (`:Backend:Admin:`) when the ACL allows it
+  (`Drago\Permission\Privilege::isAllowed()`, unknown resource denied; allowed without an authorizator), otherwise
+  to `FallbackDestination` (`:Front:Home:`), so a role without the dashboard gets no 403.
+- No `class_exists()` checks for optional packages such as project-account; the package stays independent.
+- Every account email goes through `Sign\Email\EmailSender` with `Email/@email.latte`; a failed send is logged and
+  the action continues, so the answer never tells whether an address is registered.
+- Sign-up with a registered address and verification on: `VerificationService::alreadyRegistered()` emails the
+  owner (at most 3 per address and hour) and the form answers like a success; without verification the form says
+  the address is used. The resend-confirmation link is shown only after the right password of an unconfirmed
+  account (`SignTemplate::$notConfirmed`); `Sign:verification` stays reachable directly.
+- `RequireLogged` redirects to the sign-in with a `backlink` stored only for a plain GET page without a signal, so
+  a link with a signal (e.g. delete) sent to a signed-out admin is never replayed after sign-in. drago-ex/permission's
+  `Authorization` trait does the same.
+- Roles: `user_roles(user_id, role VARCHAR(50))` stores role NAMES, because the base roles live in the ACL neon of
+  drago-ex/permission and custom ones in project-permission; there is no `roles` table here (a `parent` column
+  would leak project-permission into the base). `UserRepository::getRolesByUser()` reads them, `addRole()`
+  inserts with IGNORE, `UserRoleEntity` has `ColumnRoleSize`. `UserAuthenticator::getRoles()` (sign-in and
+  `wakeupIdentity()`) drops roles the authorizator does not know and falls back to `Role::User`, because an empty
+  list would deny even `Account`; sign-up writes no row.
+- `bin/create-user` gives `admin` with `--admin` (anywhere among the arguments), otherwise no role.
+  `bin/project-setup` of drago-ex/project calls it after asking for the administrator.
 
-## Key Parts
-- Resources in `resources/app` are copied into the project by drago-tools; `tests/bootstrap.php` autoloads them from there. Files of `project-front` and `project-backend` are copied into this repository only by `drago-install --dev` and must not be committed.
-- Sign-in, registration and password recovery are rate limited through `Sign\RateLimiter` (cache-based); `SignInLimiter` and `Recovery\RecoveryLimiter` define the limits.
-- Password recovery: `Recovery\SessionService` keeps the hashed code and attempts; `RecoveryFactory::changePassword()` must keep the check that the code was verified, and a password change generates a new user token to end other sessions.
-- The package stays independent of optional packages such as `project-account`: no `class_exists()` checks for their classes. A signed-in user is redirected to `SignPresenter::SignedInDestination` (`:Backend:Admin:`, from the required `project-backend`) when the ACL allows its action as the privilege (`default`; or there is no authorizator; checked by `Drago\Permission\Privilege::isAllowed()` like the Authorization trait, an unknown resource is denied), otherwise to `FallbackDestination` (`:Front:Home:`); projects change those constants. So a role without the dashboard (e.g. a comment moderator before the dashboard is granted) gets no 403 after signing in.
-- Every account email (confirmation, email change, recovery code) goes through `Sign\Email\EmailSender` with the `Email/@email.latte` layout; a failed send is logged and the action continues, so the answer never tells whether an address is registered.
-- Sign-up with a registered address and verification on: `VerificationService::alreadyRegistered()` emails the owner (at most 3 per address and hour, then silently nothing, so the form cannot flood an inbox) and the form answers like a success; without verification the form says the address is used. The sign-in page shows the resend-confirmation link only after the right password of an unconfirmed account (`SignTemplate::$notConfirmed`); `Sign:verification` stays reachable directly.
-- `Accessory\RequireLogged` redirects to the sign-in with a `backlink`, so the user gets back to the requested page. Only a plain GET page without a signal is stored (2026-10-25, code review): a stored signal or POST was replayed after signing in as a same-origin request, so a link sent to a signed-out admin (e.g. a delete signal) ran after the sign-in. drago-ex/permission's Authorization trait does the same.
-- Migrations: `001_users.sql` (complete `users` table incl. `verified_at`), `002_user_tokens.sql`, `003_user_roles.sql`; see the workspace rule (one complete `CREATE TABLE` per table while no real project runs).
-- Roles (2026-11-03, user's decision; moved here from the README snippet and project-preset-permission): `user_roles(user_id, role VARCHAR(50))` stores role NAMES, not ids, because the base roles live in the ACL neon of drago-ex/permission and custom ones in project-permission (no `roles` table here; a `parent` column would leak project-permission into the base). `UserRepository::getRolesByUser()` reads them, `addRole()` inserts with IGNORE, `UserRoleEntity` holds the names and `ColumnRoleSize`. `UserAuthenticator::getRoles()` (sign-in and `wakeupIdentity()`) drops roles the `Permission` authorizator does not know (autowired `?Authorizator`) and falls back to `Role::User`: Nette gives `authenticatedRole` only to an identity without roles, an empty list would deny even `Account`; the sign-up writes no row. The web installer (project-install) was dropped 2026-11-04 together with `Presentation/Install/AdminRole` + `Install/auth.neon`; the administrator comes from `bin/create-user --admin`, which `bin/project-setup` of drago-ex/project calls after asking. `bin/create-user` gives `admin` with `--admin` (anywhere among the arguments), otherwise no role (the user is `user`).
-
-## Dependencies
-
-Composer constraints describe the package contract. Before changing integration behavior, inspect the source and the actual call sites in this package; do not infer runtime usage solely from dependency declarations.
-Development dependencies include nette/tester (^2.5), phpstan/phpstan-nette (^2.0), drago-ex/project-tools (^1.0).
-
-## Essential Commands
-
+## Commands
 ```bash
-composer tester                 # tester tests -s
-composer phpstan                # phpstan analyse
+composer phpstan
+composer tester
 ```
-
-## Installation Hooks
-
-Composer install and update hooks invoke Drago project setup/cleanup commands. Inspect those scripts and their effects before invoking Composer operations that trigger them; they may modify generated project files.
-
-## Conventions & Rules
-
-- Preserve backward compatibility unless the task explicitly permits a breaking change. Check callers and public signatures before changing behavior.
-- Follow the existing PHP style: strict types, explicit parameter and return types, tabs for indentation, and single-quoted strings where practical. Match nearby code when a convention is unclear.
-- Keep package-specific configuration, resources, and migrations in their established directories. Do not edit generated or consuming-project files without confirming they are part of this repository’s intended output.
-- Add or update focused tests for behavioral changes when this package has a runnable test setup. Do not invent test commands; use only the scripts and configuration present here.
-- Update README examples and Composer metadata when a public API or supported requirement changes.
-- `package.json` (user, 2026-11-04): `name` + `dependencies` of the npm packages the copied assets import; npm-loader of drago-ex/project installs the package from vendor with them (no `file:vendor/...` entries here: they would point inside this package; drago-ex libraries come from npm-loader, bootstrap and naja from the project).
