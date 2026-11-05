@@ -1,4 +1,22 @@
 # Guests may sign in, sign up and recover their password.
+parameters:
+	# descriptions for the permissions page of drago-ex/project-permission; the pages in, up, recovery and
+	# verification are described by the titles of their templates
+	permissionLabels:
+		Sign:
+			verify: Confirming an email address by the link
+			out: Signing out
+			resendRecovery: Sending the recovery code again
+			changeRecoveryEmail: Changing the email address of the recovery
+			signIn: Sign-in form
+			signUp: Registration form
+			signRecoveryRequest: Request for a recovery code
+			signRecoveryCheckToken: Entering the recovery code
+			signRecoveryChangePassword: Setting a new password
+			signVerification: Sending a new confirmation link
+			signOut: Sign-out form
+
+
 security:
 	resources:
 		Sign:

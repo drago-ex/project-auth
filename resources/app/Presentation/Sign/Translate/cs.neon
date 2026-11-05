@@ -120,3 +120,16 @@
 	"Účet s touto e-mailovou adresou již existuje. Pokud jste to byli vy, přihlaste se svým heslem, nebo si ho obnovte, pokud jste ho zapomněli."
 "If it was not you, you can ignore and delete this email. Nothing has changed in your account.":
 	"Pokud jste to nebyli vy, můžete tento e-mail ignorovat a smazat. Ve vašem účtu se nic nezměnilo."
+
+# descriptions of the privileges (permissionLabels in acl.neon)
+"Confirming an email address by the link": "Potvrzení e-mailové adresy odkazem"
+"Signing out": "Odhlášení"
+"Sending the recovery code again": "Opětovné odeslání kódu pro obnovu"
+"Changing the email address of the recovery": "Změna e-mailu pro obnovu hesla"
+"Sign-in form": "Přihlašovací formulář"
+"Registration form": "Registrační formulář"
+"Request for a recovery code": "Žádost o kód pro obnovu hesla"
+"Entering the recovery code": "Zadání kódu pro obnovu"
+"Setting a new password": "Nastavení nového hesla"
+"Sending a new confirmation link": "Odeslání nového potvrzovacího odkazu"
+"Sign-out form": "Odhlašovací formulář"

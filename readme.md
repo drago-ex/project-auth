@@ -112,3 +112,5 @@ Emails are shown at http://localhost:8025.
 ## Permissions
 
 The rules are in `Sign/acl.neon`: the resource `Sign`, for everyone.
+
+The same file describes the privileges (`permissionLabels`) for the permissions page of [Project Permission](https://github.com/drago-ex/project-permission).
