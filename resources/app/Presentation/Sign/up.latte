@@ -7,16 +7,25 @@
 		{block form}
 			{include input, name: 'username'}
 			{include input, name: 'email'}
-			{include password-toggle, name: 'password'}
+			{* a new password shows its strength while it is typed (the module strength of compostrap) *}
+			<div class="col-12 form-error">
+				{label password, class => 'form-label fw-semibold' /}
+				<div class="password-toggle">
+					{input password, class => 'form-control', aria-describedby => 'password-strength'}
+					<button type="button" class="password-toggle-btn" data-password-toggle aria-label="{_'Show password'}" aria-pressed="false"></button>
+				</div>
+				<div class="strength-bar" data-bs-strength></div>
+				<span class="strength-text" id="password-strength" aria-live="polite"></span>
+			</div>
 			{include password-toggle, name: 'verify'}
-			<div class="col-12 d-grid gap-1">
+			<div class="col-12 d-grid">
 				{include submit, name: 'send'}
 			</div>
 		{/block}
 	{/embed}
 
-	<div class="text-end mt-2">
-		<p class="m-0"><a n:href="in" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Back to sign in'}</a></p>
-		<p class="m-0"><a n:href="recovery" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Forgot your password?'}</a></p>
+	<div class="auth-links">
+		<a n:href="in" class="ajax" data-link-disable>{_'Back to sign in'}</a>
+		<a n:href="recovery" class="ajax" data-link-disable>{_'Forgot your password?'}</a>
 	</div>
 {/block}

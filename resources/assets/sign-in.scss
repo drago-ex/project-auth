@@ -1,81 +1,18 @@
 @import 'core/base';
 @import 'naja/spinner';
-@import '@fortawesome/fontawesome-free/css/all.css';
-@import 'drago-form/styles/password-toggle';
-@import 'theme-switcher-compostrap/src/scss/theme-switcher';
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 
-//
-// Authentication layout
-//
+// the sign-in pages are the module auth of compostrap; the forms use its password toggle, strength meter and
+// code slots, the switches above the box the theme switcher and the CSS tooltip
+@import 'compostrap/src/scss/theme-switcher';
+@import 'compostrap/src/scss/tooltip';
+@import 'compostrap/src/scss/password-toggle';
+@import 'compostrap/src/scss/strength';
+@import 'compostrap/src/scss/otp-input';
+@import 'compostrap/src/scss/auth';
 
-html,
-body {
-	min-height: 100%;
-}
-
-body {
-	min-height: 100vh;
-	grid-template-rows: 1fr auto;
-}
-
-.sign-in-page {
-	width: min(100% - 2rem, 60rem);
-	padding-block: 2rem;
-}
-
-.sign-in-visual {
-	min-height: 38rem;
-}
-
-.sign-in-panel {
-	min-width: 0;
-	padding: 2rem 1.25rem;
-}
-
-.sign-in-panel-inner {
-	max-width: 29rem;
-}
-
-.sign-in-toolbar {
-	max-width: 29rem;
-	margin-bottom: 2rem;
-}
-
-.sign-in-language {
-	text-decoration: none;
-
-	&:hover {
-		text-decoration: underline;
-	}
-
-	&.current {
-		color: var(--bs-primary);
-		font-weight: 600;
-	}
-}
-
-.sign-in-link {
-	text-decoration: none;
-
-	&:hover {
-		text-decoration: underline;
-	}
-}
-
-.otp-code {
-	font-variant-numeric: tabular-nums;
-	letter-spacing: 0.5rem;
-	text-indent: 0.5rem;
-}
-
-@media (min-width: 992px) {
-	.sign-in-shell {
-		display: grid;
-		grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-	}
-
-	.sign-in-panel {
-		padding: 3.5rem;
-	}
-
+// a link that waits for its request (HyperlinkDisable) cannot be clicked again
+.auth-body a.ajax.disabled {
+	pointer-events: none;
+	opacity: .65;
 }

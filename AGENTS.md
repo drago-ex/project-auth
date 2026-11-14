@@ -13,6 +13,14 @@ sign-up, password recovery, email verification, user roles and `bin/create-user`
   (copied, so project-settings can replace the brand).
 - `resources/assets/sign-in.js` + `.scss`: an own Vite entry; `package.json` (with `name`) brings its npm
   dependencies through `npm-loader.js` of drago-ex/project.
+- The sign pages are the compostrap module `auth` (`@layout.latte`: `auth-page`, `auth-top` with the brand, the theme toggle and the language
+  dropdown [`lang-switch-item` of drago-ex/translator], `auth-card auth-card-split` with the visual, `main.auth-body` = the snippet `content`,
+  `auth-footer`); the links under a form are plain `a.ajax` in `auth-links`. A new password (sign-up, recovery) is written in the template with
+  the strength meter (`strength-bar` + `strength-text`), not by the `password-toggle` define of drago-ex/form; the names of the levels and
+  `PasswordPolicy::MinLength` are data attributes of the body (`data-strength-*`), which `sign-in.js` passes to `Strength.init()` (a presenter has
+  no translate method and Latte no JSON filter here). The recovery code is the `otp-input` (`div.otp.otp-fill` around the `token` input with
+  `maxlength` 6); `OtpInput.update()` runs after every snippet update, because the steps are redrawn. The meter only helps, the rules stay in
+  `PasswordPolicy`.
 - `bin/create-user`, `tests/`.
 
 ## How it works

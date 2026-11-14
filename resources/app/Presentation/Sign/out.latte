@@ -5,16 +5,14 @@
 	{if $user->loggedIn}
 		{embed '../Accessory/Widget/@form.latte', name: 'signOut', najaHistory: 'replace'}
 			{block form}
-				<div class="col-12 d-grid gap-1">
+				<div class="col-12 d-grid">
 					{include submit, name: 'send'}
 				</div>
 			{/block}
 		{/embed}
 	{else}
-		<div class="text-end">
-			<a n:href="in" class="btn btn-sm btn-primary ajax" data-link-disable>
-				{_"Back to sign in"}
-			</a>
+		<div class="d-grid">
+			<a n:href="in" class="btn btn-primary ajax" data-link-disable>{_'Back to sign in'}</a>
 		</div>
 	{/if}
 {/block}

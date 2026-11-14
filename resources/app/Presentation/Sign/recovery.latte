@@ -8,55 +8,68 @@
 		{embed '../Accessory/Widget/@form.latte', name: 'signRecoveryRequest', class: 'ajax', najaHistory: 'off'}
 			{block form}
 				{include input, name: 'email'}
-				<div class="col-12 d-grid gap-1">
+				<div class="col-12 d-grid">
 					{include submit, name: 'send'}
 				</div>
 			{/block}
 		{/embed}
 
-		<p class="mt-2 mb-0 text-end">
-			<a n:href="in" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Back to sign in'}</a>
-		</p>
+		<div class="auth-links">
+			<a n:href="in" class="ajax" data-link-disable>{_'Back to sign in'}</a>
+		</div>
 
 	{elseif !$signRecoveryToken->isTokenChecked}
 		{embed '../Accessory/Widget/@form.latte', name: 'signRecoveryCheckToken', class: 'ajax', najaHistory: 'off'}
 			{block form}
-				{include input, name: 'token', class: 'otp-code text-center font-monospace fw-semibold'}
-				<div class="col-12 d-grid gap-1">
+				{* the code is typed into slots (the module otp-input of compostrap); one real input holds the value *}
+				<div class="col-12 form-error">
+					{label token, class => 'form-label fw-semibold' /}
+					<div class="otp otp-fill" data-bs-otp>
+						{input token, class => 'otp-input', maxlength => 6}
+					</div>
+				</div>
+				<div class="col-12 d-grid">
 					{include submit, name: 'send'}
-					<p class="mt-2">{_'If this address is registered, we have sent a code to it:'}</p>
-					<div class="d-flex align-items-center justify-content-between gap-3 rounded px-3 py-2 mb-3 bg-body-tertiary">
+				</div>
+				<div class="col-12">
+					<p class="mb-2">{_'If this address is registered, we have sent a code to it:'}</p>
+					<div class="d-flex align-items-center justify-content-between gap-3 rounded px-3 py-2 bg-body-tertiary">
 						<span class="text-break">{$signRecoveryToken->email}</span>
-						<a n:href="changeRecoveryEmail!" class="btn btn-link p-0 sign-in-link ajax flex-shrink-0" data-link-disable>{_'Change'}</a>
+						<a n:href="changeRecoveryEmail!" class="ajax flex-shrink-0" data-link-disable>{_'Change'}</a>
 					</div>
 				</div>
 			{/block}
 		{/embed}
 
-		<div class="mt-2 text-end">
-			<p class="m-0">
-				<a n:href="resendRecovery!" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Send a new code'}</a>
-			</p>
-			<p class="m-0">
-				<a n:href="in" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Back to sign in'}</a>
-			</p>
+		<div class="auth-links">
+			<a n:href="resendRecovery!" class="ajax" data-link-disable>{_'Send a new code'}</a>
+			<a n:href="in" class="ajax" data-link-disable>{_'Back to sign in'}</a>
 		</div>
 
 	{else}
 		{embed '../Accessory/Widget/@form.latte', name: 'signRecoveryChangePassword', class: 'ajax', najaHistory: 'off'}
 			{import '../Accessory/Widget/@form-password.latte'}
 			{block form}
-				{include password-toggle, name: 'password'}
+				{* a new password shows its strength while it is typed (the module strength of compostrap) *}
+				<div class="col-12 form-error">
+					{label password, class => 'form-label fw-semibold' /}
+					<div class="password-toggle">
+						{input password, class => 'form-control', aria-describedby => 'password-strength'}
+						<button type="button" class="password-toggle-btn" data-password-toggle aria-label="{_'Show password'}" aria-pressed="false"></button>
+					</div>
+					<div class="strength-bar" data-bs-strength></div>
+					<span class="strength-text" id="password-strength" aria-live="polite"></span>
+				</div>
 				{include password-toggle, name: 'verify'}
-				<div class="col-12 d-grid gap-1">
+				<div class="col-12 d-grid">
 					{include submit, name: 'send'}
 				</div>
 			{/block}
 		{/embed}
 
-		<p class="mt-2 mb-0 text-end">
-			<a n:href="in" class="btn btn-link p-0 sign-in-link ajax" data-link-disable>{_'Back to sign in'}</a>
-		</p>
+		<div class="auth-links">
+			<a n:href="in" class="ajax" data-link-disable>{_'Back to sign in'}</a>
+		</div>
 
 	{/if}
 {/block}

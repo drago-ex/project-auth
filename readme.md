@@ -20,7 +20,9 @@ composer require drago-ex/project-auth
 
 [Project Tools](https://github.com/drago-ex/project-tools) copies the files of the package into the project,
 where you adapt them. The sign-in pages have their own entry point `assets/sign-in.js`; its npm dependencies
-(theme switcher, Font Awesome) are installed by `npm install` of the project.
+([compostrap](https://github.com/compostrap/compostrap), Bootstrap Icons) are installed by `npm install` of the project. The pages are
+the sign-in pages of compostrap: a new password shows its strength while it is typed and the recovery code is typed
+into six slots.
 
 ## Database
 
