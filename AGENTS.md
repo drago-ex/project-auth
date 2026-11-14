@@ -10,7 +10,8 @@ sign-up, password recovery, email verification, user roles and `bin/create-user`
 - `resources/app/Presentation/Sign`: `SignPresenter`, factories, `PasswordPolicy`, `RateLimiter`, `SignInLimiter`,
   `Recovery/`, `Verification/`, `Email/`, `conf.neon`, `acl.neon`, `Translate/cs.neon`.
 - `resources/app/Presentation/Accessory`: `RequireLogged`, `Widget/@brand.latte` (copied, so project-settings can
-  replace the brand; the logo is an inline SVG in the primary color, no icon font).
+  replace the brand; the logo is a white N in a blue circle as an inline SVG, the same drawing as `www/favicon.svg` of drago-ex/project,
+  linked by every layout as the icon of the browser tab).
 - `resources/assets/sign-in.js` + `.scss`: an own Vite entry; `package.json` (with `name`) brings its npm
   dependencies through `npm-loader.js` of drago-ex/project.
 - The sign pages are the compostrap module `auth` (`@layout.latte`: `auth-page`, `auth-top` with the brand, the theme toggle and the language

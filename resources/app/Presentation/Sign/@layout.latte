@@ -9,6 +9,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="{$basePath}/favicon.svg" type="image/svg+xml">
 	{* the remembered theme (without one the theme of the system) before the page is drawn, so a dark page does not
 	   flash light until the ThemeSwitcher script runs *}
 	<script>try { let theme = localStorage.getItem('bootstrap-theme') || 'auto'; if (theme === 'auto') { theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'; } if (theme === 'light' || theme === 'dark') { document.documentElement.setAttribute('data-bs-theme', theme); } } catch (e) { }</script>
