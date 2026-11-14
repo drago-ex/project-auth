@@ -1,7 +1,13 @@
+{* The brand of the layouts: the name of the website from the settings; without them (a presenter without
+   SettingsRequire, or no "website" row) the default name. Installed over the default brand of project-auth. *}
 {define brand-logo}
-	<i class="fa-brands fa-medapps text-primary" aria-hidden="true"></i>
+	{* a drawing of its own in the primary color, so it needs no icon font *}
+	<svg class="text-primary" width="28" height="28" viewBox="0 0 28 28" aria-hidden="true">
+		<rect width="28" height="28" rx="8" fill="currentColor"/>
+		<path d="M8 18.5V9.5l6 5 6-5v9" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+	</svg>
 {/define}
 
 {define brand}
-	Project
+	{if isset($settings) && $settings->has('website')}{$settings->get('website')}{else}Project{/if}
 {/define}

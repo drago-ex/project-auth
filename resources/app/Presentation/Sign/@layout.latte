@@ -38,8 +38,8 @@
 
 			{* language: an icon with the code of the current language, the languages in the dropdown *}
 			<div class="dropdown">
-				<button type="button" class="btn btn-text" data-bs-toggle="dropdown" aria-expanded="false" aria-label="{_'Language'}">
-					<i class="bi bi-translate me-1" aria-hidden="true"></i>{$lang|upper}
+				<button type="button" class="btn btn-text" data-bs-toggle="dropdown" aria-expanded="false">
+					<i class="bi bi-translate me-1" aria-hidden="true"></i><span class="visually-hidden">{_'Language'}: </span>{$lang|upper}
 				</button>
 				<ul class="dropdown-menu dropdown-menu-end">
 					<li><h6 class="dropdown-header">{_'Language'}</h6></li>
