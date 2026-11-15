@@ -89,7 +89,9 @@ Behind a reverse proxy set `http: proxy:`, otherwise the per-IP limits apply to 
 
 ## Emails
 
-The email templates are in `Sign/Email/` with the shared layout `@email.latte`. To catch emails locally, add
+The email templates are in `Sign/Email/` with the shared layout `@email.latte`. The logo in its header is
+`Sign/Email/logo.png`, embedded into every email (replace it with your own); codes and email addresses in the texts
+are light badges in the colors of compostrap. To catch emails locally, add
 [Mailpit](https://mailpit.axllent.org) to `docker-compose.override.yaml`:
 
 ```yaml

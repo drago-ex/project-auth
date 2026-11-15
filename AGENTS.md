@@ -37,6 +37,13 @@ sign-up, password recovery, email verification, user roles and `bin/create-user`
 - No `class_exists()` checks for optional packages such as project-account; the package stays independent.
 - Every account email goes through `Sign\Email\EmailSender` with `Email/@email.latte`; a failed send is logged and
   the action continues, so the answer never tells whether an address is registered.
+- The layout `@email.latte` has the Netis logo `Email/logo.png` in its header (a PNG of `www/favicon.svg`: email
+  clients do not show SVG), embedded by `setHtmlBody($html, __DIR__)` of `EmailSender`, so no client downloads it.
+  Codes (block `code`, the recovery code) and email addresses (`{include email-badge, text: …}`) are light badges in
+  the colors of `badge badge-subtle theme-primary` of compostrap, written out (no CSS variables in email clients);
+  a code is not a button (user's wish: the blue box looked clickable). The button is the primary color of compostrap.
+  A text with an address in a badge splits its translation at `%s` (`|translate`), because a parameter of `{_}` would
+  escape the badge.
 - Sign-up with a registered address and verification on: `VerificationService::alreadyRegistered()` emails the
   owner (at most 3 per address and hour) and the form answers like a success; without verification the form says
   the address is used. The resend-confirmation link is shown only after the right password of an unconfirmed

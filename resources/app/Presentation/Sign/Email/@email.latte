@@ -1,6 +1,10 @@
 {varType string $lang}
 {varType string $subject}
 
+{* An email address or another value in the text: a light badge like `badge badge-subtle theme-primary` of compostrap
+   (colors written out, an email client has no CSS variables). *}
+{define email-badge, string $text}<span style="display: inline-block; padding: 2px 8px; border-radius: 6px; background-color: #c9eaff; color: #006bac; font-weight: 600; line-height: 26px;">{$text}</span>{/define}
+
 <!DOCTYPE html>
 <html lang="{$lang}">
 <head>
@@ -14,7 +18,13 @@
 			<td align="center" style="padding: 50px 20px;">
 				<table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="width: 100%; max-width: 600px; border-collapse: collapse; background-color: #ffffff;">
 					<tr>
-						<td align="center" style="padding: 45px 40px 40px;">
+						<td align="center" style="padding: 40px 40px 0;">
+							{* the logo of Netis (www/favicon.svg as a PNG: email clients do not show SVG) *}
+							<img src="logo.png" width="32" height="32" alt="Netis" style="display: block; width: 32px; height: 32px; border: 0;">
+						</td>
+					</tr>
+					<tr>
+						<td align="center" style="padding: 24px 40px 40px;">
 							<h1 style="margin: 0; color: #000000; font-size: 32px; line-height: 44px; font-weight: 700;">
 								{include heading}
 							</h1>
@@ -25,9 +35,16 @@
 							{include text}
 						</td>
 					</tr>
+					<tr n:ifset="#code">
+						<td align="center" style="padding: 0 40px 40px;">
+							{* a code to type into a form: a light badge, so it does not look like a button *}
+							<span style="display: inline-block; padding: 12px 24px; border-radius: 6px; background-color: #c9eaff; color: #006bac; font-size: 28px; line-height: 32px; font-weight: 700; letter-spacing: 6px;">{include code}</span>
+						</td>
+					</tr>
 					<tr n:ifset="#button">
 						<td align="center" style="padding: 0 40px 40px;">
-							<table role="presentation" cellpadding="0" cellspacing="0" border="0" bgcolor="#0055ff" style="border-collapse: separate; background-color: #0055ff; border-radius: 3px;">
+							{* the primary color of compostrap *}
+							<table role="presentation" cellpadding="0" cellspacing="0" border="0" bgcolor="#0089d7" style="border-collapse: separate; background-color: #0089d7; border-radius: 6px;">
 								<tr>
 									<td align="center" style="padding: 15px 28px; font-size: 20px; line-height: 24px; font-weight: 700;">
 										{include button}

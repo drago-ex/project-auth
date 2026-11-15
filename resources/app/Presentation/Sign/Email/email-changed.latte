@@ -4,6 +4,10 @@
 
 {block heading}{_'Your email address has been changed'}{/block}
 
-{block text}{_'The email address of your account has been changed to %s. If you did not make this change, reset your password right away.', $newEmail}{/block}
+{* the address in a badge: the translation is split at %s, a parameter of {_} would be escaped with the badge *}
+{block text}
+	{var $parts = explode('%s', ('The email address of your account has been changed to %s. If you did not make this change, reset your password right away.'|translate), 2)}
+	{$parts[0]}{include email-badge, text: $newEmail}{$parts[1] ?? ''}
+{/block}
 
 {block button}<a href="{$link}" style="color: #ffffff; text-decoration: none;">{_'Reset password'}</a>{/block}

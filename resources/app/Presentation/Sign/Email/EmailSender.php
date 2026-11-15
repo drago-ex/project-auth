@@ -43,7 +43,8 @@ readonly class EmailSender
 			$message->setFrom($this->from)
 				->addTo($to)
 				->setSubject($this->translator->translate($subject))
-				->setHtmlBody($template->renderToString());
+				// images of the templates (logo.png) are embedded from this directory, so no client has to download them
+				->setHtmlBody($template->renderToString(), __DIR__);
 
 			$this->mailer->send($message);
 
