@@ -11,6 +11,7 @@ use Dibi\Exception;
 use Dibi\UniqueConstraintViolationException;
 use Nette\Application\LinkGenerator;
 use Nette\Application\UI\InvalidLinkException;
+use Throwable;
 
 
 /**
@@ -77,6 +78,7 @@ readonly class VerificationService
 	 * At most MaxAccountExists emails per address and hour (the sign-up limit is per IP), so the form cannot be used
 	 * to flood an inbox; over the limit nothing is sent and the form answers the same.
 	 * @throws InvalidLinkException
+	 * @throws Throwable
 	 */
 	public function alreadyRegistered(string $email, string $lang): void
 	{
@@ -97,6 +99,7 @@ readonly class VerificationService
 	 * @return bool false when too many links were requested
 	 * @throws Exception
 	 * @throws InvalidLinkException
+	 * @throws Throwable
 	 */
 	public function resend(string $email, string $ip, string $lang): bool
 	{

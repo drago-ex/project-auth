@@ -88,6 +88,7 @@ readonly class RecoveryFactory
 	}
 
 
+	/** @throws Throwable */
 	private function validateToken(Form $form): void
 	{
 		$input = $form->getComponent('token');
@@ -145,6 +146,7 @@ readonly class RecoveryFactory
 	}
 
 
+	/** @throws Throwable */
 	private function request(Form $form, string $lang): void
 	{
 		try {

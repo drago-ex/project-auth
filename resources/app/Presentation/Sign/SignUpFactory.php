@@ -14,6 +14,7 @@ use Nette\Security\Passwords;
 use Nette\Utils\AssertionException;
 use Nette\Utils\Random;
 use Nette\Utils\Validators;
+use Throwable;
 
 
 readonly class SignUpFactory
@@ -66,6 +67,7 @@ readonly class SignUpFactory
 	 * Handles the successful submission of the form.
 	 * @throws Exception
 	 * @throws AssertionException
+	 * @throws Throwable
 	 */
 	private function processSignUpForm(Form $form, SignUpValues $values, string $lang): void
 	{

@@ -5,6 +5,7 @@ namespace App\Presentation\Sign;
 use Nette\Caching\Cache;
 use Nette\Caching\Storage;
 use Nette\Utils\Strings;
+use Throwable;
 use function is_array;
 
 
@@ -25,13 +26,17 @@ readonly class RateLimiter
 	}
 
 
+	/** @throws Throwable */
 	public function isAllowed(string $bucket, string $subject, int $max): bool
 	{
 		return $this->count($bucket, $subject) < $max;
 	}
 
 
-	/** The window starts with the first hit and is not extended by later ones. */
+	/**
+	 * The window starts with the first hit and is not extended by later ones.
+	 * @throws Throwable
+	 */
 	public function hit(string $bucket, string $subject, int $window): void
 	{
 		$key = $this->key($bucket, $subject);
@@ -53,6 +58,7 @@ readonly class RateLimiter
 	}
 
 
+	/** @throws Throwable */
 	private function count(string $bucket, string $subject): int
 	{
 		$data = $this->cache->load($this->key($bucket, $subject));

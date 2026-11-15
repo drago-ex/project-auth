@@ -2,6 +2,8 @@
 
 namespace App\Presentation\Sign;
 
+use Throwable;
+
 
 /**
  * Limits failed sign-in attempts per email and per IP address.
@@ -20,6 +22,7 @@ readonly class SignInLimiter
 	}
 
 
+	/** @throws Throwable */
 	public function isAllowed(string $email, string $ip): bool
 	{
 		return $this->limiter->isAllowed('signin-failure', $email, self::MaxFailures)
@@ -27,6 +30,7 @@ readonly class SignInLimiter
 	}
 
 
+	/** @throws Throwable */
 	public function registerFailure(string $email, string $ip): void
 	{
 		$this->limiter->hit('signin-failure', $email, self::FailureWindow);

@@ -267,6 +267,7 @@ final class SignPresenter extends BasePresenter
 	}
 
 
+	/** @throws Throwable */
 	private function processSignInForm(Form $form, SignValues $values): void
 	{
 		// Checked before login, so a blocked attempt does not even verify the password.
