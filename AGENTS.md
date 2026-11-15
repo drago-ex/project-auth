@@ -19,7 +19,7 @@ sign-up, password recovery, email verification, user roles and `bin/create-user`
   `auth-footer`); the links under a form are plain `a.ajax` in `auth-links`. A new password (sign-up, recovery) is written in the template with
   the strength meter (`strength-bar` + `strength-text`), not by the `password-toggle` define of drago-ex/form; the names of the levels and
   `PasswordPolicy::MinLength` are data attributes of the body (`data-strength-*`), which `sign-in.js` passes to `Strength.init()` (a presenter has
-  no translate method and Latte no JSON filter here). The recovery code is the `otp-input` (`div.otp.otp-fill` around the `token` input with
+  no translate method and Latte no JSON filter here). The recovery code is the `otp-input` (`div.otp.otp-sm.otp-fill`, the height of the button, around the `token` input with
   `maxlength` 6); `OtpInput.update()` runs after every snippet update, because the steps are redrawn. The meter only helps, the rules stay in
   `PasswordPolicy`.
 - `bin/create-user`, `tests/`.
