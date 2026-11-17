@@ -1,0 +1,12 @@
+# The administration; administrators are allowed everything (permission), a guest is sent to the sign-in page.
+# Installed once over the open acl.neon of project-backend: with the sign-in the administration is closed.
+parameters:
+	# descriptions for the permissions page of drago-ex/project-permission
+	permissionLabels:
+		Backend:Admin:
+			default: Dashboard
+
+
+security:
+	resources:
+		Backend:Admin:

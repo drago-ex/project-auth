@@ -10,6 +10,7 @@ emails, user roles and a command to create users.
 ## Requirements
 
 - PHP >= 8.3, < 9
+- MySQL or MariaDB
 - [Drago Project](https://github.com/drago-ex/project)
 
 ## Installation
@@ -20,15 +21,28 @@ composer require drago-ex/project-auth
 
 [Project Tools](https://github.com/drago-ex/project-tools) copies the files of the package into the project,
 where you adapt them. The sign-in pages have their own entry point `assets/sign-in.js`; its npm dependencies
-([compostrap](https://github.com/compostrap/compostrap), Bootstrap Icons) are installed by `npm install` of the project. The pages are
-the sign-in pages of compostrap: a new password shows its strength while it is typed and the recovery code is typed
-into six slots.
+([compostrap](https://github.com/compostrap/compostrap), Bootstrap Icons) are installed by `npm install` of the
+project, then build the assets again (`npm run vite:build`). The pages are the sign-in pages of compostrap: a new
+password shows its strength while it is typed and the recovery code is typed into six slots.
 
 ## Database
 
-The migrations create the tables `users`, `user_tokens` and `user_roles` and run before the packages that use
-them. Run them with `bin/project-setup` of Drago Project (it also asks for the administrator) or
-`php vendor/bin/migration db:migrate --packages`.
+The connection is `local/db.neon` of the project; [Docker Database](https://github.com/drago-ex/project-docker-db)
+adds the database and this file. The migrations create the tables `users`, `user_tokens` and `user_roles` and run
+before the packages that use them:
+
+```bash
+php vendor/bin/migration db:migrate --packages
+```
+
+Then create the administrator, without whom nobody can sign in to the administration (see [Users](#users)):
+
+```bash
+php vendor/bin/create-user <username> <email> <password> --admin
+```
+
+`bin/project-setup` of Drago Project does both steps for you: it runs the migrations and, in a terminal, asks for
+the administrator.
 
 ## Configuration
 
@@ -115,6 +129,8 @@ Emails are shown at http://localhost:8025.
 
 ## Permissions
 
-The rules are in `Sign/acl.neon`: the resource `Sign`, for everyone.
+The rules are in `Sign/acl.neon`: the resource `Sign`, for everyone. The same file describes the privileges
+(`permissionLabels`) for the permissions page of [Project Permission](https://github.com/drago-ex/project-permission).
 
-The same file describes the privileges (`permissionLabels`) for the permissions page of [Project Permission](https://github.com/drago-ex/project-permission).
+The package also replaces `Backend/Admin/acl.neon` of [Project Backend](https://github.com/drago-ex/project-backend)
+once, so the administration is for the administrator and a guest is sent to the sign-in page.

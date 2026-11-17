@@ -8,6 +8,7 @@
 		"drago-ex/database": "^5.0",
 		"drago-ex/application": "^5.0",
 		"drago-ex/form": "^4.0",
+		"drago-ex/component": "^4.0",
 		"drago-ex/migration": "^1.0",
 		"drago-ex/utils": "^2.0",
 		"drago-ex/translator": "^4.0.1",
@@ -33,6 +34,11 @@
 				"copy": {
 					"resources/app": "app",
 					"resources/assets": "assets"
+				},
+				"replace-once": true,
+				"replace-priority": 100,
+				"replace": {
+					"resources/backend/acl.neon": "app/Presentation/Backend/Admin/acl.neon"
 				}
 			},
 			"migration-priority": 10

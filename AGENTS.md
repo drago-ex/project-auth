@@ -12,6 +12,9 @@ sign-up, password recovery, email verification, user roles and `bin/create-user`
 - `resources/app/Presentation/Accessory`: `RequireLogged`, `Widget/@brand.latte` (copied, so project-settings can
   replace the brand; the logo is a white N in a blue circle as an inline SVG, the same drawing as `www/favicon.svg` of drago-ex/project,
   linked by every layout as the icon of the browser tab).
+- `resources/backend/acl.neon`: the administrator-only `Backend:Admin`, installed by `replace` (`replace-once`,
+  priority 100) over the open `Admin/acl.neon` of project-backend (a `copy` would be skipped, the file exists).
+  The administration closes when the sign-in comes; project-backend stays open so it works alone.
 - `resources/assets/sign-in.js` + `.scss`: an own Vite entry; `package.json` (with `name`) brings its npm
   dependencies through `npm-loader.js` of drago-ex/project.
 - The sign pages are the compostrap module `auth` (`@layout.latte`: `auth-page`, `auth-top` with the brand, the theme toggle and the language
