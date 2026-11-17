@@ -3,6 +3,6 @@
 	"private": true,
 	"dependencies": {
 		"bootstrap-icons": "^1.13.2",
-		"compostrap": "^1.0.0"
+		"compostrap": "^1.0.4"
 	}
 }
